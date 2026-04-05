@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAGAN — Crear Cuenta</title>
+<title>SAGAN — Create Account</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
@@ -542,8 +542,8 @@ nav {
     </svg>
     SAGAN
   </a>
-  <a class="nav-back" href="index.html">← Volver al inicio</a>
-  <div class="lang-sel"><a href="../es/" class="lang-btn active">ES</a><span class="lang-div">|</span><a href="../en/" class="lang-btn">EN</a></div>
+  <a class="nav-back" href="index.html">← Back to home</a>
+  <div class="lang-sel"><a href="../es/" class="lang-btn">ES</a><span class="lang-div">|</span><a href="../en/" class="lang-btn active">EN</a></div>
 </nav>
 
 <!-- ═══════════════════════════════════════════
@@ -556,16 +556,16 @@ nav {
         <div class="auth-orb-ring"></div>
         <div class="auth-orb-core"></div>
       </div>
-      <div class="auth-title">Crear cuenta</div>
+      <div class="auth-title">Create account</div>
       <div class="auth-sub">Empieza a usar SAGAN en tu escritorio</div>
     </div>
 
     <form class="auth-form" id="signup-form" onsubmit="return false">
       <div class="field" id="f-name">
-        <label class="field-label">Nombre</label>
+        <label class="field-label">Name</label>
         <div style="position:relative">
           <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
-          <input class="field-input" type="text" placeholder="Tu nombre" id="inp-name" autocomplete="name">
+          <input class="field-input" type="text" placeholder="Your name" id="inp-name" autocomplete="name">
         </div>
         <div class="field-error">Ingresa tu nombre</div>
       </div>
@@ -574,13 +574,13 @@ nav {
         <label class="field-label">Email</label>
         <div style="position:relative">
           <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          <input class="field-input" type="email" placeholder="correo@ejemplo.com" id="inp-email-s" autocomplete="email">
+          <input class="field-input" type="email" placeholder="email@example.com" id="inp-email-s" autocomplete="email">
         </div>
         <div class="field-error">Ingresa un email válido</div>
       </div>
 
       <div class="field" id="f-pw-s">
-        <label class="field-label">Contraseña</label>
+        <label class="field-label">Password</label>
         <div style="position:relative">
           <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           <input class="field-input" type="password" placeholder="Mínimo 8 caracteres" id="inp-pw-s" autocomplete="new-password">
@@ -590,7 +590,7 @@ nav {
         <div class="field-error">Mínimo 8 caracteres</div>
       </div>
 
-      <button class="btn-primary" type="submit" id="btn-signup">Crear cuenta</button>
+      <button class="btn-primary" type="submit" id="btn-signup">Create account</button>
     </form>
 
     <div class="auth-divider"><span>o regístrate con</span></div>
@@ -607,7 +607,7 @@ nav {
     </div>
 
     <div class="auth-switch">
-      ¿Ya tienes cuenta? <a href="#" onclick="showPage('page-login');return false">Inicia sesión</a>
+      Already have an account? <a href="#" onclick="showPage('page-login');return false">Sign in</a>
     </div>
   </div>
 </div>
@@ -623,7 +623,7 @@ nav {
         <div class="auth-orb-core"></div>
       </div>
       <div class="auth-title">Bienvenido de vuelta</div>
-      <div class="auth-sub">Inicia sesión para acceder a SAGAN</div>
+      <div class="auth-sub">Sign in to access SAGAN</div>
     </div>
 
     <form class="auth-form" id="login-form" onsubmit="return false">
@@ -631,13 +631,13 @@ nav {
         <label class="field-label">Email</label>
         <div style="position:relative">
           <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          <input class="field-input" type="email" placeholder="correo@ejemplo.com" id="inp-email-l" autocomplete="email">
+          <input class="field-input" type="email" placeholder="email@example.com" id="inp-email-l" autocomplete="email">
         </div>
         <div class="field-error">Ingresa un email válido</div>
       </div>
 
       <div class="field" id="f-pw-l">
-        <label class="field-label">Contraseña</label>
+        <label class="field-label">Password</label>
         <div style="position:relative">
           <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           <input class="field-input" type="password" placeholder="Tu contraseña" id="inp-pw-l" autocomplete="current-password">
@@ -646,10 +646,10 @@ nav {
       </div>
 
       <div class="auth-forgot">
-        <a href="#">¿Olvidaste tu contraseña?</a>
+        <a href="#">Forgot your password?</a>
       </div>
 
-      <button class="btn-primary" type="submit" id="btn-login">Iniciar sesión</button>
+      <button class="btn-primary" type="submit" id="btn-login">Sign in</button>
     </form>
 
     <div class="auth-divider"><span>o inicia con</span></div>
@@ -666,7 +666,7 @@ nav {
     </div>
 
     <div class="auth-switch">
-      ¿No tienes cuenta? <a href="#" onclick="showPage('page-signup');return false">Crear cuenta</a>
+      Don't have an account? <a href="#" onclick="showPage('page-signup');return false">Create account</a>
     </div>
   </div>
 </div>
@@ -680,27 +680,27 @@ nav {
     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00cc88" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
   </div>
 
-  <div class="dl-title rise rise-d1">Cuenta creada. <span class="accent">Descarga SAGAN.</span></div>
+  <div class="dl-title rise rise-d1">Account creada. <span class="accent">Descarga SAGAN.</span></div>
   <p class="dl-sub rise rise-d2">SAGAN es una app de escritorio que se instala en tu computadora. Funciona como una burbuja flotante siempre visible — captura tu pantalla, escucha tu voz y responde al instante.</p>
 
   <!-- Windows alert banner -->
   <div class="dl-win-banner rise rise-d3">
     <div class="dl-win-banner-head">
       <div class="dl-win-icon">⚠</div>
-      Windows mostrará "Editor desconocido" al instalar — es normal
+      Windows mostrará "Unknown publisher" al instalar — es normal
     </div>
     <p>
       SAGAN es una app nueva independiente. Windows Defender muestra esta alerta para cualquier aplicación
       sin certificado de firma de código. El código es público en GitHub — no es una amenaza.
     </p>
     <div class="dl-win-steps">
-      <div class="dl-win-step">Click "Más información"</div>
+      <div class="dl-win-step">Click "More info"</div>
       <div class="dl-win-arr">→</div>
-      <div class="dl-win-step">Click "Ejecutar de todos modos"</div>
+      <div class="dl-win-step">Click "Run anyway"</div>
       <div class="dl-win-arr">→</div>
       <div class="dl-win-step">Instalación normal</div>
     </div>
-    <a class="dl-win-link" href="requirements.html">Ver guía completa paso a paso →</a>
+    <a class="dl-win-link" href="requirements.html">View complete step-by-step guide →</a>
   </div>
 
   <!-- Download cards -->
@@ -711,7 +711,7 @@ nav {
       <div class="dl-os-name">Windows</div>
       <div class="dl-os-version">Windows 10/11 (64-bit)</div>
       <div class="dl-os-size">~150 MB · Instalador .exe</div>
-      <a class="dl-btn dl-btn-primary" href="#" onclick="startDownload('windows')">Descargar para Windows</a>
+      <a class="dl-btn dl-btn-primary" href="#" onclick="startDownload('windows')">Download for Windows</a>
     </div>
     <div class="dl-card" style="opacity:.5;pointer-events:none;">
       <div class="dl-os-tag" style="background:rgba(216,234,240,.15);color:var(--white-dim);">Próximamente</div>
@@ -745,7 +745,7 @@ nav {
     </div>
     <div class="dl-step">
       <div class="dl-step-n">03</div>
-      <div class="dl-step-title">Inicia sesión</div>
+      <div class="dl-step-title">Sign in</div>
       <div class="dl-step-desc">Abre SAGAN y entra con la cuenta que acabas de crear.</div>
     </div>
     <div class="dl-step">
@@ -761,7 +761,7 @@ nav {
     <!-- Light Mode -->
     <div class="dl-mode-col">
       <div class="dl-mode-badge light">Light Mode</div>
-      <div class="dl-mode-title">Sin GPU dedicada</div>
+      <div class="dl-mode-title">No dedicated GPU</div>
       <div class="dl-spec-row">
         <span class="dl-spec-label">GPU</span>
         <span class="dl-spec-val warn">No requerida</span>
@@ -790,8 +790,8 @@ nav {
 
     <!-- Full Mode -->
     <div class="dl-mode-col full-mode">
-      <div class="dl-mode-badge full">Full Mode — Recomendado</div>
-      <div class="dl-mode-title">Con GPU dedicada</div>
+      <div class="dl-mode-badge full">Full Mode — Recommended</div>
+      <div class="dl-mode-title">With dedicated GPU</div>
       <div class="dl-spec-row">
         <span class="dl-spec-label">GPU mínima</span>
         <span class="dl-spec-val good">NVIDIA 4 GB VRAM+</span>
@@ -827,7 +827,7 @@ nav {
       Internet solo para LLM — TTS y STT son 100% offline &nbsp;·&nbsp;
       SAGAN detecta el modo automáticamente al iniciar
     </span>
-    <a class="dl-req-footer-link" href="requirements.html">Tabla completa de hardware →</a>
+    <a class="dl-req-footer-link" href="requirements.html">Full hardware table →</a>
   </div>
 
 </div>
@@ -836,9 +836,9 @@ nav {
 <footer class="auth-footer">
   <p>© 2026 SAGAN AI · "Billions and Billions"</p>
   <div style="display:flex;gap:24px">
-    <a href="privacy.html">Privacidad</a>
-    <a href="privacy.html">Términos</a>
-    <a href="#">Soporte</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="privacy.html">Terms</a>
+    <a href="#">Support</a>
   </div>
 </footer>
 
@@ -903,7 +903,7 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
   // Simulate API call
   setTimeout(() => {
     btn.disabled = false;
-    btn.textContent = 'Crear cuenta';
+    btn.textContent = 'Create account';
     showPage('page-download');
   }, 1800);
 });
@@ -928,7 +928,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
 
   setTimeout(() => {
     btn.disabled = false;
-    btn.textContent = 'Iniciar sesión';
+    btn.textContent = 'Sign in';
     showPage('page-download');
   }, 1500);
 });
@@ -978,13 +978,13 @@ function startDownload(os) {
 
   const btn = event.target;
   const orig = btn.textContent;
-  btn.textContent = 'Descargando...';
+  btn.textContent = 'Downloading...';
   btn.style.opacity = '.7';
 
   window.location.href = releases[os];
 
   setTimeout(() => {
-    btn.textContent = '✓ Descarga iniciada';
+    btn.textContent = '✓ Download started';
     btn.style.background = 'rgba(0,204,136,.15)';
     btn.style.color = '#00cc88';
     btn.style.borderColor = 'rgba(0,204,136,.3)';

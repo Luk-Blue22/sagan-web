@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -495,24 +495,24 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
   </div>
   <div class="top-r">
     <span class="top-pill" id="topPlan">◈ Quásar</span>
-    <span class="top-cred" id="topCred">1,253 créditos</span>
-    <div class="lang-sel"><a href="../es/" class="lang-btn active">ES</a><span class="lang-div">|</span><a href="../en/" class="lang-btn">EN</a></div>
+    <span class="top-cred" id="topCred">1,253 credits</span>
+    <div class="lang-sel"><a href="../es/" class="lang-btn">ES</a><span class="lang-div">|</span><a href="../en/" class="lang-btn active">EN</a></div>
     <button class="activate-btn" id="btnActivate" onclick="toggleActivate()">
       <span class="activate-dot" id="activateDot"></span>
-      <span id="activateTxt">Activar SAGAN</span>
+      <span id="activateTxt">Activate SAGAN</span>
     </button>
     <!-- Screenshot manual -->
-    <button class="ic-btn" id="btnScreenshot" title="Capturar pantalla ahora" onclick="takeScreenshot()">
+    <button class="ic-btn" id="btnScreenshot" title="Capture screen now" onclick="takeScreenshot()">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M3 9V6a1 1 0 0 1 1-1h3M3 15v3a1 1 0 0 0 1 1h3M21 9V6a1 1 0 0 0-1-1h-3M21 15v3a1 1 0 0 1-1 1h-3"/></svg>
     </button>
-    <!-- Modo silencioso toggle -->
-    <button class="ic-btn" id="btnSilent" title="Modo silencioso" onclick="toggleSilent()">
+    <!-- Silent mode toggle -->
+    <button class="ic-btn" id="btnSilent" title="Silent mode" onclick="toggleSilent()">
       <svg viewBox="0 0 24 24" id="silentIcon"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
     </button>
-    <button class="ic-btn" id="btnLogout" title="Cerrar sesión" onclick="handleLogout()">
+    <button class="ic-btn" id="btnLogout" title="Sign out" onclick="handleLogout()">
       <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
     </button>
-    <button class="ic-btn" title="Minimizar" onclick="window.sagan && window.sagan.minimizeTray && window.sagan.minimizeTray()">
+    <button class="ic-btn" title="Minimize" onclick="window.sagan && window.sagan.minimizeTray && window.sagan.minimizeTray()">
       <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
     </button>
   </div>
@@ -532,29 +532,29 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
       <div class="sb-orbe-ic">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="stroke:var(--cyan)"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="var(--cyan)"/></svg>
       </div>
-      <span class="sb-orbe-t hide">Asistente</span>
+      <span class="sb-orbe-t hide">Assistant</span>
     </div>
 
     <div class="sb-list">
       <div class="sb-e" id="sb-cuenta" onclick="showPanel('cuenta')">
         <div class="sb-e-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg></div>
-        <div class="sb-e-inf hide"><div class="sb-e-t">Cuenta</div></div>
+        <div class="sb-e-inf hide"><div class="sb-e-t">Account</div></div>
       </div>
       <div class="sb-e" id="sb-creditos" onclick="showPanel('creditos')">
         <div class="sb-e-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M8 14h6"/></svg></div>
-        <div class="sb-e-inf hide"><div class="sb-e-t">Créditos & Plan</div></div>
+        <div class="sb-e-inf hide"><div class="sb-e-t">Credits & Plan</div></div>
       </div>
       <div class="sb-e" id="sb-stats" onclick="showPanel('stats')">
         <div class="sb-e-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M18 9l-5 5-2-2-4 4"/></svg></div>
-        <div class="sb-e-inf hide"><div class="sb-e-t">Stats & Uso</div></div>
+        <div class="sb-e-inf hide"><div class="sb-e-t">Stats & Usage</div></div>
       </div>
       <div class="sb-e" id="sb-voz" onclick="showPanel('voz')">
         <div class="sb-e-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg></div>
-        <div class="sb-e-inf hide"><div class="sb-e-t">Voz & Audio</div></div>
+        <div class="sb-e-inf hide"><div class="sb-e-t">Voice & Audio</div></div>
       </div>
       <div class="sb-e" id="sb-habilidades" onclick="showPanel('habilidades')">
         <div class="sb-e-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-        <div class="sb-e-inf hide"><div class="sb-e-t">Habilidades</div></div>
+        <div class="sb-e-inf hide"><div class="sb-e-t">Skills</div></div>
       </div>
       <div class="sb-e" id="sb-chats" onclick="showPanel('chats')">
         <div class="sb-e-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
@@ -562,7 +562,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
       </div>
       <div class="sb-e" id="sb-privacidad" onclick="showPanel('privacidad')">
         <div class="sb-e-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <div class="sb-e-inf hide"><div class="sb-e-t">Privacidad</div></div>
+        <div class="sb-e-inf hide"><div class="sb-e-t">Privacy</div></div>
       </div>
     </div>
   </div>
@@ -584,7 +584,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
 
   <!-- PANEL: CUENTA -->
   <div class="sec-panel" id="panel-cuenta">
-    <div class="sec-ttl">Cuenta</div>
+    <div class="sec-ttl">Account</div>
     <div class="sec-sub">Tu perfil y configuración personal</div>
     <div class="acc-hero">
       <div class="acc-avatar">L</div>
@@ -602,7 +602,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
     <div class="card">
       <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Información personal</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div><div style="font-size:.44rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px">Nombre</div><div style="font-size:.7rem;color:var(--white-dim);font-family:var(--mono)">Luk Devanter</div></div>
+        <div><div style="font-size:.44rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px">Name</div><div style="font-size:.7rem;color:var(--white-dim);font-family:var(--mono)">Luk Devanter</div></div>
         <div><div style="font-size:.44rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px">Email</div><div style="font-size:.7rem;color:var(--white-dim);font-family:var(--mono)" id="dynEmail2">usuario@email.com</div></div>
         <div><div style="font-size:.44rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px">Miembro desde</div><div style="font-size:.7rem;color:var(--white-dim);font-family:var(--mono)">Mar 2026</div></div>
         <div><div style="font-size:.44rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px">ID</div><div style="font-size:.7rem;color:var(--white-dim);font-family:var(--mono)">usr_4a7f…k29</div></div>
@@ -611,16 +611,16 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
     <div class="acc-actions">
       <button class="btn btn-cyan"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>Editar perfil</button>
       <button class="btn btn-ghost">Cambiar contraseña</button>
-      <button class="btn btn-danger" style="margin-left:auto"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Cerrar sesión</button>
+      <button class="btn btn-danger" style="margin-left:auto"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign out</button>
     </div>
   </div>
 
   <!-- PANEL: CRÉDITOS -->
   <div class="sec-panel" id="panel-creditos">
-    <div class="sec-ttl">Créditos & Plan</div>
-    <div class="sec-sub">Tus queries disponibles y gestión de</div>
+    <div class="sec-ttl">Credits & Plan</div>
+    <div class="sec-sub">Your available queries and subscription management</div>
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M8 14h6"/></svg>Queries disponibles</div>
+      <div class="card-ttl"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M8 14h6"/></svg>Uso este mes</div>
       <div class="cred-top">
         <div class="gauge-wrap">
           <svg width="110" height="110" viewBox="0 0 110 110">
@@ -631,20 +631,20 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
         </div>
         <div class="cred-info">
           <div class="cred-plan-name">◈ Quásar</div>
-          <div class="cred-detail">Queries: 3,247 / 4,500 del ciclo<br>Queries hoy: 247 / 150 diarias<br>TTS: 32,400 / 80,000 chars<br>Renovación: 1 Abril 2026</div>
+          <div class="cred-detail">Queries: 3,247 / 4,500 of cycle<br>Queries hoy: 247 / 150 diarias<br>TTS: 32,400 / 80,000 chars<br>Renovación: 1 Abril 2026</div>
         </div>
       </div>
-      <div class="cred-bar-row"><div class="cred-bar-hd"><span>Queries del ciclo</span><span>3,247 / 4,500</span></div><div class="cred-bar-track"><div class="cred-bar-fill" style="width:72%;background:linear-gradient(90deg,rgba(0,212,232,.4),var(--cyan))"></div></div></div>
+      <div class="cred-bar-row"><div class="cred-bar-hd"><span>Queries mensuales</span><span>3,247 / 4,500</span></div><div class="cred-bar-track"><div class="cred-bar-fill" style="width:72%;background:linear-gradient(90deg,rgba(0,212,232,.4),var(--cyan))"></div></div></div>
       <div class="cred-bar-row"><div class="cred-bar-hd"><span>TTS (caracteres)</span><span>32,400 / 80,000</span></div><div class="cred-bar-track"><div class="cred-bar-fill" style="width:40%;background:linear-gradient(90deg,rgba(0,204,136,.4),var(--green))"></div></div></div>
       <div class="cred-bar-row"><div class="cred-bar-hd"><span>Screenshots procesados</span><span>9,741 / 13,500</span></div><div class="cred-bar-track"><div class="cred-bar-fill" style="width:72%;background:linear-gradient(90deg,rgba(192,132,252,.4),var(--purple))"></div></div></div>
     </div>
     <div class="card">
       <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Planes disponibles</div>
       <div class="plans-grid">
-        <div class="plan-card"><div class="plan-icon">☆</div><div class="plan-name">Star</div><div class="plan-price">$0</div><div class="plan-qs">600/ciclo</div><button class="plan-btn current-btn">gratis</button></div>
-        <div class="plan-card"><div class="plan-icon">✦</div><div class="plan-name">Pulsar</div><div class="plan-price">$5</div><div class="plan-qs">1,500/ciclo</div><button class="plan-btn current-btn">anterior</button></div>
-        <div class="plan-card current"><div class="plan-icon">◈</div><div class="plan-name">Quásar</div><div class="plan-price">$10</div><div class="plan-qs">11,500/ciclo</div><button class="plan-btn current-btn">tu plan</button></div>
-        <div class="plan-card"><div class="plan-icon">★</div><div class="plan-name">Nova</div><div class="plan-price">$20</div><div class="plan-qs">9,000/ciclo</div><button class="plan-btn upgrade">Upgrade ↑</button></div>
+        <div class="plan-card"><div class="plan-icon">☆</div><div class="plan-name">Star</div><div class="plan-price">$0</div><div class="plan-qs">20/día</div><button class="plan-btn current-btn">gratis</button></div>
+        <div class="plan-card"><div class="plan-icon">✦</div><div class="plan-name">Pulsar</div><div class="plan-price">$5</div><div class="plan-qs">50/día</div><button class="plan-btn current-btn">anterior</button></div>
+        <div class="plan-card current"><div class="plan-icon">◈</div><div class="plan-name">Quásar</div><div class="plan-price">$10</div><div class="plan-qs">150/día</div><button class="plan-btn current-btn">tu plan</button></div>
+        <div class="plan-card"><div class="plan-icon">★</div><div class="plan-name">Nova</div><div class="plan-price">$20</div><div class="plan-qs">300/día</div><button class="plan-btn upgrade">Upgrade ↑</button></div>
         <div class="plan-card"><div class="plan-icon">✧</div><div class="plan-name">Galaxy</div><div class="plan-price">$50</div><div class="plan-qs">∞</div><button class="plan-btn upgrade">Upgrade ↑</button></div>
       </div>
     </div>
@@ -652,12 +652,12 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
 
   <!-- PANEL: STATS -->
   <div class="sec-panel" id="panel-stats">
-    <div class="sec-ttl">Stats & Uso</div>
+    <div class="sec-ttl">Stats & Usage</div>
     <div class="sec-sub">Métricas de actividad en tiempo real</div>
     <div class="stats-metrics">
       <div class="metric-card"><div class="metric-icon">⚡</div><div class="metric-val" style="color:var(--cyan)">247</div><div class="metric-lbl">Queries hoy</div><div class="metric-delta delta-up">↑ +23% vs ayer</div></div>
       <div class="metric-card"><div class="metric-icon">📊</div><div class="metric-val" style="color:var(--purple)">3,247</div><div class="metric-lbl">Este mes</div><div class="metric-delta delta-up">↑ +8% vs anterior</div></div>
-      <div class="metric-card"><div class="metric-icon">💎</div><div class="metric-val" style="color:var(--green)">1,253</div><div class="metric-lbl">Queries restantes</div><div class="metric-delta" style="color:var(--white-xs)">Top-up disponible</div></div>
+      <div class="metric-card"><div class="metric-icon">💎</div><div class="metric-val" style="color:var(--green)">1,253</div><div class="metric-lbl">Créditos restantes</div><div class="metric-delta" style="color:var(--white-xs)">Top-up available</div></div>
       <div class="metric-card"><div class="metric-icon">⏱</div><div class="metric-val" style="color:var(--warn)">12.4h</div><div class="metric-lbl">Tiempo activo</div><div class="metric-delta delta-up">↑ +1.2h hoy</div></div>
     </div>
     <div class="chart-wrap">
@@ -673,7 +673,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
 
   <!-- PANEL: VOZ -->
   <div class="sec-panel" id="panel-voz">
-    <div class="sec-ttl">Voz & Audio</div>
+    <div class="sec-ttl">Voice & Audio</div>
     <div class="sec-sub">Configuración de síntesis y reconocimiento de voz — modelos 100% locales</div>
 
     <!-- Entrada de voz -->
@@ -693,7 +693,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
       </div>
       <div class="voz-info-box">
         <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-        Motor STT: <strong>Alta precisión (local)</strong> — corre 100% en tu equipo, sin enviar audio a servidores.
+        STT Engine: <strong>High precision (local)</strong> — corre 100% en tu equipo, sin enviar audio a servidores.
       </div>
     </div>
 
@@ -709,7 +709,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
       <div class="voz-row">
-        <div class="voz-row-info"><div class="voz-row-name">Modo silencioso</div><div class="voz-row-desc">Solo texto, sin voz. Ahorra 100% de créditos TTS</div></div>
+        <div class="voz-row-info"><div class="voz-row-name">Silent mode</div><div class="voz-row-desc">Text only, no voice. Saves 100% on TTS credits</div></div>
         <div class="vtoggle" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
       <div class="voice-slider-row" style="margin-top:12px">
@@ -732,7 +732,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
       </div>
       <div class="voz-info-box" style="margin-top:8px">
         <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-        Motor TTS: <strong>Voz natural (local)</strong> — latencia &lt; 1s con GPU, 3–8s en CPU.
+        TTS Engine: <strong>Natural voice (local)</strong> — latencia &lt; 1s con GPU, 3–8s en CPU.
       </div>
       <button class="test-btn" style="margin-top:10px">
         <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -743,7 +743,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
 
   <!-- PANEL: HABILIDADES -->
   <div class="sec-panel" id="panel-habilidades">
-    <div class="sec-ttl">Habilidades</div>
+    <div class="sec-ttl">Skills</div>
     <div class="sec-sub">14 capacidades de SAGAN — activa o desactiva según tus necesidades</div>
     <div class="skills-grid" id="skillsGrid"></div>
   </div>
@@ -754,47 +754,47 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
     <div class="sec-sub">Historial de conversaciones con SAGAN</div>
     <button class="new-chat-btn" onclick="createNewChat()">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-      Nuevo chat
+      New chat
     </button>
     <div class="chats-only-list" id="chatsList"></div>
   </div>
 
   <!-- PANEL: PRIVACIDAD -->
   <div class="sec-panel" id="panel-privacidad">
-    <div class="sec-ttl">Privacidad</div>
+    <div class="sec-ttl">Privacy</div>
     <div class="sec-sub">Control total sobre qué captura SAGAN y qué envía al modelo de IA</div>
 
     <!-- Status indicators -->
     <div class="priv-status-grid">
       <div class="priv-status-cell">
         <div class="priv-status-dot active"></div>
-        <div class="priv-status-val">ACTIVO</div>
+        <div class="priv-status-val">ACTIVE</div>
         <div class="priv-status-lbl">Lista negra</div>
       </div>
       <div class="priv-status-cell">
         <div class="priv-status-dot active" style="animation-delay:.3s"></div>
-        <div class="priv-status-val">ACTIVO</div>
+        <div class="priv-status-val">ACTIVE</div>
         <div class="priv-status-lbl">Filtro sensible</div>
       </div>
       <div class="priv-status-cell" id="privModeCell" onclick="togglePrivateMode()" style="cursor:pointer;transition:background .3s">
         <div class="priv-status-dot" id="privModeDot"></div>
-        <div class="priv-status-val" id="privModeVal" style="color:var(--white-xs)">INACTIVO</div>
-        <div class="priv-status-lbl">Modo privado</div>
+        <div class="priv-status-val" id="privModeVal" style="color:var(--white-xs)">INACTIVE</div>
+        <div class="priv-status-lbl">Private mode</div>
       </div>
     </div>
 
     <!-- Banner modo privado -->
     <div class="priv-banner" id="privBanner" style="display:none">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      <strong>Modo privado ACTIVO</strong> — SAGAN no está capturando ni enviando nada. Hotkey: <strong>Win + Shift + P</strong>
+      <strong>Private mode ACTIVE</strong> — SAGAN no está capturando ni enviando nada. Hotkey: <strong>Win + Shift + P</strong>
     </div>
 
-    <!-- Modo privado toggle -->
+    <!-- Private mode toggle -->
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Modo Privado</div>
+      <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Private Mode</div>
       <div class="voz-row">
         <div class="voz-row-info">
-          <div class="voz-row-name">Modo privado global</div>
+          <div class="voz-row-name">Private mode global</div>
           <div class="voz-row-desc">Pausa TODAS las capturas y envíos inmediatamente. Hotkey: <strong style="color:var(--cyan)">Win + Shift + P</strong></div>
         </div>
         <div class="vtoggle" id="togglePrivMode" onclick="togglePrivateMode()"><div class="vtoggle-k"></div></div>
@@ -803,10 +803,10 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
 
     <!-- Lista negra -->
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>Lista Negra — Apps protegidas</div>
+      <div class="card-ttl"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>Blacklist — Protected apps</div>
       <div class="voz-info-box" style="margin-bottom:12px">
         <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-        SAGAN detecta la ventana activa y pausa capturas automáticamente en apps sensibles.
+        SAGAN detecta la ventana activa y pausa capturas automáticamente en apps filter.
       </div>
       <!-- Apps bloqueadas por defecto -->
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
@@ -819,18 +819,18 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
         <div class="priv-app-tag">₿ Wallets crypto</div>
         <div class="priv-app-tag" style="color:var(--white-xs);border-color:var(--rule)">+32 apps más</div>
       </div>
-      <!-- Agregar app personalizada -->
-      <div style="font-size:.52rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px">Agregar app personalizada</div>
+      <!-- Add custom app -->
+      <div style="font-size:.52rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px">Add custom app</div>
       <div style="display:flex;gap:8px;margin-bottom:10px">
-        <input class="voz-select" id="newAppInput" placeholder="ej: MiAppPrivada.exe" style="flex:1;margin-top:0" onkeydown="if(event.key==='Enter')addPrivacyApp()">
-        <button class="btn btn-cyan" style="padding:6px 14px;font-size:.52rem" onclick="addPrivacyApp()">+ Agregar</button>
+        <input class="voz-select" id="newAppInput" placeholder="e.g.: MyPrivateApp.exe" style="flex:1;margin-top:0" onkeydown="if(event.key==='Enter')addPrivacyApp()">
+        <button class="btn btn-cyan" style="padding:6px 14px;font-size:.52rem" onclick="addPrivacyApp()">+ Add</button>
       </div>
       <div id="customAppsList"></div>
     </div>
 
-    <!-- Filtro de datos sensibles -->
+    <!-- Sensitive data sensibles -->
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M9 18h6"/></svg>Filtro de datos sensibles</div>
+      <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M9 18h6"/></svg>Sensitive data sensibles</div>
       <div class="voz-row">
         <div class="voz-row-info"><div class="voz-row-name">Detectar tarjetas de crédito</div><div class="voz-row-desc">Bloquea envío si detecta patrón de 16 dígitos</div></div>
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
@@ -845,9 +845,9 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
       </div>
     </div>
 
-    <!-- Retención y almacenamiento -->
+    <!-- Retention and storage -->
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>Retención y almacenamiento</div>
+      <div class="card-ttl"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>Retention and storage</div>
       <div class="voz-row">
         <div class="voz-row-info"><div class="voz-row-name">Capturas solo en RAM (nunca en disco)</div><div class="voz-row-desc">Las imágenes se mantienen en memoria y se eliminan al cerrar SAGAN</div></div>
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
@@ -864,14 +864,14 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
 
     <!-- Log de envíos -->
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Log de envíos al LLM</div>
+      <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>AI Engine send log</div>
       <div class="priv-log-list">
-        <div class="priv-log-row"><span class="priv-log-time">Hoy 15:42:18</span><span class="priv-log-badge modelo">Motor IA</span><span class="priv-log-info">3 capturas enviadas</span></div>
-        <div class="priv-log-row"><span class="priv-log-time">Hoy 15:38:05</span><span class="priv-log-badge modelo">Motor IA</span><span class="priv-log-info">2 capturas enviadas</span></div>
-        <div class="priv-log-row"><span class="priv-log-time">Hoy 14:55:44</span><span class="priv-log-badge modelo">Motor IA</span><span class="priv-log-info">3 capturas enviadas</span></div>
-        <div class="priv-log-row"><span class="priv-log-time">Hoy 14:28:20</span><span class="priv-log-badge modelo">Motor IA</span><span class="priv-log-info">1 captura — <span style="color:var(--red)">1 bloqueada por filtro tarjeta</span></span></div>
+        <div class="priv-log-row"><span class="priv-log-time">Hoy 15:42:18</span><span class="priv-log-badge modelo">AI Engine</span><span class="priv-log-info">3 capturas enviadas</span></div>
+        <div class="priv-log-row"><span class="priv-log-time">Hoy 15:38:05</span><span class="priv-log-badge modelo">AI Engine</span><span class="priv-log-info">2 capturas enviadas</span></div>
+        <div class="priv-log-row"><span class="priv-log-time">Hoy 14:55:44</span><span class="priv-log-badge modelo">AI Engine</span><span class="priv-log-info">3 capturas enviadas</span></div>
+        <div class="priv-log-row"><span class="priv-log-time">Hoy 14:28:20</span><span class="priv-log-badge modelo">AI Engine</span><span class="priv-log-info">1 captura — <span style="color:var(--red)">1 bloqueada por filtro tarjeta</span></span></div>
       </div>
-      <button class="btn btn-ghost" style="margin-top:12px;font-size:.52rem" onclick="if(confirm('¿Borrar el log de envíos?'))this.closest('.card').querySelector('.priv-log-list').innerHTML='<div style=\'padding:8px 0;font-size:.6rem;color:var(--white-xs)\'>Log vacío.</div>'">Borrar log</button>
+      <button class="btn btn-ghost" style="margin-top:12px;font-size:.52rem" onclick="if(confirm('Clear the send log?'))this.closest('.card').querySelector('.priv-log-list').innerHTML='<div style=\'padding:8px 0;font-size:.6rem;color:var(--white-xs)\'>Log vacío.</div>'">Clear log</button>
     </div>
   </div>
 
@@ -881,14 +881,14 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
     <div class="chat-hd">
       <span class="chat-hd-t">Debug Python — TypeError L42</span>
       <input type="file" id="fileUpload" style="display:none" accept="image/*,.pdf,.txt,.py,.js,.ts,.html,.css,.json,.md" onchange="handleFileUpload(this)">
-      <button class="ic-btn" style="width:22px;height:22px" title="Subir archivo" onclick="document.getElementById('fileUpload').click()">
+      <button class="ic-btn" style="width:22px;height:22px" title="Upload file" onclick="document.getElementById('fileUpload').click()">
         <svg viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M12 5v14M5 12h14"/></svg>
       </button>
     </div>
     <div class="chat-body" id="cb"></div>
     <div class="chat-inp-bar">
       <button class="c-btn c-mic" id="mic" onclick="toggleMic()"><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg></button>
-      <input class="chat-inp" id="ci" placeholder="Escribe o habla a SAGAN..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <input class="chat-inp" id="ci" placeholder="Type or speak to SAGAN..." onkeydown="if(event.key==='Enter')sendMsg()">
       <button class="c-btn c-snd" onclick="sendMsg()"><svg viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9z"/></svg></button>
     </div>
   </div>
@@ -1011,7 +1011,7 @@ function togglePrivateMode(){
   const cell=document.getElementById('privModeCell');
   const banner=document.getElementById('privBanner');
   dot.className='priv-status-dot'+(privModeOn?' danger':'');
-  val.textContent=privModeOn?'ACTIVO':'INACTIVO';
+  val.textContent=privModeOn?'ACTIVE':'INACTIVE';
   val.style.color=privModeOn?'var(--red)':'var(--white-xs)';
   cell.style.background=privModeOn?'rgba(255,68,102,.04)':'';
   if(tog)tog.classList.toggle('on',privModeOn);
@@ -1057,7 +1057,7 @@ const SKILLS=[
   {icon:'📊',name:'Análisis de datos',desc:'Interpreta gráficas, tablas y dashboards',on:true},
   {icon:'✍️',name:'Redacción asistida',desc:'Mejora y completa textos que estés escribiendo',on:false},
   {icon:'🔍',name:'Búsqueda contextual',desc:'Busca información basada en lo que ves',on:true},
-  {icon:'📧',name:'Asistente de email',desc:'Redacta y responde correos con contexto',on:false},
+  {icon:'📧',name:'Assistant de email',desc:'Redacta y responde correos con contexto',on:false},
   {icon:'🗂',name:'Organización de tareas',desc:'Detecta y organiza pendientes en tu pantalla',on:false},
   {icon:'🎨',name:'Feedback de diseño',desc:'Analiza y sugiere mejoras en interfaces',on:true},
   {icon:'⌨️',name:'Autocompletado',desc:'Sugiere completados para código y texto',on:false},
@@ -1319,7 +1319,7 @@ function toggleSilent(){
   const btn=document.getElementById('btnSilent');
   const icon=document.getElementById('silentIcon');
   btn.classList.toggle('active',silentMode);
-  btn.title=silentMode?'Activar voz':'Modo silencioso';
+  btn.title=silentMode?'Activar voz':'Silent mode';
   if(silentMode){
     icon.innerHTML=`<line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/><line x1="12" y1="19" x2="12" y2="22"/>`;
   } else {
@@ -1364,14 +1364,14 @@ function toggleActivate(){
   const btn = document.getElementById('btnActivate');
   const txt = document.getElementById('activateTxt');
   btn.classList.toggle('active', saganActive);
-  txt.textContent = saganActive ? 'SAGAN activo' : 'Activar SAGAN';
+  txt.textContent = saganActive ? 'SAGAN active' : 'Activate SAGAN';
   if(window.sagan && window.sagan.toggleBubble){
     window.sagan.toggleBubble(saganActive);
   }
 }
 
 function handleLogout(){
-  if(confirm('¿Cerrar sesión en SAGAN?')){
+  if(confirm('¿Sign out en SAGAN?')){
     if(window.sagan && window.sagan.authLogout) window.sagan.authLogout();
   }
 }
@@ -1382,7 +1382,7 @@ if(window.sagan && window.sagan.onBubbleStatus){
     const btn = document.getElementById('btnActivate');
     const txt = document.getElementById('activateTxt');
     if(btn) btn.classList.toggle('active', active);
-    if(txt) txt.textContent = active ? 'SAGAN activo' : 'Activar SAGAN';
+    if(txt) txt.textContent = active ? 'SAGAN active' : 'Activate SAGAN';
   });
 }
 
@@ -1396,7 +1396,7 @@ if(window.sagan && window.sagan.getSession){
     }
     if(d.balance != null){
       const cred = document.getElementById('topCred');
-      if(cred) cred.textContent = Number(d.balance).toLocaleString() + ' créditos';
+      if(cred) cred.textContent = Number(d.balance).toLocaleString() + ' credits';
     }
     if(d.user && d.user.name){
       const nameEl = document.getElementById('dynName');
@@ -1416,7 +1416,7 @@ if(window.sagan && window.sagan.getSession){
 if(window.sagan && window.sagan.onBalanceUpdate){
   window.sagan.onBalanceUpdate(function(d){
     const cred = document.getElementById('topCred');
-    if(cred && d.balance != null) cred.textContent = Number(d.balance).toLocaleString() + ' créditos';
+    if(cred && d.balance != null) cred.textContent = Number(d.balance).toLocaleString() + ' credits';
   });
 }
 

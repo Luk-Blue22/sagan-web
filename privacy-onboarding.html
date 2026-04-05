@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAGAN — Configuración de Privacidad</title>
+<title>SAGAN — Privacy Setup</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
@@ -159,10 +159,10 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
     <span style="width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:dot-breath 3s ease-in-out infinite;display:inline-block"></span>
     SAGAN
   </a>
-  <div class="lang-sel"><a href="../es/" class="lang-btn active">ES</a><span class="lang-div">|</span><a href="../en/" class="lang-btn">EN</a></div>
+  <div class="lang-sel"><a href="../es/" class="lang-btn">ES</a><span class="lang-div">|</span><a href="../en/" class="lang-btn active">EN</a></div>
   <a href="auth.html" style="font-family:var(--sans);font-size:.68rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--white-xs);text-decoration:none;transition:color .3s;display:flex;align-items:center;gap:6px">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Volver
+    Back
   </a>
 </nav>
 
@@ -181,8 +181,8 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
 
   <!-- ═══ PASO 1 — Qué hace SAGAN con tu pantalla ═══ -->
   <div class="step-page active" id="step-1">
-    <div class="eyebrow">Configuración inicial · 01 de 04</div>
-    <h1 class="heading" style="opacity:0;animation:rise .8s .2s forwards">Antes de empezar,<br>hablemos de <span class="accent">privacidad.</span></h1>
+    <div class="eyebrow">Initial setup · 01 of 04</div>
+    <h1 class="heading" style="opacity:0;animation:rise .8s .2s forwards">Before we start,<br>let's talk about <span class="accent">privacy.</span></h1>
     <p class="subtext">SAGAN captura tu pantalla para entender qué estás viendo. Es su superpoder — y también la razón por la que esta conversación importa. Un minuto aquí te da control total sobre qué ve y qué no ve.</p>
 
     <div class="travel-grid">
@@ -199,7 +199,7 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
         <div class="travel-item"><div class="travel-dot"></div><span>Las últimas 3 capturas de pantalla</span></div>
         <div class="travel-item"><div class="travel-dot"></div><span>Tu pregunta en texto</span></div>
         <div class="travel-item"><div class="travel-dot"></div><span>Contexto de la conversación</span></div>
-        <div class="travel-item"><div class="travel-dot"></div><span>Nombre de la app activa</span></div>
+        <div class="travel-item"><div class="travel-dot"></div><span>Name de la app activa</span></div>
       </div>
     </div>
 
@@ -208,15 +208,15 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
     </div>
 
     <div class="btn-row">
-      <button class="btn-skip" onclick="skipOnboarding()">Saltar y usar defaults</button>
-      <button class="btn-primary" onclick="nextStep(2)">Entendido — Continuar →</button>
+      <button class="btn-skip" onclick="skipOnboarding()">Skip and use defaults</button>
+      <button class="btn-primary" onclick="nextStep(2)">Got it — Continue →</button>
     </div>
   </div>
 
   <!-- ═══ PASO 2 — Apps protegidas ═══ -->
   <div class="step-page" id="step-2">
-    <div class="eyebrow">Configuración inicial · 02 de 04</div>
-    <h1 class="heading" style="opacity:0;animation:rise .8s .2s forwards">Estas apps nunca<br>serán <span class="accent">capturadas.</span></h1>
+    <div class="eyebrow">Initial setup · 02 of 04</div>
+    <h1 class="heading" style="opacity:0;animation:rise .8s .2s forwards">These apps will never<br>be <span class="accent">captured.</span></h1>
     <p class="subtext">SAGAN detecta automáticamente cuando estás en una aplicación sensible y congela las capturas. La persiana baja sola.</p>
 
     <div class="blocked-grid">
@@ -232,14 +232,14 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
     </div>
 
     <div class="info-box info-cyan">
-      <strong>Puedes personalizar esta lista.</strong> En Settings → Privacidad puedes agregar cualquier app que quieras proteger. El bloqueo es instantáneo.
+      <strong>Puedes personalizar esta ready.</strong> En Settings → Privacy puedes agregar cualquier app que quieras proteger. El bloqueo es instantáneo.
     </div>
 
     <div class="options-list">
       <div class="opt-row selected" id="opt-blacklist" onclick="toggleOpt(this)">
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="opt-body">
-          <div class="opt-name">Activar lista negra automática <span class="opt-badge badge-recommended">Recomendado</span></div>
+          <div class="opt-name">Activar lista negra automática <span class="opt-badge badge-recommended">Recommended</span></div>
           <div class="opt-desc">SAGAN detecta apps sensibles y pausa capturas automáticamente. Sin intervención tuya.</div>
         </div>
       </div>
@@ -253,15 +253,15 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
     </div>
 
     <div class="btn-row">
-      <button class="btn-ghost" onclick="nextStep(1)">← Atrás</button>
-      <button class="btn-primary" onclick="nextStep(3)">Continuar →</button>
+      <button class="btn-ghost" onclick="nextStep(1)">← Back</button>
+      <button class="btn-primary" onclick="nextStep(3)">Continue →</button>
     </div>
   </div>
 
   <!-- ═══ PASO 3 — Detección de contenido sensible ═══ -->
   <div class="step-page" id="step-3">
-    <div class="eyebrow">Configuración inicial · 03 de 04</div>
-    <h1 class="heading" style="opacity:0;animation:rise .8s .2s forwards">Filtro de datos<br><span class="accent">sensibles.</span></h1>
+    <div class="eyebrow">Initial setup · 03 of 04</div>
+    <h1 class="heading" style="opacity:0;animation:rise .8s .2s forwards">Sensitive data<br><span class="accent">filter.</span></h1>
     <p class="subtext">Antes de enviar cualquier captura al modelo de IA, SAGAN la revisa en tu computadora. Si detecta información delicada, la bloquea — sin enviarte un aviso molesto, solo silenciosamente la omite.</p>
 
     <div class="flow-diagram">
@@ -308,33 +308,33 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
     </div>
 
     <div class="btn-row">
-      <button class="btn-ghost" onclick="nextStep(2)">← Atrás</button>
-      <button class="btn-primary" onclick="nextStep(4)">Continuar →</button>
+      <button class="btn-ghost" onclick="nextStep(2)">← Back</button>
+      <button class="btn-primary" onclick="nextStep(4)">Continue →</button>
     </div>
   </div>
 
   <!-- ═══ PASO 4 — Resumen y confirmar ═══ -->
   <div class="step-page" id="step-4">
-    <div class="eyebrow">Configuración inicial · 04 de 04</div>
+    <div class="eyebrow">Initial setup · 04 of 04</div>
 
     <div class="final-icon">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00cc88" stroke-width="1.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
     </div>
 
-    <h1 class="heading" style="text-align:center;opacity:0;animation:rise .8s .2s forwards">Tu configuración<br>de privacidad está <span class="accent">lista.</span></h1>
-    <p class="subtext" style="text-align:center;margin:0 auto 36px">Esto es lo que configuramos juntos. Puedes cambiar cualquier cosa en Settings → Privacidad cuando quieras.</p>
+    <h1 class="heading" style="text-align:center;opacity:0;animation:rise .8s .2s forwards">Your privacy<br>settings are <span class="accent">ready.</span></h1>
+    <p class="subtext" style="text-align:center;margin:0 auto 36px">Esto es lo que configuramos juntos. Puedes cambiar cualquier cosa en Settings → Privacy cuando quieras.</p>
 
     <div class="summary-list" id="summary-list">
       <!-- Se llena dinámicamente -->
     </div>
 
     <div class="info-box info-cyan">
-      <strong>Siempre en control.</strong> En cualquier momento puedes ir a Settings → Privacidad para ver el log de envíos, agregar apps a la lista negra, o activar el modo privado completo.
+      <strong>Siempre en control.</strong> En cualquier momento puedes ir a Settings → Privacy para ver el log de envíos, agregar apps a la lista negra, o activar el modo privado completo.
     </div>
 
     <div class="btn-row" style="justify-content:center">
       <button class="btn-primary" onclick="finishOnboarding()" style="padding:16px 64px;font-size:.8rem">
-        Entrar a SAGAN →
+        Enter SAGAN →
       </button>
     </div>
   </div>
@@ -488,7 +488,7 @@ function saveAndProceed() {
 <footer style="position:relative;z-index:1;border-top:1px solid var(--rule);padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(4,4,13,.95)">
   <p style="font-family:var(--sans);font-size:.62rem;color:var(--white-xs);letter-spacing:.06em">© 2026 SAGAN AI · "Billions and Billions"</p>
   <div style="display:flex;gap:20px">
-    <a href="privacy.html" style="font-family:var(--sans);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--white-xs);text-decoration:none;transition:color .3s">Privacidad</a>
+    <a href="privacy.html" style="font-family:var(--sans);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--white-xs);text-decoration:none;transition:color .3s">Privacy</a>
     <a href="requirements.html" style="font-family:var(--sans);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--white-xs);text-decoration:none;transition:color .3s">Requisitos</a>
   </div>
 </footer>
