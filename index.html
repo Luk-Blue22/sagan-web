@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAGAN — Personal AI Vision Assistant</title>
+<meta name="description" content="SAGAN — Tu asistente de IA personal con visión total. Vive en tu escritorio, ve lo que tú ves.">
+<style>
+  body{margin:0;background:#04040d;display:flex;align-items:center;justify-content:center;min-height:100vh}
+  .orb{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 36% 34%,#00d4e8,#0055bb,#000a1c);box-shadow:0 0 30px rgba(0,212,232,.5);animation:breath 2s ease-in-out infinite}
+  @keyframes breath{0%,100%{opacity:.7;transform:scale(.95)}50%{opacity:1;transform:scale(1.05)}}
+</style>
+</head>
+<body>
+<div class="orb"></div>
+<script>
+  // Detectar idioma del navegador
+  const lang = navigator.language || navigator.userLanguage || 'es';
+  // Si el idioma empieza con 'en' → inglés, cualquier otro → español
+  const target = lang.toLowerCase().startsWith('en') ? 'en' : 'es';
+  window.location.replace('./' + target + '/');
+</script>
+</body>
+</html>
