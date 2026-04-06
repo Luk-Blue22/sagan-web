@@ -271,7 +271,7 @@ body.listening .orb-status-dot{background:var(--green);box-shadow:0 0 8px var(--
 .plan-card{padding:11px 8px;border:1px solid rgba(216,234,240,.06);text-align:center;position:relative;transition:all .2s;cursor:pointer}
 .plan-card:hover{border-color:rgba(0,212,232,.18);background:rgba(0,212,232,.02)}
 .plan-card.current{border-color:rgba(0,212,232,.3);background:rgba(0,212,232,.04)}
-.plan-card.current::after{content:'actual';position:absolute;top:-1px;left:50%;transform:translateX(-50%);font-size:.34rem;letter-spacing:.1em;text-transform:uppercase;background:var(--cyan);color:#000;padding:1px 6px;font-weight:700}
+.plan-card.current::after{content:'current';position:absolute;top:-1px;left:50%;transform:translateX(-50%);font-size:.34rem;letter-spacing:.1em;text-transform:uppercase;background:var(--cyan);color:#000;padding:1px 6px;font-weight:700}
 .plan-icon{font-size:.8rem;margin-bottom:4px}
 .plan-name{font-family:var(--display);font-size:.5rem;font-weight:700;color:var(--white-dim);margin-bottom:2px;letter-spacing:.06em}
 .plan-price{font-family:var(--mono);font-size:.68rem;color:var(--cyan);font-weight:700}
@@ -494,7 +494,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
     </span>
   </div>
   <div class="top-r">
-    <span class="top-pill" id="topPlan">◈ Quásar</span>
+    <span class="top-pill" id="topPlan">◈ Quasar</span>
     <span class="top-cred" id="topCred">1,253 credits</span>
     <div class="lang-sel"><a href="../es/" class="lang-btn">ES</a><span class="lang-div">|</span><a href="../en/" class="lang-btn active">EN</a></div>
     <button class="activate-btn" id="btnActivate" onclick="toggleActivate()">
@@ -527,7 +527,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
       <button class="sb-tog" onclick="document.getElementById('sb').classList.toggle('mini')"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
     </div>
 
-    <!-- BOTÓN ORBE — volver al asistente -->
+    <!-- ORB BUTTON — back to assistant -->
     <div class="sb-orbe-btn on" id="btnOrbe" onclick="showPanel('orbe')">
       <div class="sb-orbe-ic">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="stroke:var(--cyan)"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="var(--cyan)"/></svg>
@@ -582,45 +582,45 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
     </div>
   </div>
 
-  <!-- PANEL: CUENTA -->
+  <!-- PANEL: ACCOUNT -->
   <div class="sec-panel" id="panel-cuenta">
     <div class="sec-ttl">Account</div>
-    <div class="sec-sub">Tu perfil y configuración personal</div>
+    <div class="sec-sub">Your profile and personal settings</div>
     <div class="acc-hero">
       <div class="acc-avatar">L</div>
       <div class="acc-info">
         <div class="acc-name">Luk Devanter</div>
-        <div class="acc-email" id="dynEmail">usuario@email.com</div>
-        <div class="acc-badge">◈ Plan Quásar</div>
+        <div class="acc-email" id="dynEmail">user@email.com</div>
+        <div class="acc-badge">◈ Quasar Plan</div>
       </div>
     </div>
     <div class="acc-stats-row">
-      <div class="acc-stat"><div class="acc-stat-v">3,247</div><div class="acc-stat-l">Queries totales</div></div>
-      <div class="acc-stat"><div class="acc-stat-v">12.4h</div><div class="acc-stat-l">Tiempo activo</div></div>
-      <div class="acc-stat"><div class="acc-stat-v">47</div><div class="acc-stat-l">Días activo</div></div>
+      <div class="acc-stat"><div class="acc-stat-v">3,247</div><div class="acc-stat-l">Total queries</div></div>
+      <div class="acc-stat"><div class="acc-stat-v">12.4h</div><div class="acc-stat-l">Active time</div></div>
+      <div class="acc-stat"><div class="acc-stat-v">47</div><div class="acc-stat-l">Active days</div></div>
     </div>
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Información personal</div>
+      <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Personal info</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <div><div style="font-size:.44rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px">Name</div><div style="font-size:.7rem;color:var(--white-dim);font-family:var(--mono)">Luk Devanter</div></div>
-        <div><div style="font-size:.44rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px">Email</div><div style="font-size:.7rem;color:var(--white-dim);font-family:var(--mono)" id="dynEmail2">usuario@email.com</div></div>
-        <div><div style="font-size:.44rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px">Miembro desde</div><div style="font-size:.7rem;color:var(--white-dim);font-family:var(--mono)">Mar 2026</div></div>
+        <div><div style="font-size:.44rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px">Email</div><div style="font-size:.7rem;color:var(--white-dim);font-family:var(--mono)" id="dynEmail2">user@email.com</div></div>
+        <div><div style="font-size:.44rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px">Member since</div><div style="font-size:.7rem;color:var(--white-dim);font-family:var(--mono)">Mar 2026</div></div>
         <div><div style="font-size:.44rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px">ID</div><div style="font-size:.7rem;color:var(--white-dim);font-family:var(--mono)">usr_4a7f…k29</div></div>
       </div>
     </div>
     <div class="acc-actions">
-      <button class="btn btn-cyan"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>Editar perfil</button>
-      <button class="btn btn-ghost">Cambiar contraseña</button>
+      <button class="btn btn-cyan"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>Edit profile</button>
+      <button class="btn btn-ghost">Change password</button>
       <button class="btn btn-danger" style="margin-left:auto"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign out</button>
     </div>
   </div>
 
-  <!-- PANEL: CRÉDITOS -->
+  <!-- PANEL: CREDITS -->
   <div class="sec-panel" id="panel-creditos">
     <div class="sec-ttl">Credits & Plan</div>
     <div class="sec-sub">Your available queries and subscription management</div>
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M8 14h6"/></svg>Uso este mes</div>
+      <div class="card-ttl"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M8 14h6"/></svg>Usage this month</div>
       <div class="cred-top">
         <div class="gauge-wrap">
           <svg width="110" height="110" viewBox="0 0 110 110">
@@ -630,8 +630,8 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
           <div class="gauge-center"><div class="gauge-val">65%</div><div class="gauge-lbl">usado</div></div>
         </div>
         <div class="cred-info">
-          <div class="cred-plan-name">◈ Quásar</div>
-          <div class="cred-detail">Queries: 3,247 / 4,500 of cycle<br>Queries hoy: 247 / 150 diarias<br>TTS: 32,400 / 80,000 chars<br>Renovación: 1 Abril 2026</div>
+          <div class="cred-plan-name">◈ Quasar</div>
+          <div class="cred-detail">Queries: 3,247 / 4,500 of cycle<br>Queries today: 247 / 150 diarias<br>TTS: 32,400 / 80,000 chars<br>Renewal: April 1, 2026</div>
         </div>
       </div>
       <div class="cred-bar-row"><div class="cred-bar-hd"><span>Queries mensuales</span><span>3,247 / 4,500</span></div><div class="cred-bar-track"><div class="cred-bar-fill" style="width:72%;background:linear-gradient(90deg,rgba(0,212,232,.4),var(--cyan))"></div></div></div>
@@ -641,10 +641,10 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
     <div class="card">
       <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Planes disponibles</div>
       <div class="plans-grid">
-        <div class="plan-card"><div class="plan-icon">☆</div><div class="plan-name">Star</div><div class="plan-price">$0</div><div class="plan-qs">20/día</div><button class="plan-btn current-btn">gratis</button></div>
-        <div class="plan-card"><div class="plan-icon">✦</div><div class="plan-name">Pulsar</div><div class="plan-price">$5</div><div class="plan-qs">50/día</div><button class="plan-btn current-btn">anterior</button></div>
-        <div class="plan-card current"><div class="plan-icon">◈</div><div class="plan-name">Quásar</div><div class="plan-price">$10</div><div class="plan-qs">150/día</div><button class="plan-btn current-btn">tu plan</button></div>
-        <div class="plan-card"><div class="plan-icon">★</div><div class="plan-name">Nova</div><div class="plan-price">$20</div><div class="plan-qs">300/día</div><button class="plan-btn upgrade">Upgrade ↑</button></div>
+        <div class="plan-card"><div class="plan-icon">☆</div><div class="plan-name">Star</div><div class="plan-price">$0</div><div class="plan-qs">600/cycle</div><button class="plan-btn current-btn">free</button></div>
+        <div class="plan-card"><div class="plan-icon">✦</div><div class="plan-name">Pulsar</div><div class="plan-price">$5</div><div class="plan-qs">1,500/cycle</div><button class="plan-btn current-btn">previous</button></div>
+        <div class="plan-card current"><div class="plan-icon">◈</div><div class="plan-name">Quasar</div><div class="plan-price">$10</div><div class="plan-qs">4,500/cycle</div><button class="plan-btn current-btn">your plan</button></div>
+        <div class="plan-card"><div class="plan-icon">★</div><div class="plan-name">Nova</div><div class="plan-price">$20</div><div class="plan-qs">9,000/cycle</div><button class="plan-btn upgrade">Upgrade ↑</button></div>
         <div class="plan-card"><div class="plan-icon">✧</div><div class="plan-name">Galaxy</div><div class="plan-price">$50</div><div class="plan-qs">∞</div><button class="plan-btn upgrade">Upgrade ↑</button></div>
       </div>
     </div>
@@ -653,20 +653,20 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
   <!-- PANEL: STATS -->
   <div class="sec-panel" id="panel-stats">
     <div class="sec-ttl">Stats & Usage</div>
-    <div class="sec-sub">Métricas de actividad en tiempo real</div>
+    <div class="sec-sub">Real-time activity metrics</div>
     <div class="stats-metrics">
-      <div class="metric-card"><div class="metric-icon">⚡</div><div class="metric-val" style="color:var(--cyan)">247</div><div class="metric-lbl">Queries hoy</div><div class="metric-delta delta-up">↑ +23% vs ayer</div></div>
-      <div class="metric-card"><div class="metric-icon">📊</div><div class="metric-val" style="color:var(--purple)">3,247</div><div class="metric-lbl">Este mes</div><div class="metric-delta delta-up">↑ +8% vs anterior</div></div>
-      <div class="metric-card"><div class="metric-icon">💎</div><div class="metric-val" style="color:var(--green)">1,253</div><div class="metric-lbl">Créditos restantes</div><div class="metric-delta" style="color:var(--white-xs)">Top-up available</div></div>
-      <div class="metric-card"><div class="metric-icon">⏱</div><div class="metric-val" style="color:var(--warn)">12.4h</div><div class="metric-lbl">Tiempo activo</div><div class="metric-delta delta-up">↑ +1.2h hoy</div></div>
+      <div class="metric-card"><div class="metric-icon">⚡</div><div class="metric-val" style="color:var(--cyan)">247</div><div class="metric-lbl">Queries today</div><div class="metric-delta delta-up">↑ +23% vs yesterday</div></div>
+      <div class="metric-card"><div class="metric-icon">📊</div><div class="metric-val" style="color:var(--purple)">3,247</div><div class="metric-lbl">This month</div><div class="metric-delta delta-up">↑ +8% vs previous</div></div>
+      <div class="metric-card"><div class="metric-icon">💎</div><div class="metric-val" style="color:var(--green)">1,253</div><div class="metric-lbl">Remaining queries</div><div class="metric-delta" style="color:var(--white-xs)">Top-up available</div></div>
+      <div class="metric-card"><div class="metric-icon">⏱</div><div class="metric-val" style="color:var(--warn)">12.4h</div><div class="metric-lbl">Active time</div><div class="metric-delta delta-up">↑ +1.2h today</div></div>
     </div>
     <div class="chart-wrap">
-      <div class="chart-ttl">Queries — últimos 14 días</div>
+      <div class="chart-ttl">Queries — last 14 days</div>
       <div class="bar-chart" id="barChart"></div>
       <div style="display:flex;gap:4px;margin-top:4px" id="barLabels"></div>
     </div>
     <div class="chart-wrap">
-      <div class="chart-ttl">Desglose por hora — hoy</div>
+      <div class="chart-ttl">Hourly breakdown — today</div>
       <div class="hourly-row" id="hourlyRow"></div>
     </div>
   </div>
@@ -674,38 +674,38 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
   <!-- PANEL: VOZ -->
   <div class="sec-panel" id="panel-voz">
     <div class="sec-ttl">Voice & Audio</div>
-    <div class="sec-sub">Configuración de síntesis y reconocimiento de voz — modelos 100% locales</div>
+    <div class="sec-sub">Voice synthesis and recognition settings — 100% local models</div>
 
     <!-- Entrada de voz -->
     <div class="card">
       <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>Entrada de voz (STT)</div>
       <div class="voz-row">
-        <div class="voz-row-info"><div class="voz-row-name">Push-to-talk</div><div class="voz-row-desc">Mantén presionada una tecla para hablar</div></div>
+        <div class="voz-row-info"><div class="voz-row-name">Push-to-talk</div><div class="voz-row-desc">Hold a key to speak</div></div>
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
       <div class="voice-slider-row" style="margin-top:10px">
-        <div class="voice-slider-hd"><span>Tecla de activación</span></div>
+        <div class="voice-slider-hd"><span>Activation key</span></div>
         <select class="voz-select"><option selected>Ctrl + Space</option><option>Ctrl + Shift + S</option><option>F8</option><option>Alt + S</option></select>
       </div>
       <div class="voz-row">
-        <div class="voz-row-info"><div class="voz-row-name">Wake word "Hey SAGAN"</div><div class="voz-row-desc">Activa SAGAN con tu voz (consume más CPU)</div></div>
+        <div class="voz-row-info"><div class="voz-row-name">Wake word "Hey SAGAN"</div><div class="voz-row-desc">Activates SAGAN with your voice (uses more CPU)</div></div>
         <div class="vtoggle" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
       <div class="voz-info-box">
         <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-        STT Engine: <strong>High precision (local)</strong> — corre 100% en tu equipo, sin enviar audio a servidores.
+        STT Engine: <strong>High precision (local)</strong> — runs 100% on your device, no audio sent to servers.
       </div>
     </div>
 
     <!-- Salida de voz -->
     <div class="card">
-      <div class="card-ttl"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Salida de voz (TTS)</div>
+      <div class="card-ttl"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Voice output (TTS)</div>
       <div class="voz-row">
-        <div class="voz-row-info"><div class="voz-row-name">Respuestas en voz</div><div class="voz-row-desc">SAGAN habla además de mostrar texto</div></div>
+        <div class="voz-row-info"><div class="voz-row-name">Voice responses</div><div class="voz-row-desc">SAGAN speaks in addition to showing text</div></div>
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
       <div class="voz-row">
-        <div class="voz-row-info"><div class="voz-row-name">Interrumpir con voz</div><div class="voz-row-desc">Corta la respuesta de SAGAN hablando encima</div></div>
+        <div class="voz-row-info"><div class="voz-row-name">Interrupt with voice</div><div class="voz-row-desc">Cuts SAGAN's response by speaking over it</div></div>
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
       <div class="voz-row">
@@ -715,28 +715,28 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
       <div class="voice-slider-row" style="margin-top:12px">
         <div class="voice-slider-hd"><span>Voz</span></div>
         <select class="voz-select">
-          <option selected>Sofía — Español, femenina, natural</option>
-          <option>Carlos — Español, masculino, profesional</option>
+          <option selected>Sofia — Spanish, female, natural</option>
+          <option>Carlos — Spanish, male, professional</option>
           <option>Emma — English, female, warm</option>
           <option>James — English, male, deep</option>
-          <option>Personalizada — Voice clone (Nova/Galaxy)</option>
+          <option>Custom — Voice clone (Nova/Galaxy)</option>
         </select>
       </div>
       <div class="voice-slider-row">
-        <div class="voice-slider-hd"><span>Velocidad</span><span id="speedVal">1.0x</span></div>
+        <div class="voice-slider-hd"><span>Speed</span><span id="speedVal">1.0x</span></div>
         <input type="range" min="0.5" max="2" step="0.1" value="1.0" oninput="document.getElementById('speedVal').textContent=parseFloat(this.value).toFixed(1)+'x'">
       </div>
       <div class="voice-slider-row">
-        <div class="voice-slider-hd"><span>Volumen</span><span id="volVal">80%</span></div>
+        <div class="voice-slider-hd"><span>Volume</span><span id="volVal">80%</span></div>
         <input type="range" min="0" max="100" step="5" value="80" oninput="document.getElementById('volVal').textContent=this.value+'%'">
       </div>
       <div class="voz-info-box" style="margin-top:8px">
         <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-        TTS Engine: <strong>Natural voice (local)</strong> — latencia &lt; 1s con GPU, 3–8s en CPU.
+        TTS Engine: <strong>Natural voice (local)</strong> — latency &lt;1s with GPU, 3–8s on CPU.
       </div>
       <button class="test-btn" style="margin-top:10px">
         <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Probar voz
+        Test voice
       </button>
     </div>
   </div>
@@ -744,7 +744,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
   <!-- PANEL: HABILIDADES -->
   <div class="sec-panel" id="panel-habilidades">
     <div class="sec-ttl">Skills</div>
-    <div class="sec-sub">14 capacidades de SAGAN — activa o desactiva según tus necesidades</div>
+    <div class="sec-sub">14 SAGAN capabilities — enable or disable as needed</div>
     <div class="skills-grid" id="skillsGrid"></div>
   </div>
 
@@ -762,19 +762,19 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
   <!-- PANEL: PRIVACIDAD -->
   <div class="sec-panel" id="panel-privacidad">
     <div class="sec-ttl">Privacy</div>
-    <div class="sec-sub">Control total sobre qué captura SAGAN y qué envía al modelo de IA</div>
+    <div class="sec-sub">Full control over what SAGAN captures and sends to the AI model</div>
 
     <!-- Status indicators -->
     <div class="priv-status-grid">
       <div class="priv-status-cell">
         <div class="priv-status-dot active"></div>
         <div class="priv-status-val">ACTIVE</div>
-        <div class="priv-status-lbl">Lista negra</div>
+        <div class="priv-status-lbl">Blacklist</div>
       </div>
       <div class="priv-status-cell">
         <div class="priv-status-dot active" style="animation-delay:.3s"></div>
         <div class="priv-status-val">ACTIVE</div>
-        <div class="priv-status-lbl">Filtro sensible</div>
+        <div class="priv-status-lbl">Sensitive filter</div>
       </div>
       <div class="priv-status-cell" id="privModeCell" onclick="togglePrivateMode()" style="cursor:pointer;transition:background .3s">
         <div class="priv-status-dot" id="privModeDot"></div>
@@ -786,7 +786,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
     <!-- Banner modo privado -->
     <div class="priv-banner" id="privBanner" style="display:none">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      <strong>Private mode ACTIVE</strong> — SAGAN no está capturando ni enviando nada. Hotkey: <strong>Win + Shift + P</strong>
+      <strong>Private mode ACTIVE</strong> — SAGAN is not capturing or sending anything. Hotkey: <strong>Win + Shift + P</strong>
     </div>
 
     <!-- Private mode toggle -->
@@ -795,13 +795,13 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
       <div class="voz-row">
         <div class="voz-row-info">
           <div class="voz-row-name">Private mode global</div>
-          <div class="voz-row-desc">Pausa TODAS las capturas y envíos inmediatamente. Hotkey: <strong style="color:var(--cyan)">Win + Shift + P</strong></div>
+          <div class="voz-row-desc">Pauses ALL captures and sends immediately. Hotkey: <strong style="color:var(--cyan)">Win + Shift + P</strong></div>
         </div>
         <div class="vtoggle" id="togglePrivMode" onclick="togglePrivateMode()"><div class="vtoggle-k"></div></div>
       </div>
     </div>
 
-    <!-- Lista negra -->
+    <!-- Blacklist -->
     <div class="card">
       <div class="card-ttl"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>Blacklist — Protected apps</div>
       <div class="voz-info-box" style="margin-bottom:12px">
@@ -817,7 +817,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
         <div class="priv-app-tag">🔑 Authenticator 2FA</div>
         <div class="priv-app-tag">🛡 NordVPN / ProtonVPN</div>
         <div class="priv-app-tag">₿ Wallets crypto</div>
-        <div class="priv-app-tag" style="color:var(--white-xs);border-color:var(--rule)">+32 apps más</div>
+        <div class="priv-app-tag" style="color:var(--white-xs);border-color:var(--rule)">+32 more apps</div>
       </div>
       <!-- Add custom app -->
       <div style="font-size:.52rem;color:var(--white-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px">Add custom app</div>
@@ -832,15 +832,15 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
     <div class="card">
       <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M9 18h6"/></svg>Sensitive data sensibles</div>
       <div class="voz-row">
-        <div class="voz-row-info"><div class="voz-row-name">Detectar tarjetas de crédito</div><div class="voz-row-desc">Bloquea envío si detecta patrón de 16 dígitos</div></div>
+        <div class="voz-row-info"><div class="voz-row-name">Detect credit cards</div><div class="voz-row-desc">Blocks send if 16-digit pattern is detected</div></div>
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
       <div class="voz-row">
-        <div class="voz-row-info"><div class="voz-row-name">Detectar contraseñas / tokens</div><div class="voz-row-desc">Detecta patrones tipo API keys, JWT, passwords</div></div>
+        <div class="voz-row-info"><div class="voz-row-name">Detect passwords / tokens</div><div class="voz-row-desc">Detects API keys, JWT, password patterns</div></div>
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
       <div class="voz-row">
-        <div class="voz-row-info"><div class="voz-row-name">Detectar datos personales (CURP, RFC)</div><div class="voz-row-desc">Bloquea capturas con documentos de identidad</div></div>
+        <div class="voz-row-info"><div class="voz-row-name">Detect personal data (SSN, Tax ID)</div><div class="voz-row-desc">Blocks captures with identity documents</div></div>
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
     </div>
@@ -849,20 +849,20 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
     <div class="card">
       <div class="card-ttl"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>Retention and storage</div>
       <div class="voz-row">
-        <div class="voz-row-info"><div class="voz-row-name">Capturas solo en RAM (nunca en disco)</div><div class="voz-row-desc">Las imágenes se mantienen en memoria y se eliminan al cerrar SAGAN</div></div>
+        <div class="voz-row-info"><div class="voz-row-name">Captures in RAM only (never on disk)</div><div class="voz-row-desc">Images stay in memory and are deleted when SAGAN closes</div></div>
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
       <div class="voz-row">
-        <div class="voz-row-info"><div class="voz-row-name">Borrar capturas al cerrar SAGAN</div><div class="voz-row-desc">Limpieza automática de memoria al cerrar la aplicación</div></div>
+        <div class="voz-row-info"><div class="voz-row-name">Clear captures on SAGAN close</div><div class="voz-row-desc">Automatic memory cleanup when the app closes</div></div>
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
       <div class="voz-row">
-        <div class="voz-row-info"><div class="voz-row-name">Borrado seguro (sobrescribir con ceros)</div><div class="voz-row-desc">Más lento pero más seguro — sobrescribe los bytes del buffer</div></div>
+        <div class="voz-row-info"><div class="voz-row-name">Secure wipe (overwrite with zeros)</div><div class="voz-row-desc">Slower but more secure — overwrites buffer bytes</div></div>
         <div class="vtoggle on" onclick="this.classList.toggle('on')"><div class="vtoggle-k"></div></div>
       </div>
     </div>
 
-    <!-- Log de envíos -->
+    <!-- Send log -->
     <div class="card">
       <div class="card-ttl"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>AI Engine send log</div>
       <div class="priv-log-list">
@@ -871,7 +871,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
         <div class="priv-log-row"><span class="priv-log-time">Hoy 14:55:44</span><span class="priv-log-badge modelo">AI Engine</span><span class="priv-log-info">3 capturas enviadas</span></div>
         <div class="priv-log-row"><span class="priv-log-time">Hoy 14:28:20</span><span class="priv-log-badge modelo">AI Engine</span><span class="priv-log-info">1 captura — <span style="color:var(--red)">1 bloqueada por filtro tarjeta</span></span></div>
       </div>
-      <button class="btn btn-ghost" style="margin-top:12px;font-size:.52rem" onclick="if(confirm('Clear the send log?'))this.closest('.card').querySelector('.priv-log-list').innerHTML='<div style=\'padding:8px 0;font-size:.6rem;color:var(--white-xs)\'>Log vacío.</div>'">Clear log</button>
+      <button class="btn btn-ghost" style="margin-top:12px;font-size:.52rem" onclick="if(confirm('Clear the send log?'))this.closest('.card').querySelector('.priv-log-list').innerHTML='<div style=\'padding:8px 0;font-size:.6rem;color:var(--white-xs)\'>Empty log.</div>'">Clear log</button>
     </div>
   </div>
 
@@ -899,7 +899,7 @@ input[type=range]::-webkit-slider-thumb{appearance:none;width:11px;height:11px;b
 <div class="btm">
   <div class="btm-r">
     <div class="btm-dot"></div>
-    <span class="btm-st">sagan v0.9 · activo</span>
+    <span class="btm-st">sagan v0.9 · active</span>
   </div>
 </div>
 
@@ -1026,7 +1026,7 @@ function addPrivacyApp(){
   const name=inp.value.trim();if(!name)return;
   const list=document.getElementById('customAppsList');
   const item=document.createElement('div');item.className='priv-custom-item';
-  item.innerHTML=`<span>🚫 ${name}</span><button onclick="this.closest('.priv-custom-item').remove()">✕ Quitar</button>`;
+  item.innerHTML=`<span>🚫 ${name}</span><button onclick="this.closest('.priv-custom-item').remove()">✕ Remove</button>`;
   list.appendChild(item);
   inp.value='';
 }
@@ -1048,17 +1048,17 @@ hourData.forEach(h=>{const c=document.createElement('div');c.className='hour-cel
 
 /* ═══ HABILIDADES — 14 skills de SAGAN ═══ */
 const SKILLS=[
-  {icon:'👁',name:'Visión & Análisis',desc:'Lee y entiende tu pantalla en tiempo real',on:true},
+  {icon:'👁',name:'Vision & Analysis',desc:'Reads and understands your screen in real time',on:true},
   {icon:'🔊',name:'Respuesta por voz',desc:'Responde en audio con TTS integrado',on:true},
   {icon:'🎙',name:'Comandos de voz',desc:'Escucha y procesa tus comandos por micrófono',on:true},
   {icon:'💻',name:'Debug de código',desc:'Detecta y explica errores en tu editor',on:true},
   {icon:'📋',name:'Resumen de documentos',desc:'Resume textos, PDFs y documentación abierta',on:true},
-  {icon:'🌐',name:'Traducción en pantalla',desc:'Traduce cualquier texto visible al instante',on:true},
+  {icon:'🌐',name:'On-screen translation',desc:'Translates any visible text instantly',on:true},
   {icon:'📊',name:'Análisis de datos',desc:'Interpreta gráficas, tablas y dashboards',on:true},
   {icon:'✍️',name:'Redacción asistida',desc:'Mejora y completa textos que estés escribiendo',on:false},
   {icon:'🔍',name:'Búsqueda contextual',desc:'Busca información basada en lo que ves',on:true},
   {icon:'📧',name:'Assistant de email',desc:'Redacta y responde correos con contexto',on:false},
-  {icon:'🗂',name:'Organización de tareas',desc:'Detecta y organiza pendientes en tu pantalla',on:false},
+  {icon:'🗂',name:'Task organization',desc:'Detects and organizes pending tasks on your screen',on:false},
   {icon:'🎨',name:'Feedback de diseño',desc:'Analiza y sugiere mejoras en interfaces',on:true},
   {icon:'⌨️',name:'Autocompletado',desc:'Sugiere completados para código y texto',on:false},
   {icon:'📸',name:'Historial visual',desc:'Guarda y referencia screenshots previos',on:true},
@@ -1095,7 +1095,7 @@ const cl=document.getElementById('chatsList');
 function makeChatItem(title, time, active){
   const el=document.createElement('div');
   el.className='chat-item'+(active?' active':'');
-  el.innerHTML=`<div class="chat-item-t">${title}</div><div class="chat-item-m">${time} · <span class="chat-rename-hint">doble click para renombrar</span></div>`;
+  el.innerHTML=`<div class="chat-item-t">${title}</div><div class="chat-item-m">${time} · <span class="chat-rename-hint">double click to rename</span></div>`;
 
   /* click simple — seleccionar */
   el.addEventListener('click',()=>{
@@ -1258,7 +1258,7 @@ function copyCode(id,code){
   navigator.clipboard.writeText(raw).catch(()=>{});
   const btn=document.getElementById(id);
   btn.classList.add('copied');
-  btn.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Copiado`;
+  btn.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Copied`;
   setTimeout(()=>{
     btn.classList.remove('copied');
     btn.innerHTML=`<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar`;
@@ -1295,7 +1295,7 @@ function sendMsg(){
   setTimeout(()=>{
     const x=document.getElementById('tpg');if(x)x.remove();
     document.body.classList.remove('speaking');setStatus('LISTO');
-    appendMsg('ai','Analicé tu pantalla. Aquí una función de ejemplo:\n```python\ndef process_query(user_id: int, query: str) -> dict:\n    result = db.execute(query, user_id)\n    return {"status": "ok", "data": result}\n```\nPuedes llamarla con `process_query(42, query)`.','850 · analizado');
+    appendMsg('ai','I analyzed your screen. Here is an example function:\n```python\ndef process_query(user_id: int, query: str) -> dict:\n    result = db.execute(query, user_id)\n    return {"status": "ok", "data": result}\n```\nYou can call it with `process_query(42, query)`.','850 · analyzed');
   },2400);
 }
 document.getElementById('cb').scrollTop=99999;
@@ -1308,7 +1308,7 @@ function takeScreenshot(){
   setStatus('CAPTURANDO');
   setTimeout(()=>{
     setStatus('LISTO');
-    appendMsg('ai','Captura manual tomada. ¿Qué quieres analizar de esta pantalla?','852 · captura manual');
+    appendMsg('ai','Manual capture taken. What do you want to analyze on this screen?','852 · manual capture');
   },800);
 }
 
@@ -1350,7 +1350,7 @@ function handleFileUpload(input){
   setTimeout(()=>{
     const x=document.getElementById('tpg');if(x)x.remove();
     document.body.classList.remove('speaking');setStatus('LISTO');
-    appendMsg('ai',`Recibí \`${file.name}\`. ${isImg?'Analizando la imagen con visión...':'Leyendo el contenido del archivo...'} ¿Qué quieres hacer con él?`,'851 · archivo');
+    appendMsg('ai',`Received \`${file.name}\`. ${isImg?'Analyzing image with vision...':'Reading file contents...'} What do you want to do with it?`,'851 · archivo');
   },2000);
   input.value='';
 }
@@ -1391,7 +1391,7 @@ if(window.sagan && window.sagan.getSession){
     if(!d) return;
     if(d.user && d.user.plan_type){
       const pill = document.getElementById('topPlan');
-      const plans = {star:'☆ Star',pulsar:'✦ Pulsar',quasar:'◈ Quásar',nova:'★ Nova',galaxy:'✧ Galaxy'};
+      const plans = {star:'☆ Star',pulsar:'✦ Pulsar',quasar:'◈ Quasar',nova:'★ Nova',galaxy:'✧ Galaxy'};
       if(pill) pill.textContent = plans[d.user.plan_type] || d.user.plan_type;
     }
     if(d.balance != null){
