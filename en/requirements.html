@@ -348,97 +348,97 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
 <main>
 
   <!-- HEADER -->
-  <div class="page-eyebrow rise">Documentación técnica</div>
-  <h1 class="page-title rise rise-d1">Requisitos del <span>Sistema</span></h1>
+  <div class="page-eyebrow rise">Technical documentation</div>
+  <h1 class="page-title rise rise-d1">System <span>Requirements</span></h1>
   <p class="page-sub rise rise-d2">
-    SAGAN corre modelos de voz e inteligencia artificial directamente en tu equipo.
-    Elige el modo que se adapta a tu hardware — <strong style="color:var(--white)">Light Mode</strong> funciona sin GPU,
-    <strong style="color:var(--cyan)">Full Mode</strong> desbloquea la experiencia completa con respuesta instantánea.
+    SAGAN runs voice and AI models directly on your machine.
+    Choose the mode that fits your hardware — <strong style="color:var(--white)">Light Mode</strong> works without a GPU,
+    <strong style="color:var(--cyan)">Full Mode</strong> unlocks the full experience with instant response.
   </p>
 
   <!-- ══════════════════════════════════════
        SECCIÓN 1 — ALERTA DE WINDOWS
   ══════════════════════════════════════ -->
-  <div class="section-head rise rise-d2">01 — Alerta de Windows al instalar</div>
+  <div class="section-head rise rise-d2">01 — Windows alert on install</div>
 
   <div class="win-banner rise rise-d3">
     <div class="win-banner-head">
       <div class="win-banner-icon">⚠</div>
-      Windows mostrará "Unknown publisher" — es completamente normal
+      Windows will show "Unknown publisher" — this is completely normal
     </div>
     <p>
-      SAGAN es una aplicación nueva e independiente. Windows Defender SmartScreen muestra esta alerta
-      para <strong>cualquier app que no tenga certificado de firma de código</strong> — no porque sea peligrosa,
-      sino porque es nueva en el ecosistema de Microsoft. Es el equivalente a que un restaurante nuevo
-      no tenga suficientes reseñas aún.
+      SAGAN is a new independent application. Windows Defender SmartScreen shows this alert
+      for <strong>any app without a code signing certificate</strong> — not because it's dangerous,
+      but because it's new in the Microsoft ecosystem. It's the equivalent of a new restaurant
+      not having enough reviews yet.
     </p>
     <p>
-      Nuestro código es público en GitHub. Puedes revisarlo antes de instalar.
-      Estamos en proceso de obtener el certificado de firma (Code Signing), que elimina esta alerta permanentemente.
+      Our code is public on GitHub. You can review it before installing.
+      We are in the process of obtaining the Code Signing certificate, which removes this alert permanently.
     </p>
     <div class="win-steps">
       <div class="win-step">Click en "More info"</div>
       <div class="win-step-arr">→</div>
       <div class="win-step">Click en "Run anyway"</div>
       <div class="win-step-arr">→</div>
-      <div class="win-step">Instalación normal</div>
+      <div class="win-step">Normal installation</div>
     </div>
     <div class="win-note">
-      ¿Quieres verificar que es seguro antes de instalar?
-      Revisa el código fuente en <a href="#">github.com/sagan-ai</a> —
-      el motor de capturas y la integración de IA son completamente transparentes y auditables.
+      Want to verify it's safe before installing?
+      Review the source code at <a href="#">github.com/sagan-ai</a> —
+      the capture engine and AI integration are completely transparent and auditable.
     </div>
   </div>
 
-  <!-- Guía paso a paso -->
+  <!-- Step-by-step guide -->
   <div class="win-guide rise rise-d4">
-    <div style="font-family:var(--display);font-size:.9rem;font-weight:700;color:var(--white);margin-bottom:4px;">Guía visual de instalación en Windows</div>
-    <div style="font-size:.78rem;color:var(--white-dim);">Exactamente qué verás en tu pantalla y qué hacer en cada paso.</div>
+    <div style="font-family:var(--display);font-size:.9rem;font-weight:700;color:var(--white);margin-bottom:4px;">Visual installation guide for Windows</div>
+    <div style="font-size:.78rem;color:var(--white-dim);">Exactly what you will see on your screen and what to do at each step.</div>
 
     <div class="win-guide-steps">
       <div class="wg-step">
         <div class="wg-n">1</div>
         <div class="wg-content">
-          <div class="wg-title">Descarga el instalador</div>
-          <div class="wg-desc">Descarga <code>SAGAN-Setup-x.x.x.exe</code> desde la página de descarga. Tu navegador puede mostrar una advertencia al descargar — haz click en "Conservar" o "Mantener".</div>
+          <div class="wg-title">Download the installer</div>
+          <div class="wg-desc">Download <code>SAGAN-Setup-x.x.x.exe</code> from the download page. Your browser may show a warning when downloading — click "Keep" or "Keep anyway".</div>
         </div>
       </div>
       <div class="wg-step">
         <div class="wg-n">2</div>
         <div class="wg-content">
-          <div class="wg-title">Ejecutas el .exe y aparece SmartScreen</div>
-          <div class="wg-desc">Windows muestra una ventana azul con el texto <strong>"Windows protegió tu PC"</strong>. No cierres la ventana.</div>
-          <div class="wg-code">"Windows protegió tu PC" · Editor: Desconocido</div>
+          <div class="wg-title">Run the .exe and SmartScreen appears</div>
+          <div class="wg-desc">Windows shows a blue window with the text <strong>"Windows protected your PC"</strong>. Do not close the window.</div>
+          <div class="wg-code">"Windows protected your PC" · Publisher: Unknown</div>
         </div>
       </div>
       <div class="wg-step">
         <div class="wg-n">3</div>
         <div class="wg-content">
-          <div class="wg-title">Click en "More info"</div>
-          <div class="wg-desc">Verás un pequeño link de texto que dice <strong>"More info"</strong> debajo del mensaje principal. Haz click en él para expandir las opciones.</div>
+          <div class="wg-title">Click "More info"</div>
+          <div class="wg-desc">You will see a small text link that says <strong>"More info"</strong> below the main message. Click it to expand the options.</div>
         </div>
       </div>
       <div class="wg-step">
         <div class="wg-n">4</div>
         <div class="wg-content">
-          <div class="wg-title">Click en "Run anyway"</div>
-          <div class="wg-desc">Aparecerá un botón nuevo en la parte inferior: <strong>"Run anyway"</strong>. Haz click y comenzará la instalación normal de SAGAN.</div>
+          <div class="wg-title">Click "Run anyway"</div>
+          <div class="wg-desc">A new button will appear at the bottom: <strong>"Run anyway"</strong>. Click it and the normal SAGAN installation will begin.</div>
         </div>
       </div>
       <div class="wg-step">
         <div class="wg-n">5</div>
         <div class="wg-content">
-          <div class="wg-title">Instalación completada</div>
-          <div class="wg-desc">SAGAN se instalará normalmente. Al terminar, la burbuja flotante aparecerá en tu escritorio. Esta alerta solo aparece una vez — las actualizaciones futuras no la mostrarán.</div>
+          <div class="wg-title">Installation complete</div>
+          <div class="wg-desc">SAGAN will install normally. When done, the floating bubble will appear on your desktop. This alert only appears once — future updates will not show it.</div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="box box-cyan rise rise-d4">
-    <strong>Estado del Code Signing:</strong> Estamos en proceso de obtener el certificado de firma de código de Microsoft
-    (~$130/año para EV certificate). Una vez activo, la alerta de SmartScreen desaparecerá completamente para todos los usuarios.
-    Las actualizaciones automáticas del futuro ya vendrán firmadas.
+    <strong>Code Signing status:</strong> We are in the process of obtaining the Microsoft code signing certificate
+    (~$130/year for EV certificate). Once active, the SmartScreen alert will disappear completely for all users.
+    Future automatic updates will already be signed.
   </div>
 
   <!-- ══════════════════════════════════════
@@ -458,7 +458,7 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
           <span class="spec-val warn">No requerida</span>
         </div>
         <div class="spec-row">
-          <span class="spec-label">RAM mínima</span>
+          <span class="spec-label">Minimum RAM</span>
           <span class="spec-val">8 GB</span>
         </div>
         <div class="spec-row">
@@ -492,10 +492,10 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
     <div class="mode-card featured">
       <div class="mode-badge">Full Mode — Recommended</div>
       <div class="mode-name">With dedicated GPU</div>
-      <div class="mode-tagline">Experiencia completa. Respuesta de voz en menos de 1 segundo. SAGAN como fue diseñado.</div>
+      <div class="mode-tagline">Full experience. Voice response in under 1 second. SAGAN as it was designed.</div>
       <div class="mode-spec">
         <div class="spec-row">
-          <span class="spec-label">GPU mínima</span>
+          <span class="spec-label">Minimum GPU</span>
           <span class="spec-val green">NVIDIA 4 GB VRAM+</span>
         </div>
         <div class="spec-row">
@@ -503,7 +503,7 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
           <span class="spec-val green">RTX 3060 / 4060+</span>
         </div>
         <div class="spec-row">
-          <span class="spec-label">RAM mínima</span>
+          <span class="spec-label">Minimum RAM</span>
           <span class="spec-val">8 GB</span>
         </div>
         <div class="spec-row">
@@ -539,7 +539,7 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
   <!-- ══════════════════════════════════════
        SECCIÓN 3 — TABLA DE RENDIMIENTO
   ══════════════════════════════════════ -->
-  <div class="section-head rise rise-d5">03 — Performance esperado por hardware</div>
+  <div class="section-head rise rise-d5">03 — Expected performance by hardware</div>
 
   <table class="perf-table rise rise-d5">
     <thead>
@@ -561,7 +561,7 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
         <td><span class="mono green">Full</span></td>
         <td class="mono green">&lt; 0.5 seg</td>
         <td class="mono green">&lt; 0.3 seg</td>
-        <td class="green">Óptima</td>
+        <td class="green">Optimal</td>
       </tr>
       <tr>
         <td>
@@ -600,7 +600,7 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
         <td>
           <span class="gpu-tag tag-apple">Apple</span>
           <span class="bold">M2 / M3 / M4 (Mac)</span><br>
-          <span style="font-size:.68rem;color:var(--white-xs)">Memoria unificada 8 GB+</span>
+          <span style="font-size:.68rem;color:var(--white-xs)">Unified memory 8 GB+</span>
         </td>
         <td><span class="mono green">Full</span></td>
         <td class="mono green">0.5 – 1 seg</td>
@@ -633,7 +633,7 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
   </table>
 
   <div class="box box-warn rise rise-d6">
-    <strong>Nota sobre AMD (ROCm):</strong> El soporte de ROCm para los motores de voz en Windows está en beta.
+    <strong>Note on AMD (ROCm):</strong> ROCm support for voice engines on Windows is in beta.
     Si tienes una GPU AMD y encuentras problemas, SAGAN cambiará automáticamente a Light Mode (CPU) como fallback.
     Support nativo de AMD mejorará en versiones futuras.
   </div>
@@ -641,7 +641,7 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
   <!-- ══════════════════════════════════════
        SECCIÓN 4 — ESPACIO EN DISCO
   ══════════════════════════════════════ -->
-  <div class="section-head rise rise-d6">04 — Espacio en disco detallado</div>
+  <div class="section-head rise rise-d6">04 — Detailed disk space</div>
 
   <div class="disk-grid rise rise-d6">
     <div class="disk-item">
@@ -652,7 +652,7 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
     <div class="disk-item">
       <div class="disk-item-name">TTS Engine (voz)</div>
       <div class="disk-item-size">~1.1 GB</div>
-      <div class="disk-item-desc">Descarga automática en primera ejecución</div>
+      <div class="disk-item-desc">Automatic download on first run</div>
     </div>
     <div class="disk-item">
       <div class="disk-item-name">STT Engine Light</div>
@@ -667,17 +667,17 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
     <div class="disk-item">
       <div class="disk-item-name">Python runtime</div>
       <div class="disk-item-size">~280 MB</div>
-      <div class="disk-item-desc">Embebido — no requiere instalación</div>
+      <div class="disk-item-desc">Embedded — no installation required</div>
     </div>
     <div class="disk-item">
       <div class="disk-item-name">Total Full Mode</div>
       <div class="disk-item-size" style="color:var(--white)">~3.9 GB</div>
-      <div class="disk-item-desc">Todo incluido, descarga en primera ejecución</div>
+      <div class="disk-item-desc">All included, downloaded on first run</div>
     </div>
   </div>
 
   <div class="box box-cyan rise rise-d6">
-    <strong>Los modelos se descargan automáticamente.</strong> El instalador inicial es ~150 MB.
+    <strong>Models are downloaded automatically.</strong> The initial installer is ~150 MB.
     Al ejecutar SAGAN por primera vez, descarga los modelos de voz en background
     mientras usas el chat de texto. No necesitas hacer nada manualmente.
   </div>
@@ -685,7 +685,7 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
   <!-- ══════════════════════════════════════
        SECCIÓN 5 — FAQ TÉCNICO
   ══════════════════════════════════════ -->
-  <div class="section-head">05 — Preguntas frecuentes de hardware</div>
+  <div class="section-head">05 — FAQ de hardware</div>
 
   <div class="faq">
     <div class="faq-item">
@@ -696,7 +696,7 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
       <div class="faq-a">
         En Windows: presiona <code>Win + R</code>, escribe <code>dxdiag</code> y presiona Enter.
         Ve a la pestaña "Pantalla" — si ves una GPU NVIDIA o AMD ahí, tienes GPU dedicada.
-        También puedes abrir el Administrador de tareas (<code>Ctrl + Shift + Esc</code>)
+        You can also open the Task Manager (<code>Ctrl + Shift + Esc</code>)
         → pestaña "Performance" → si aparece "GPU 0" y "GPU 1", la segunda suele ser la dedicada.
         <br><br>
         <strong>GPUs integradas</strong> (Intel UHD, AMD Radeon integrada en Ryzen) no son suficientes para Full Mode —
@@ -712,7 +712,7 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
         Sí. Al iniciar por primera vez, SAGAN ejecuta un diagnóstico de hardware en background.
         Detecta si tienes GPU NVIDIA con CUDA, AMD con ROCm, o Apple Silicon con Metal.
         Si ninguna está disponible, activa Light Mode automáticamente.
-        Puedes ver y cambiar el modo en <strong>Configuración → App → Modo de procesamiento de voz</strong>.
+        You can view and change the mode in <strong>Settings → App → Voice processing mode</strong>.
       </div>
     </div>
     <div class="faq-item">
@@ -741,27 +741,27 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">
-        ¿Por qué Windows muestra "Unknown publisher"?
+        Why does Windows show "Unknown publisher"?
         <div class="faq-q-icon">+</div>
       </div>
       <div class="faq-a">
-        Windows SmartScreen muestra esta alerta para <strong>cualquier aplicación nueva sin certificado de firma de código</strong>.
-        No indica que la app sea maliciosa — solo que es nueva y Microsoft no la reconoce aún.
-        El código de SAGAN es público en <a href="#">GitHub</a> y puede ser auditado.
-        Para instalar: click en <code>"More info"</code> → <code>"Run anyway"</code>.
-        Estamos en proceso de obtener el certificado EV (~$130/año) que eliminará esta alerta definitivamente.
+        Windows SmartScreen shows this alert for <strong>any new application without a code signing certificate</strong>.
+        It does not mean the app is malicious — just that it's new and Microsoft doesn't recognize it yet.
+        SAGAN's code is public on <a href="#">GitHub</a> and can be audited.
+        To install: click <code>"More info"</code> → <code>"Run anyway"</code>.
+        We are in the process of obtaining the EV certificate (~$130/year) which will remove this alert permanently.
       </div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">
-        ¿SAGAN consume muchos recursos en segundo plano?
+        Does SAGAN consume a lot of resources in the background?
         <div class="faq-q-icon">+</div>
       </div>
       <div class="faq-a">
-        La burbuja flotante consume menos de <strong>80 MB de RAM</strong> y prácticamente 0% de CPU en espera.
-        Los modelos de voz solo se cargan en memoria cuando hablas — se descargan de la memoria al detectar inactividad
-        por más de 5 minutos. Las capturas de pantalla se toman cada 3-10 segundos (según tu plan)
-        y se procesan solo cuando haces una consulta, no continuamente.
+        The floating bubble uses less than <strong>80 MB of RAM</strong> and virtually 0% CPU when idle.
+        Voice models are only loaded into memory when you speak — they are unloaded after 5 minutes of inactivity.
+        Screenshots are taken every 3-10 seconds (depending on your plan)
+        and processed only when you make a query, not continuously.
       </div>
     </div>
   </div>
@@ -769,10 +769,10 @@ main { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:120
   <!-- CTA -->
   <div style="text-align:center;margin-top:56px;padding:40px;border:1px solid var(--rule)">
     <div style="font-family:var(--display);font-size:1.2rem;font-weight:700;color:var(--white);margin-bottom:8px;">
-      ¿Tu equipo cumple los requisitos?
+      Does your PC meet the requirements?
     </div>
     <div style="font-size:.82rem;color:var(--white-dim);margin-bottom:24px;">
-      Descarga SAGAN y empieza con el plan gratuito Star — sin tarjeta de crédito.
+      Download SAGAN and start with the free Star plan — no credit card required.
     </div>
     <a href="auth.html"
        style="display:inline-block;font-family:var(--display);font-size:.75rem;font-weight:700;
