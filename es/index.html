@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAGAN — Personal AI Vision Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════
+   TOKENS
+═══════════════════════════════ */
+:root {
+  --bg:        #04040d;
+  --bg2:       #070713;
+  --bg3:       #0a0a18;
+  --cyan:      #00d4e8;
+  --cyan-dim:  rgba(0,212,232,.12);
+  --cyan-rule: rgba(0,212,232,.08);
+  --cyan-glow: 0 0 24px rgba(0,212,232,.35), 0 0 60px rgba(0,212,232,.12);
+  --white:     #d8eaf0;
+  --white-dim: rgba(216,234,240,.45);
+  --white-xs:  rgba(216,234,240,.18);
+  --rule:      rgba(216,234,240,.07);
+  --sans:      'IBM Plex Sans', sans-serif;
+  --display:   'Syne', sans-serif;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--sans);
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Grain */
+body::after {
+  content:''; position:fixed; inset:0; z-index:9997; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.028;
+}
+
+/* ── CURSOR ── */
+#cur { position:fixed; z-index:9999; pointer-events:none; width:6px; height:6px; background:var(--cyan); border-radius:50%; transform:translate(-50%,-50%); box-shadow:0 0 10px var(--cyan); mix-blend-mode:screen; transition:width .2s,height .2s; }
+#cur-ring { position:fixed; z-index:9998; pointer-events:none; width:30px; height:30px; border:1px solid rgba(0,212,232,.3); border-radius:50%; transform:translate(-50%,-50%); transition:width .3s,height .3s,border-color .3s; }
+#cur.big { width:14px; height:14px; }
+#cur-ring.big { width:48px; height:48px; border-color:rgba(0,212,232,.6); }
+
+/* ── CANVAS ── */
+#bg-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+/* ── HUD GRID ── */
+.hud { position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image: linear-gradient(rgba(0,212,232,.018) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,232,.018) 1px, transparent 1px);
+  background-size:80px 80px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black, transparent 75%);
+}
+
+/* ═══════════════════════════════
+   NAV
+═══════════════════════════════ */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:500;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:22px 64px;
+  background:rgba(4,4,13,.85);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--rule);
+  transition:padding .4s;
+}
+nav.scrolled { padding:14px 64px; }
+
+.nav-logo {
+  font-family:var(--display); font-size:1.1rem; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--white);
+  text-decoration:none; display:flex; align-items:center; gap:10px;
+}
+.nav-logo-mark {
+  width:7px; height:7px; border-radius:50%; background:var(--cyan);
+  box-shadow:0 0 8px var(--cyan);
+  animation:dot-breath 3s ease-in-out infinite;
+}
+@keyframes dot-breath { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.5)} }
+
+.nav-links { display:flex; gap:40px; list-style:none; }
+.nav-links a {
+  font-family:var(--sans); font-size:.72rem; font-weight:400;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--white-dim);
+  text-decoration:none; transition:color .3s;
+}
+.nav-links a:hover { color:var(--white); }
+
+.nav-cta {
+  font-family:var(--sans); font-size:.7rem; font-weight:500;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--cyan); background:transparent;
+  border:1px solid rgba(0,212,232,.35);
+  padding:9px 24px; cursor:none;
+  transition:all .3s;
+}
+.nav-cta:hover { background:var(--cyan); color:var(--bg); border-color:var(--cyan); box-shadow:var(--cyan-glow); }
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+#hero {
+  min-height:100vh; position:relative; z-index:1; overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:120px 64px 80px; text-align:center;
+}
+
+.hero-tag {
+  display:inline-flex; align-items:center; gap:10px;
+  border:1px solid rgba(0,212,232,.18);
+  background:rgba(0,212,232,.04);
+  padding:7px 18px;
+  font-family:var(--sans); font-size:.68rem; font-weight:400;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--cyan);
+  margin-bottom:48px;
+  opacity:0; animation:rise .7s .3s forwards;
+}
+.hero-tag-dot {
+  width:5px; height:5px; background:var(--cyan); border-radius:50%;
+  animation:dot-breath 2s infinite;
+}
+
+h1 {
+  font-family:var(--display); font-weight:700;
+  font-size:clamp(3.2rem,7.5vw,8rem); line-height:.95;
+  letter-spacing:-.01em; color:var(--white);
+  opacity:0; animation:rise .9s .5s forwards;
+}
+h1 .accent {
+  display:block;
+  background:linear-gradient(100deg, var(--cyan) 0%, #80eeff 50%, var(--cyan) 100%);
+  background-size:200%;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  animation:shimmer 6s linear infinite;
+}
+@keyframes shimmer { to{background-position:200% 0} }
+
+.hero-divider {
+  width:48px; height:1px; background:var(--cyan); margin:36px auto;
+  opacity:0; animation:grow-line .6s .8s forwards;
+  transform-origin:center; transform:scaleX(0);
+}
+@keyframes grow-line { to{opacity:1;transform:scaleX(1)} }
+
+.hero-sub {
+  font-family:var(--sans); font-size:1.05rem; font-weight:300;
+  color:var(--white-dim); max-width:540px; line-height:1.85;
+  opacity:0; animation:rise .8s .85s forwards;
+}
+
+.hero-actions {
+  display:flex; gap:14px; justify-content:center; margin-top:44px;
+  opacity:0; animation:rise .8s 1s forwards;
+}
+
+.btn-primary {
+  font-family:var(--sans); font-size:.72rem; font-weight:500;
+  letter-spacing:.12em; text-transform:uppercase;
+  background:var(--cyan); color:var(--bg);
+  border:none; padding:14px 36px; cursor:none;
+  position:relative; overflow:hidden;
+  transition:box-shadow .3s,transform .2s;
+}
+.btn-primary::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  transform:translateX(-100%); transition:transform .55s;
+}
+.btn-primary:hover::before { transform:translateX(100%); }
+.btn-primary:hover { box-shadow:var(--cyan-glow); transform:translateY(-2px); }
+
+.btn-ghost {
+  font-family:var(--sans); font-size:.72rem; font-weight:400;
+  letter-spacing:.12em; text-transform:uppercase;
+  background:transparent; color:var(--white-dim);
+  border:1px solid var(--rule); padding:14px 32px; cursor:none;
+  transition:all .3s;
+}
+.btn-ghost:hover { border-color:rgba(216,234,240,.25); color:var(--white); }
+
+/* ── CENTRAL ORB ── */
+.hero-orb-wrap {
+  position:relative; width:320px; height:320px; margin:60px auto 0;
+  opacity:0; animation:rise 1s 1.1s forwards;
+}
+
+.orb-ring {
+  position:absolute; top:50%; left:50%; border-radius:50%;
+  border:1px solid rgba(0,212,232,.15); transform:translate(-50%,-50%);
+}
+.orb-ring:nth-child(1){ width:320px; height:320px; animation:spin 22s linear infinite; }
+.orb-ring:nth-child(2){ width:265px; height:265px; border-style:dashed; border-color:rgba(0,212,232,.1); animation:spin 15s linear infinite reverse; }
+.orb-ring:nth-child(3){ width:205px; height:205px; animation:spin 10s linear infinite; border-color:rgba(0,212,232,.2); }
+
+@keyframes spin { to{transform:translate(-50%,-50%) rotate(360deg)} }
+
+.orb-core {
+  position:absolute; top:50%; left:50%;
+  width:140px; height:140px; border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 36% 34%, #00d4e8, #0055bb, #000a1c);
+  box-shadow:0 0 40px rgba(0,212,232,.55), 0 0 100px rgba(0,120,220,.25), 0 0 180px rgba(0,60,180,.1), inset 0 0 40px rgba(0,0,0,.6);
+  animation:core-breath 5s ease-in-out infinite;
+}
+@keyframes core-breath {
+  0%,100%{box-shadow:0 0 40px rgba(0,212,232,.55),0 0 100px rgba(0,120,220,.25),inset 0 0 40px rgba(0,0,0,.6)}
+  50%{box-shadow:0 0 65px rgba(0,212,232,.8),0 0 140px rgba(0,120,220,.4),inset 0 0 40px rgba(0,0,0,.6)}
+}
+
+.sat { position:absolute; border-radius:50%; top:50%; left:50%; transform:translate(-50%,-50%); }
+.sat-1 { width:7px; height:7px; background:var(--cyan); box-shadow:0 0 10px var(--cyan); animation:orbit 5.5s linear infinite; }
+.sat-2 { width:5px; height:5px; background:#80eeff; opacity:.7; animation:orbit 9s linear infinite reverse; }
+.sat-3 { width:4px; height:4px; background:#fff; opacity:.5; animation:orbit 14s linear infinite; --or:158px; }
+@keyframes orbit { to{transform:translate(-50%,-50%) rotate(360deg) translateX(var(--or,132px)) rotate(-360deg)} }
+
+/* Waveform */
+.waveform {
+  display:flex; align-items:flex-end; justify-content:center; gap:3px;
+  margin-top:32px; height:50px;
+  opacity:0; animation:rise .6s 1.3s forwards;
+}
+.wv-bar {
+  width:2px; border-radius:2px; background:var(--cyan);
+  box-shadow:0 0 5px rgba(0,212,232,.6);
+  height:var(--h); transform-origin:bottom;
+  animation:wv var(--d) ease-in-out infinite var(--dl);
+}
+@keyframes wv { 0%,100%{transform:scaleY(.1);opacity:.25} 50%{transform:scaleY(1);opacity:1} }
+
+.orb-caption {
+  font-family:var(--sans); font-size:.62rem; font-weight:400;
+  letter-spacing:.18em; text-transform:uppercase; color:rgba(0,212,232,.4);
+  margin-top:16px; opacity:0; animation:rise .5s 1.4s forwards;
+}
+.orb-phrase {
+  font-family:var(--sans); font-size:.8rem; font-weight:300;
+  color:rgba(216,234,240,.5); margin-top:6px; min-height:1.2rem;
+  opacity:0; animation:rise .5s 1.5s forwards;
+}
+#phrase-text { display:inline; }
+.phrase-cur {
+  display:inline-block; width:1.5px; height:.8em; background:var(--cyan);
+  margin-left:2px; vertical-align:middle; animation:blink .85s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.hero-scroll-hint {
+  position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  opacity:0; animation:fade-in .8s 2s forwards;
+}
+.hero-scroll-hint span { font-family:var(--sans); font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--white-xs); }
+.scroll-drip { width:1px; height:44px; background:linear-gradient(to bottom,rgba(0,212,232,.6),transparent); animation:drip 2s ease-in-out infinite; }
+@keyframes drip { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 50.01%{transform:scaleY(1);transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+
+/* ═══════════════════════════════
+   SECTION LAYOUT
+═══════════════════════════════ */
+.sec { position:relative; z-index:1; padding:120px 64px; }
+.sec-inner { max-width:1160px; margin:0 auto; }
+
+.sec-eyebrow {
+  font-family:var(--sans); font-size:.62rem; font-weight:400;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--cyan);
+  display:flex; align-items:center; gap:12px; margin-bottom:20px;
+}
+.sec-eyebrow::before { content:''; width:24px; height:1px; background:var(--cyan); }
+
+.sec-title {
+  font-family:var(--display); font-size:clamp(2rem,4.5vw,4rem);
+  font-weight:700; line-height:1.05; letter-spacing:-.01em; color:var(--white);
+}
+.sec-desc {
+  font-family:var(--sans); font-size:.95rem; font-weight:300;
+  color:var(--white-dim); line-height:1.85; max-width:480px; margin-top:18px;
+}
+
+/* ═══════════════════════════════
+   CAPABILITIES
+═══════════════════════════════ */
+#capabilities { border-top:1px solid var(--rule); background:var(--bg2); }
+
+.cap-header {
+  display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:end;
+  margin-bottom:72px;
+}
+
+.cap-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--rule); border-left:1px solid var(--rule);
+}
+.cap-card {
+  padding:44px 36px;
+  border-bottom:1px solid var(--rule); border-right:1px solid var(--rule);
+  position:relative; overflow:hidden;
+  opacity:0; transform:translateY(18px);
+  transition:opacity .6s,transform .6s,background .3s;
+}
+.cap-card.vis { opacity:1; transform:translateY(0); }
+.cap-card:nth-child(2){transition-delay:.09s}.cap-card:nth-child(3){transition-delay:.18s}
+.cap-card:nth-child(4){transition-delay:.12s}.cap-card:nth-child(5){transition-delay:.21s}.cap-card:nth-child(6){transition-delay:.3s}
+
+.cap-card::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:var(--cyan); transform:scaleX(0); transform-origin:left;
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+}
+.cap-card:hover::after { transform:scaleX(1); }
+.cap-card:hover { background:var(--cyan-dim); }
+
+.cap-index {
+  font-family:var(--sans); font-size:.58rem; font-weight:400;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--white-xs);
+  margin-bottom:24px;
+}
+.cap-name {
+  font-family:var(--display); font-size:1.05rem; font-weight:600;
+  color:var(--white); margin-bottom:12px; letter-spacing:.01em;
+}
+.cap-desc {
+  font-family:var(--sans); font-size:.82rem; font-weight:300;
+  color:var(--white-dim); line-height:1.8;
+}
+
+/* ═══════════════════════════════
+   DEMO CONVERSATION
+═══════════════════════════════ */
+#demo { border-top:1px solid var(--rule); }
+
+.demo-layout { display:grid; grid-template-columns:1fr 1fr; gap:96px; align-items:center; }
+
+.demo-points { list-style:none; margin-top:40px; }
+.demo-point {
+  display:flex; gap:20px; align-items:flex-start;
+  padding:22px 0; border-bottom:1px solid var(--rule);
+  opacity:0; transform:translateX(-14px);
+  transition:opacity .55s,transform .55s;
+}
+.demo-point:first-child { border-top:1px solid var(--rule); }
+.demo-point.vis { opacity:1; transform:translateX(0); }
+.demo-point:nth-child(2){transition-delay:.1s}.demo-point:nth-child(3){transition-delay:.2s}.demo-point:nth-child(4){transition-delay:.3s}
+
+.dp-n { font-family:var(--sans); font-size:.6rem; font-weight:500; letter-spacing:.12em; color:var(--cyan); flex-shrink:0; padding-top:3px; }
+.dp-name { font-family:var(--display); font-size:.95rem; font-weight:600; color:var(--white); }
+.dp-desc { font-family:var(--sans); font-size:.8rem; font-weight:300; color:var(--white-dim); line-height:1.75; margin-top:4px; }
+
+/* Terminal */
+.terminal {
+  border:1px solid rgba(0,212,232,.12);
+  background:rgba(6,6,18,.9);
+  overflow:hidden;
+  opacity:0; transform:translateY(20px);
+  transition:opacity .8s .25s,transform .8s .25s;
+}
+.terminal.vis { opacity:1; transform:translateY(0); }
+
+.term-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:13px 20px; border-bottom:1px solid var(--rule);
+  background:rgba(0,212,232,.03);
+}
+.term-dots { display:flex; gap:6px; }
+.term-dot { width:10px; height:10px; border-radius:50%; }
+.term-dot:nth-child(1){background:rgba(255,95,87,.5)}
+.term-dot:nth-child(2){background:rgba(254,188,46,.4)}
+.term-dot:nth-child(3){background:rgba(40,200,64,.4)}
+
+.term-label { font-family:var(--sans); font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(216,234,240,.25); }
+.term-live { display:flex; align-items:center; gap:6px; font-family:var(--sans); font-size:.58rem; letter-spacing:.1em; color:var(--cyan); opacity:.7; }
+.term-live-dot { width:5px; height:5px; background:var(--cyan); border-radius:50%; animation:dot-breath 1.8s infinite; }
+
+.msg-row {
+  display:flex; border-bottom:1px solid var(--rule);
+  opacity:0; transform:translateY(8px);
+  transition:opacity .5s,transform .5s;
+}
+.msg-row.show { opacity:1; transform:translateY(0); }
+.msg-row:last-child { border-bottom:none; }
+
+.msg-tag {
+  width:44px; flex-shrink:0; border-right:1px solid var(--rule);
+  display:flex; align-items:flex-start; justify-content:center;
+  padding-top:18px;
+  font-family:var(--sans); font-size:.52rem; letter-spacing:.08em;
+  color:rgba(216,234,240,.18);
+}
+.msg-tag.ai { color:rgba(0,212,232,.6); }
+
+.msg-body { padding:16px 20px; flex:1; }
+.msg-who {
+  font-family:var(--sans); font-size:.54rem; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(216,234,240,.3); margin-bottom:7px;
+}
+.msg-who.ai { color:rgba(0,212,232,.65); }
+.msg-text {
+  font-family:var(--sans); font-size:.86rem; font-weight:300;
+  color:rgba(216,234,240,.7); line-height:1.75;
+}
+
+/* Screenshot badge inside terminal */
+.screenshot-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(0,212,232,.06); border:1px solid rgba(0,212,232,.15);
+  padding:3px 10px; font-size:.6rem; letter-spacing:.1em;
+  color:var(--cyan); margin-top:8px; text-transform:uppercase;
+}
+.screenshot-badge::before { content:''; width:5px; height:5px; background:var(--cyan); border-radius:50%; }
+
+.term-input-row {
+  display:flex; align-items:center;
+  border-top:1px solid var(--rule);
+  padding:12px 20px; gap:10px;
+}
+.term-prompt { font-family:var(--sans); font-size:.65rem; color:var(--cyan); flex-shrink:0; }
+.term-placeholder { font-family:var(--sans); font-size:.72rem; font-weight:300; color:var(--white-xs); letter-spacing:.04em; }
+
+/* ═══════════════════════════════
+   METRICS
+═══════════════════════════════ */
+#metrics { border-top:1px solid var(--rule); background:var(--bg2); }
+
+.metrics-row {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--rule);
+}
+.metric {
+  padding:56px 40px; border-right:1px solid var(--rule);
+  opacity:0; transform:translateY(14px);
+  transition:opacity .7s,transform .7s;
+}
+.metric:last-child { border-right:none; }
+.metric.vis { opacity:1; transform:translateY(0); }
+.metric:nth-child(2){transition-delay:.12s}.metric:nth-child(3){transition-delay:.24s}.metric:nth-child(4){transition-delay:.36s}
+
+.metric-val {
+  font-family:var(--display); font-size:3.8rem; font-weight:700;
+  line-height:1; letter-spacing:-.02em;
+  background:linear-gradient(135deg,var(--cyan),#80eeff);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.metric-unit { font-family:var(--display); font-size:2rem; font-weight:400; }
+.metric-label {
+  font-family:var(--sans); font-size:.62rem; font-weight:400;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(216,234,240,.28); margin-top:12px;
+}
+.metric-bar { width:100%; height:1px; background:var(--rule); margin-top:20px; position:relative; }
+.metric-bar::after {
+  content:''; position:absolute; left:0; top:0; height:1px;
+  background:linear-gradient(90deg,var(--cyan),rgba(0,212,232,.2));
+  width:0; transition:width 1.5s .2s cubic-bezier(.4,0,.2,1);
+}
+.metric.vis .metric-bar::after { width:var(--w,80%); }
+
+/* ═══════════════════════════════
+   PROCESS
+═══════════════════════════════ */
+#process { border-top:1px solid var(--rule); }
+
+.proc-steps {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+  position:relative; margin-top:72px;
+}
+.proc-steps::before {
+  content:''; position:absolute; top:25px; left:12%; right:12%; height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan-rule) 20%,var(--cyan-rule) 80%,transparent);
+}
+
+.proc-step {
+  padding:0 24px;
+  opacity:0; transform:translateY(16px);
+  transition:opacity .6s,transform .6s;
+}
+.proc-step.vis { opacity:1; transform:translateY(0); }
+.proc-step:nth-child(2){transition-delay:.12s}.proc-step:nth-child(3){transition-delay:.24s}.proc-step:nth-child(4){transition-delay:.36s}
+
+.proc-n-wrap {
+  width:50px; height:50px; border:1px solid rgba(0,212,232,.2);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:28px; background:var(--bg); position:relative; z-index:1;
+  transition:border-color .3s,box-shadow .3s;
+}
+.proc-step:hover .proc-n-wrap { border-color:rgba(0,212,232,.5); box-shadow:0 0 20px rgba(0,212,232,.1); }
+.proc-n { font-family:var(--sans); font-size:.62rem; font-weight:500; letter-spacing:.1em; color:rgba(0,212,232,.6); }
+.proc-name { font-family:var(--display); font-size:1rem; font-weight:600; color:var(--white); margin-bottom:12px; }
+.proc-desc { font-family:var(--sans); font-size:.8rem; font-weight:300; color:var(--white-dim); line-height:1.8; }
+
+/* ═══════════════════════════════
+   PRICING
+═══════════════════════════════ */
+#pricing { border-top:1px solid var(--rule); background:var(--bg2); }
+
+.pricing-tiers { display:grid; grid-template-columns:repeat(5,1fr); gap:0; border:1px solid var(--rule); }
+.tier-card { padding:32px 24px; border-right:1px solid var(--rule); position:relative; overflow:hidden; transition:background .3s; }
+.tier-card:last-child { border-right:none; }
+.tier-card.featured { background:rgba(0,212,232,.04); }
+.tier-card.featured::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, var(--cyan), transparent); }
+.tier-pop-tag { position:absolute; top:10px; right:10px; font-family:var(--sans); font-size:.48rem; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--bg); background:var(--cyan); padding:2px 10px; }
+.tier-icon { font-size:1.2rem; margin-bottom:8px; }
+.tier-name { font-family:var(--display); font-size:1rem; font-weight:700; letter-spacing:.05em; margin-bottom:2px; }
+.c-star { color:#ffd466; } .c-pulsar { color:#60cfff; } .c-quasar { color:var(--cyan); } .c-nova { color:#ff8844; } .c-galaxy { color:#c084fc; }
+.tier-sub { font-family:var(--sans); font-size:.62rem; color:var(--white-dim); margin-bottom:14px; }
+.tier-price { font-family:var(--display); font-size:2.2rem; font-weight:700; color:var(--white); line-height:1; transition:all .3s; }
+.tier-price-sm { font-family:var(--sans); font-size:.68rem; color:var(--white-xs); }
+.tier-stack-info { font-family:var(--sans); font-size:.58rem; color:rgba(0,212,232,.5); margin-top:6px; line-height:1.5; min-height:2.5em; transition:all .3s; }
+.tier-variants { display:flex; flex-direction:column; gap:0; margin-top:16px; border-top:1px solid var(--rule); padding-top:12px; }
+.tier-variants-label { font-family:var(--sans); font-size:.48rem; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--white-xs); margin-bottom:6px; }
+.v-btn { display:flex; align-items:center; justify-content:space-between; padding:7px 8px; border:1px solid transparent; background:transparent; color:var(--white-dim); font-family:var(--sans); font-size:.64rem; font-weight:300; cursor:none; transition:all .15s; text-align:left; border-bottom:1px solid rgba(216,234,240,.03); }
+.v-btn:last-child { border-bottom:none; }
+.v-btn:hover { background:rgba(0,212,232,.04); }
+.v-btn.active { background:rgba(0,212,232,.08); border:1px solid rgba(0,212,232,.2); color:var(--white); font-weight:400; }
+.v-btn-name { flex:1; }
+.v-quality { display:flex; gap:1.5px; }
+.v-q { width:3px; height:9px; border-radius:1px; background:rgba(216,234,240,.1); }
+.v-q.on { background:var(--cyan); }
+
+.tier-cta { display:block; margin-top:14px; text-align:center; width:100%; font-family:var(--sans); font-size:.62rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; padding:10px 0; cursor:none; transition:all .3s; }
+.tier-cta-p { background:var(--cyan); color:var(--bg); border:none; }
+.tier-cta-p:hover { box-shadow:var(--cyan-glow); }
+.tier-cta-g { background:transparent; color:var(--white-dim); border:1px solid var(--rule); }
+.tier-cta-g:hover { border-color:rgba(216,234,240,.25); color:var(--white); }
+
+/* ═══════════════════════════════
+   CTA
+═══════════════════════════════ */
+#cta { border-top:1px solid var(--rule); }
+
+.cta-layout {
+  display:grid; grid-template-columns:1fr auto; gap:80px;
+  align-items:center; padding:80px 0; border-bottom:1px solid var(--rule);
+}
+.cta-h {
+  font-family:var(--display); font-size:clamp(2.2rem,5vw,5rem);
+  font-weight:700; line-height:.95; letter-spacing:-.02em; color:var(--white);
+  opacity:0; transform:translateY(20px); transition:opacity .9s,transform .9s;
+}
+.cta-h.vis { opacity:1; transform:translateY(0); }
+.cta-h .accent-line { display:block; color:var(--cyan); }
+.cta-sub {
+  font-family:var(--sans); font-size:.95rem; font-weight:300;
+  color:var(--white-dim); line-height:1.85; margin-top:20px; max-width:440px;
+  opacity:0; transform:translateY(16px); transition:opacity .9s .15s,transform .9s .15s;
+}
+.cta-sub.vis { opacity:1; transform:translateY(0); }
+.cta-form {
+  display:flex; gap:0; margin-top:36px;
+  opacity:0; transform:translateY(16px); transition:opacity .9s .3s,transform .9s .3s;
+}
+.cta-form.vis { opacity:1; transform:translateY(0); }
+.cta-input {
+  flex:1; background:rgba(0,212,232,.04); border:1px solid rgba(0,212,232,.15);
+  border-right:none; color:var(--white);
+  font-family:var(--sans); font-size:.88rem; font-weight:300;
+  padding:13px 18px; outline:none; transition:border-color .3s; cursor:none;
+}
+.cta-input::placeholder { color:var(--white-xs); }
+.cta-input:focus { border-color:rgba(0,212,232,.4); }
+.cta-submit {
+  font-family:var(--sans); font-size:.68rem; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase;
+  background:var(--cyan); color:var(--bg); border:none;
+  padding:13px 26px; cursor:none; white-space:nowrap;
+  transition:background .3s;
+}
+.cta-submit:hover { background:#80eeff; }
+
+.cta-right {
+  display:flex; flex-direction:column; gap:12px;
+  opacity:0; transition:opacity .9s .4s;
+}
+.cta-right.vis { opacity:1; }
+.cta-check {
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--sans); font-size:.72rem; font-weight:300;
+  color:rgba(216,234,240,.4);
+}
+.cta-check::before { content:''; width:4px; height:4px; border-radius:50%; background:var(--cyan); flex-shrink:0; }
+
+
+/* ═══════════════════════════════
+   FOOTER
+═══════════════════════════════ */
+footer {
+  border-top:1px solid var(--rule); padding:28px 64px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(4,4,13,.95);
+}
+.ft-logo {
+  font-family:var(--display); font-size:.85rem; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:rgba(216,234,240,.2); text-decoration:none;
+}
+.ft-copy { font-family:var(--sans); font-size:.6rem; letter-spacing:.08em; color:rgba(216,234,240,.15); }
+.ft-links { display:flex; gap:28px; }
+.ft-links a {
+  font-family:var(--sans); font-size:.6rem; letter-spacing:.1em;
+  color:rgba(216,234,240,.2); text-decoration:none; transition:color .3s;
+}
+.ft-links a:hover { color:rgba(216,234,240,.5); }
+
+/* ═══════════════════════════════
+   SKILLS
+═══════════════════════════════ */
+.skills-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--rule); }
+.skill-card { padding:20px; border-right:1px solid var(--rule); border-bottom:1px solid var(--rule); transition:background .2s; cursor:none; }
+.skill-card:nth-child(4n) { border-right:none; }
+.skill-card:hover { background:rgba(0,212,232,.03); }
+.skill-icon { font-size:1.2rem; margin-bottom:8px; }
+.skill-name { font-family:var(--display); font-size:.78rem; font-weight:700; color:var(--white); margin-bottom:6px; }
+.skill-desc { font-size:.62rem; color:rgba(216,234,240,.3); margin-bottom:10px; line-height:1.5; }
+.skill-prompts { display:flex; flex-direction:column; gap:4px; }
+.skill-prompt { font-size:.6rem; color:rgba(0,212,232,.5); cursor:none; transition:color .2s; padding:3px 0; border:none; background:none; text-align:left; font-family:var(--sans); }
+.skill-prompt:hover { color:var(--cyan); }
+.skill-prompt::before { content:'"'; color:rgba(0,212,232,.25); }
+.skill-prompt::after { content:'"'; color:rgba(0,212,232,.25); }
+.skill-mvp-tag { display:inline-block; font-size:.4rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--bg); background:var(--cyan); padding:1px 6px; margin-left:6px; vertical-align:middle; }
+
+/* ═══════════════════════════════
+   ANIMATIONS
+═══════════════════════════════ */
+@keyframes rise { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fade-in { to{opacity:1} }
+
+/* ═══════════════════════════════
+   SYSTEM REQUIREMENTS
+═══════════════════════════════ */
+#system { border-top:1px solid var(--rule); }
+
+.sys-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--rule); margin-bottom:0; }
+.sys-col { padding:28px 32px; border-right:1px solid var(--rule); position:relative; overflow:hidden; }
+.sys-col:last-child { border-right:none; }
+.sys-col.full::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, var(--cyan), transparent); }
+.sys-badge { font-family:var(--sans); font-size:.46rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; color:var(--bg); padding:2px 9px; margin-bottom:12px; display:inline-block; }
+.sys-badge.light { background:rgba(216,234,240,.28); color:rgba(216,234,240,.6); }
+.sys-badge.full  { background:var(--cyan); }
+.sys-title { font-family:var(--display); font-size:.95rem; font-weight:700; color:var(--white); margin-bottom:16px; }
+.sys-spec { display:flex; justify-content:space-between; font-family:var(--sans); font-size:.72rem; padding:8px 0; border-bottom:1px solid rgba(216,234,240,.04); }
+.sys-spec:last-child { border-bottom:none; }
+.sys-spec-label { color:var(--white-xs); }
+.sys-spec-val { color:var(--white); text-align:right; }
+.sys-spec-val.good { color:#00cc88; }
+.sys-spec-val.warn { color:#ffaa22; }
+
+.sys-footer { border:1px solid var(--rule); border-top:none; padding:14px 32px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+.sys-footer-note { font-family:var(--sans); font-size:.66rem; color:var(--white-xs); line-height:1.6; }
+.sys-footer-link { font-family:var(--sans); font-size:.64rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan); text-decoration:none; border-bottom:1px solid rgba(0,212,232,.25); transition:border-color .2s; white-space:nowrap; cursor:none; }
+.sys-footer-link:hover { border-color:var(--cyan); }
+
+.win-alert { border:1px solid rgba(255,170,34,.2); background:rgba(255,170,34,.03); padding:20px 28px; margin-bottom:0; position:relative; overflow:hidden; }
+.win-alert::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, #ffaa22, transparent); }
+.win-alert-head { display:flex; align-items:center; gap:10px; font-family:var(--display); font-size:.82rem; font-weight:700; color:#ffaa22; margin-bottom:8px; }
+.win-alert-icon { width:24px; height:24px; border-radius:50%; background:rgba(255,170,34,.1); border:1px solid rgba(255,170,34,.3); display:flex; align-items:center; justify-content:center; font-size:.7rem; flex-shrink:0; }
+.win-alert p { font-family:var(--sans); font-size:.74rem; color:var(--white-dim); line-height:1.8; }
+.win-alert-steps { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-top:12px; }
+.win-alert-step { font-family:'IBM Plex Mono',monospace; font-size:.64rem; color:#ffaa22; background:rgba(255,170,34,.07); border:1px solid rgba(255,170,34,.18); padding:4px 10px; }
+.win-alert-arr { color:var(--white-xs); font-size:.75rem; }
+.win-alert-link { font-family:var(--sans); font-size:.68rem; color:rgba(0,212,232,.5); margin-top:10px; display:inline-block; text-decoration:none; transition:color .2s; cursor:none; }
+.win-alert-link:hover { color:var(--cyan); }
+
+/* ═══════════════════════════════
+   PRIVACY SECTION
+═══════════════════════════════ */
+#privacy { border-top:1px solid var(--rule); }
+
+.priv-layout { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+
+.priv-cards { display:flex; flex-direction:column; gap:0; border:1px solid var(--rule); }
+.priv-card { padding:20px 22px; border-bottom:1px solid var(--rule); position:relative; overflow:hidden; transition:background .2s; }
+.priv-card:last-child { border-bottom:none; }
+.priv-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:transparent; transition:background .3s; }
+.priv-card:hover { background:rgba(0,212,232,.02); }
+.priv-card:hover::before { background:var(--cyan); }
+.priv-card-head { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+.priv-card-icon { width:28px; height:28px; border:1px solid; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.priv-card-icon svg { width:13px; height:13px; fill:none; stroke-width:1.5; stroke-linecap:round; }
+.priv-card.local .priv-card-icon { border-color:rgba(0,204,136,.25); background:rgba(0,204,136,.05); }
+.priv-card.local .priv-card-icon svg { stroke:#00cc88; }
+.priv-card.send .priv-card-icon { border-color:rgba(255,170,34,.2); background:rgba(255,170,34,.04); }
+.priv-card.send .priv-card-icon svg { stroke:#ffaa22; }
+.priv-card-name { font-family:var(--display); font-size:.82rem; font-weight:700; color:var(--white); }
+.priv-card-badge { font-family:var(--sans); font-size:.44rem; font-weight:500; letter-spacing:.14em; text-transform:uppercase; padding:2px 7px; border:1px solid; margin-left:4px; vertical-align:middle; }
+.badge-local { border-color:rgba(0,204,136,.25); color:#00cc88; }
+.badge-send  { border-color:rgba(255,170,34,.2);  color:#ffaa22; }
+.priv-card-desc { font-family:var(--sans); font-size:.72rem; color:var(--white-xs); line-height:1.65; }
+
+.priv-pillars { display:flex; flex-direction:column; gap:28px; }
+.priv-pillar { display:flex; gap:16px; align-items:flex-start; }
+.priv-pillar-num { font-family:var(--display); font-size:.6rem; font-weight:700; color:rgba(0,212,232,.3); width:20px; flex-shrink:0; padding-top:2px; letter-spacing:.06em; }
+.priv-pillar-body { flex:1; }
+.priv-pillar-title { font-family:var(--display); font-size:.88rem; font-weight:700; color:var(--white); margin-bottom:4px; }
+.priv-pillar-desc { font-family:var(--sans); font-size:.74rem; color:var(--white-xs); line-height:1.65; }
+
+.priv-cta-row { display:flex; align-items:center; gap:20px; margin-top:36px; padding-top:28px; border-top:1px solid var(--rule); }
+.priv-link { font-family:var(--sans); font-size:.7rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--cyan); text-decoration:none; display:flex; align-items:center; gap:6px; border-bottom:1px solid rgba(0,212,232,.25); padding-bottom:2px; transition:border-color .2s; cursor:none; }
+.priv-link:hover { border-color:var(--cyan); }
+.priv-link svg { width:12px; height:12px; stroke:var(--cyan); fill:none; stroke-width:2; flex-shrink:0; }
+.priv-note { font-family:var(--sans); font-size:.64rem; color:rgba(216,234,240,.18); line-height:1.5; }
+
+/* ═══════════════════════════════
+   RESPONSIVE
+═══════════════════════════════ */
+@media(max-width:900px){
+  nav { padding:18px 24px; }
+  .nav-links { display:none; }
+  #hero { padding:100px 24px 60px; }
+  .sec { padding:80px 24px; }
+  .cap-header { grid-template-columns:1fr; gap:24px; }
+  .cap-grid { grid-template-columns:1fr; }
+  .skills-grid { grid-template-columns:1fr 1fr; }
+  .skill-card:nth-child(2n) { border-right:none; }
+  .metrics-row { grid-template-columns:1fr 1fr; }
+  .metric:nth-child(2n){ border-right:none; }
+  .metric:nth-child(-n+2){ border-bottom:1px solid var(--rule); }
+  .proc-steps { grid-template-columns:1fr 1fr; row-gap:36px; }
+  .proc-steps::before { display:none; }
+  .proc-step { padding:0; }
+  .pricing-tiers { grid-template-columns:1fr 1fr; }
+  .tier-card { border-bottom:1px solid var(--rule); }
+  .tier-card:nth-child(2n) { border-right:none; }
+  .tier-card:last-child { border-bottom:none; }
+  .cta-layout { grid-template-columns:1fr; gap:36px; }
+  footer { padding:20px 24px; flex-direction:column; gap:12px; }
+  .sys-grid { grid-template-columns:1fr; }
+  .priv-layout { grid-template-columns:1fr; gap:48px; }
+  .sys-col { border-right:none; border-bottom:1px solid var(--rule); }
+  .sys-col:last-child { border-bottom:none; }
+}
+
+/* ── LANG SELECTOR ── */
+.lang-sel{display:flex;align-items:center;gap:6px;margin-left:8px}
+.lang-btn{font-family:var(--sans);font-size:.62rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--white-xs);text-decoration:none;transition:color .2s;padding:4px 2px}
+.lang-btn:hover{color:var(--white)}
+.lang-btn.active{color:var(--cyan)}
+.lang-div{color:var(--rule);font-size:.6rem}
+
+/* ── PLAN CARD BUTTON ALIGNMENT ── */
+.tier-card{display:flex;flex-direction:column}
+.tier-variants{flex:1}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="hud"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <a class="nav-logo" href="index.html">
+    <svg width="28" height="28" viewBox="0 0 28 28" style="flex-shrink:0">
+      <circle cx="14" cy="14" r="13" fill="none" stroke="rgba(0,212,232,.15)" stroke-width=".5"/>
+      <circle cx="14" cy="14" r="10" fill="none" stroke="rgba(0,212,232,.25)" stroke-width=".5"/>
+      <circle cx="14" cy="14" r="7" fill="rgba(0,212,232,.15)"/>
+      <text x="14" y="18" text-anchor="middle" fill="var(--cyan)" font-family="var(--display)" font-size="11" font-weight="700">S</text>
+    </svg>
+    SAGAN
+  </a>
+  <ul class="nav-links">
+    <li><a href="#capabilities">Capacidades</a></li>
+    <li><a href="#skills">Habilidades</a></li>
+    <li><a href="#metrics">Rendimiento</a></li>
+    <li><a href="#pricing">Precios</a></li>
+    <li><a href="#privacy">Privacidad</a></li>
+  </ul>
+  <div class="lang-sel"><a href="../es/" class="lang-btn active">ES</a><span class="lang-div">|</span><a href="../en/" class="lang-btn">EN</a></div>
+  <a class="nav-cta" href="auth.html" style="text-decoration:none">Empezar Gratis</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-tag"><div class="hero-tag-dot"></div>Personal AI Vision Assistant</div>
+
+  <h1>Tu pantalla.<br><span class="accent">Tu asistente.</span></h1>
+
+  <div class="hero-divider"></div>
+
+  <p class="hero-sub">SAGAN vive en tu escritorio como burbuja flotante. Ve lo que tú ves, escucha tu voz y responde con contexto visual completo. <em style="color:rgba(0,212,232,.55);font-style:italic">"Billions and billions"</em> de posibilidades.</p>
+
+  <div class="hero-actions">
+    <a class="btn-primary" href="auth.html" style="text-decoration:none">Empezar Gratis</a>
+    <a class="btn-ghost" href="#pricing" style="text-decoration:none">Ver Planes</a>
+  </div>
+
+  <div class="hero-orb-wrap">
+    <div class="orb-ring"></div>
+    <div class="orb-ring"></div>
+    <div class="orb-ring"></div>
+    <div class="orb-core"></div>
+    <div class="sat sat-1"></div>
+    <div class="sat sat-2"></div>
+    <div class="sat sat-3"></div>
+  </div>
+
+  <div class="waveform" id="waveform"></div>
+  <p class="orb-caption">Billions and Billions · Tu pantalla, tu contexto · TTS local</p>
+  <p class="orb-phrase">"<span id="phrase-text"></span><span class="phrase-cur"></span>"</p>
+
+  <div class="hero-scroll-hint">
+    <span>Descubrir</span>
+    <div class="scroll-drip"></div>
+  </div>
+</section>
+
+<!-- ═══ CAPABILITIES ═══ -->
+<section id="capabilities" class="sec">
+  <div class="sec-inner">
+    <div class="cap-header">
+      <div>
+        <div class="sec-eyebrow reveal">01 — Capacidades</div>
+        <h2 class="sec-title reveal">Construido para<br>ver y entender.</h2>
+      </div>
+      <p class="sec-desc reveal">SAGAN no es un chatbot más. Es un asistente que ve tu pantalla, escucha tu voz y actúa con contexto visual completo — como tener un copiloto mirando tu monitor.</p>
+    </div>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="cap-index">CAP · 01</div>
+        <div class="cap-name">Visión de pantalla en tiempo real</div>
+        <div class="cap-desc">Captura automática cada 5 segundos en segundo plano. SAGAN siempre sabe qué estás viendo — código, documentos, gráficos, errores — sin que tengas que explicarlo.</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-index">CAP · 02</div>
+        <div class="cap-name">Comandos de voz naturales</div>
+        <div class="cap-desc">Habla como hablarías con un colega. Speech-to-Text avanzado convierte tu voz a texto al instante. Push-to-talk o wake word — tú eliges.</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-index">CAP · 03</div>
+        <div class="cap-name">Respuestas en voz HD</div>
+        <div class="cap-desc">Text-to-Speech con más de 300 voces en 40 idiomas. Calidad HD que suena natural, no robótica. Voice cloning disponible en plan Pro.</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-index">CAP · 04</div>
+        <div class="cap-name">Burbuja flotante always-on</div>
+        <div class="cap-desc">Siempre visible sobre todas tus apps. Un click para abrir el chat, un atajo para activar la voz. Funciona en segundo plano 24/7 sin interrumpir tu workflow.</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-index">CAP · 05</div>
+        <div class="cap-name">14 habilidades integradas</div>
+        <div class="cap-desc">Desde programación y trading hasta idiomas y diseño. SAGAN se adapta a lo que necesitas — selecciona una habilidad o simplemente pregunta.</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-index">CAP · 06</div>
+        <div class="cap-name">Privacidad por diseño</div>
+        <div class="cap-desc">Las capturas se procesan localmente y se eliminan automáticamente. Encriptación AES-256. Modo privado para apps sensibles. Nada se almacena sin tu permiso.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills" class="sec">
+  <div class="sec-inner">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:48px">
+      <div>
+        <div class="sec-eyebrow reveal">02 — Habilidades</div>
+        <h2 class="sec-title reveal">14 habilidades.<br>Un solo asistente.</h2>
+      </div>
+      <p class="sec-desc reveal">SAGAN se adapta a lo que necesites. Selecciona una habilidad o simplemente pregunta — cada click envía un prompt optimizado al chat.</p>
+    </div>
+
+    <div class="skills-grid" id="skills-grid"></div>
+  </div>
+</section>
+
+<!-- ═══ METRICS ═══ -->
+<section id="metrics" class="sec">
+  <div class="sec-inner">
+    <div class="sec-eyebrow reveal" style="margin-bottom:16px">03 — Rendimiento</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:64px">
+      <h2 class="sec-title reveal">Números reales,<br>no promesas.</h2>
+      <p class="sec-desc reveal">Métricas de uso real de SAGAN en producción. Optimizado para velocidad, precisión y costo accesible.</p>
+    </div>
+    <div class="metrics-row">
+      <div class="metric" data-val="3" style="--w:30%">
+        <div><span class="metric-val">0</span><span class="metric-unit">s</span></div>
+        <div class="metric-label">Intervalo de captura (Full Mode)</div>
+        <div class="metric-bar"></div>
+      </div>
+      <div class="metric" data-val="23" style="--w:65%">
+        <div><span class="metric-val">0</span><span class="metric-unit">+</span></div>
+        <div class="metric-label">Idiomas soportados</div>
+        <div class="metric-bar"></div>
+      </div>
+      <div class="metric" data-val="100" style="--w:90%">
+        <div><span class="metric-val">0</span><span class="metric-unit">%</span></div>
+        <div class="metric-label">Voz procesada offline</div>
+        <div class="metric-bar"></div>
+      </div>
+      <div class="metric" data-val="1" style="--w:55%">
+        <div><span class="metric-val">0</span><span class="metric-unit">s</span></div>
+        <div class="metric-label">Latencia TTS Full Mode</div>
+        <div class="metric-bar"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<section id="process" class="sec">
+  <div class="sec-inner">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end">
+      <div>
+        <div class="sec-eyebrow reveal">04 — Cómo funciona</div>
+        <h2 class="sec-title reveal">De tu pantalla<br>a la respuesta.</h2>
+      </div>
+      <p class="sec-desc reveal">Cuatro pasos que ocurren de forma invisible. SAGAN trabaja en segundo plano para estar listo cuando lo necesites.</p>
+    </div>
+    <div class="proc-steps">
+      <div class="proc-step">
+        <div class="proc-n-wrap"><div class="proc-n">01</div></div>
+        <div class="proc-name">Captura visual</div>
+        <div class="proc-desc">SAGAN toma screenshots automáticos cada 5 segundos en segundo plano. Detecta la app activa, el contenido visible y cualquier cambio en pantalla.</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-n-wrap"><div class="proc-n">02</div></div>
+        <div class="proc-name">Escucha tu voz</div>
+        <div class="proc-desc">Activa con push-to-talk o wake word. Speech-to-Text convierte tu pregunta a texto con precisión en menos de un segundo.</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-n-wrap"><div class="proc-n">03</div></div>
+        <div class="proc-name">Análisis con contexto</div>
+        <div class="proc-desc">El modelo de IA recibe tu pregunta junto con las capturas de pantalla recientes. Entiende qué estás viendo y responde con precisión.</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-n-wrap"><div class="proc-n">04</div></div>
+        <div class="proc-name">Respuesta en voz + texto</div>
+        <div class="proc-desc">SAGAN responde por voz y texto simultáneamente. La respuesta aparece en el chat y se reproduce con TTS de alta calidad en tu idioma.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING ═══ -->
+<section id="pricing" class="sec">
+  <div class="sec-inner">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:64px">
+      <div>
+        <div class="sec-eyebrow reveal">05 — Precios</div>
+        <h2 class="sec-title reveal">Elige tu<br>órbita.</h2>
+      </div>
+      <p class="sec-desc reveal">5 planes cósmicos. Cada nivel mejora la calidad de IA, la voz, y la velocidad de captura. Empieza gratis con Star y escala cuando estés listo.</p>
+    </div>
+
+    <!-- Tier cards with variant selectors -->
+    <div class="pricing-tiers" id="pricing-tiers"></div>
+
+  </div>
+</section>
+
+<!-- ═══ SYSTEM REQUIREMENTS ═══ -->
+<section id="system" class="sec">
+  <div class="sec-inner">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:40px">
+      <div>
+        <div class="sec-eyebrow reveal">06 — Sistema</div>
+        <h2 class="sec-title reveal">Elige tu<br>modo de vuelo.</h2>
+      </div>
+      <p class="sec-desc reveal">SAGAN corre los modelos de voz directamente en tu equipo — sin enviar audio a servidores externos. Light Mode funciona sin GPU. Full Mode desbloquea respuesta instantánea.</p>
+    </div>
+
+    <!-- Light vs Full -->
+    <div class="sys-grid reveal">
+      <div class="sys-col">
+        <div class="sys-badge light">Light Mode</div>
+        <div class="sys-title">Sin GPU dedicada</div>
+        <div class="sys-spec"><span class="sys-spec-label">GPU</span><span class="sys-spec-val warn">No requerida</span></div>
+        <div class="sys-spec"><span class="sys-spec-label">RAM mínima</span><span class="sys-spec-val">8 GB</span></div>
+        <div class="sys-spec"><span class="sys-spec-label">Espacio en disco</span><span class="sys-spec-val">~3 GB</span></div>
+        <div class="sys-spec"><span class="sys-spec-label">Latencia de voz</span><span class="sys-spec-val warn">3 – 8 segundos</span></div>
+        <div class="sys-spec"><span class="sys-spec-label">TTS / STT</span><span class="sys-spec-val">Local · offline</span></div>
+        <div class="sys-spec"><span class="sys-spec-label">Ideal para</span><span class="sys-spec-val">Uso ocasional</span></div>
+      </div>
+      <div class="sys-col full">
+        <div class="sys-badge full">Full Mode — Recomendado</div>
+        <div class="sys-title">Con GPU dedicada</div>
+        <div class="sys-spec"><span class="sys-spec-label">GPU mínima</span><span class="sys-spec-val good">NVIDIA 4 GB VRAM+</span></div>
+        <div class="sys-spec"><span class="sys-spec-label">RAM mínima</span><span class="sys-spec-val">8 GB (16 GB ideal)</span></div>
+        <div class="sys-spec"><span class="sys-spec-label">Espacio en disco</span><span class="sys-spec-val">~4 GB</span></div>
+        <div class="sys-spec"><span class="sys-spec-label">Latencia de voz</span><span class="sys-spec-val good">&lt; 1 segundo</span></div>
+        <div class="sys-spec"><span class="sys-spec-label">TTS / STT</span><span class="sys-spec-val good">Local · offline · HD</span></div>
+        <div class="sys-spec"><span class="sys-spec-label">Ideal para</span><span class="sys-spec-val good">Uso diario intensivo</span></div>
+      </div>
+    </div>
+    <div class="sys-footer reveal">
+      <span class="sys-footer-note">
+        Disponible en Windows 10/11 (64-bit) · macOS y Linux próximamente &nbsp;·&nbsp;
+        Internet solo para LLM — TTS y STT son 100% offline &nbsp;·&nbsp;
+        SAGAN detecta el modo automáticamente al iniciar
+      </span>
+      <a class="sys-footer-link" href="requirements.html">Tabla completa de hardware →</a>
+    </div>
+
+    <!-- Windows alert -->
+    <div style="margin-top:24px">
+      <div class="win-alert reveal">
+        <div class="win-alert-head">
+          <div class="win-alert-icon">⚠</div>
+          Windows mostrará "Editor desconocido" al instalar — es completamente normal
+        </div>
+        <p>Somos una app nueva independiente. Windows Defender muestra esta alerta hasta que obtengamos el certificado de firma de código — en proceso. El código es público en GitHub y auditable.</p>
+        <div class="win-alert-steps">
+          <div class="win-alert-step">Click "Más información"</div>
+          <div class="win-alert-arr">→</div>
+          <div class="win-alert-step">Click "Ejecutar de todos modos"</div>
+          <div class="win-alert-arr">→</div>
+          <div class="win-alert-step">Instalación normal</div>
+        </div>
+        <a class="win-alert-link" href="requirements.html">Ver guía completa con todos los pasos →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ PRIVACY ═══ -->
+<section id="privacy" class="sec">
+  <div class="sec-inner">
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:56px">
+      <div>
+        <div class="sec-eyebrow reveal">05 — Privacidad</div>
+        <h2 class="sec-title reveal">Diseñada para<br>protegerte.</h2>
+      </div>
+      <p class="sec-desc reveal">SAGAN necesita ver tu pantalla para funcionar. Por eso tomamos la privacidad como parte del producto — no como letra chica.</p>
+    </div>
+
+    <div class="priv-layout">
+
+      <!-- COLUMNA IZQUIERDA: qué va a dónde -->
+      <div>
+        <div style="font-family:var(--sans);font-size:.52rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,212,232,.4);margin-bottom:16px">Qué pasa con tus datos</div>
+        <div class="priv-cards reveal">
+
+          <div class="priv-card local">
+            <div class="priv-card-head">
+              <div class="priv-card-icon"><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg></div>
+              <div class="priv-card-name">Tu voz <span class="priv-card-badge badge-local">100% local</span></div>
+            </div>
+            <p class="priv-card-desc">STT y TTS corren en tu computadora. El audio nunca sale de tu equipo — ni siquiera para la transcripción.</p>
+          </div>
+
+          <div class="priv-card local">
+            <div class="priv-card-head">
+              <div class="priv-card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+              <div class="priv-card-name">Apps sensibles <span class="priv-card-badge badge-local">Nunca capturadas</span></div>
+            </div>
+            <p class="priv-card-desc">SAGAN detecta bancos, gestores de contraseñas y wallets automáticamente. La persiana baja sola — sin que hagas nada.</p>
+          </div>
+
+          <div class="priv-card local">
+            <div class="priv-card-head">
+              <div class="priv-card-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+              <div class="priv-card-name">Historial de chats <span class="priv-card-badge badge-local">Solo en tu equipo</span></div>
+            </div>
+            <p class="priv-card-desc">Tus conversaciones no se suben a nuestros servidores. Viven en tu computadora y tú decides cuándo borrarlas.</p>
+          </div>
+
+          <div class="priv-card send">
+            <div class="priv-card-head">
+              <div class="priv-card-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div class="priv-card-name">Capturas + tu pregunta <span class="priv-card-badge badge-send">Al hacer una consulta</span></div>
+            </div>
+            <p class="priv-card-desc">Las últimas 3 capturas y tu pregunta van al modelo de IA <em>solo cuando preguntas</em>. No en cada captura automática. Sin este envío, SAGAN no podría responderte.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- COLUMNA DERECHA: pilares + CTA -->
+      <div>
+        <div style="font-family:var(--sans);font-size:.52rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,212,232,.4);margin-bottom:16px">Cómo lo protegemos</div>
+        <div class="priv-pillars reveal">
+
+          <div class="priv-pillar">
+            <div class="priv-pillar-num">01</div>
+            <div class="priv-pillar-body">
+              <div class="priv-pillar-title">Capturas solo en RAM</div>
+              <p class="priv-pillar-desc">Las imágenes no tocan el disco. Se mantienen en memoria y se borran con sobrescritura segura al cerrar SAGAN.</p>
+            </div>
+          </div>
+
+          <div class="priv-pillar">
+            <div class="priv-pillar-num">02</div>
+            <div class="priv-pillar-body">
+              <div class="priv-pillar-title">Filtro antes de enviar</div>
+              <p class="priv-pillar-desc">Antes de mandar una captura al LLM, SAGAN escanea patrones: números de tarjeta, API keys, CURP, RFC. Si detecta algo, esa imagen se omite.</p>
+            </div>
+          </div>
+
+          <div class="priv-pillar">
+            <div class="priv-pillar-num">03</div>
+            <div class="priv-pillar-body">
+              <div class="priv-pillar-title">Modo privado instantáneo</div>
+              <p class="priv-pillar-desc">Un atajo de teclado (<strong style="color:var(--white);font-weight:400">Win+Shift+P</strong>) pausa todas las capturas inmediatamente. Para cuando necesitas privacidad sin tener que cerrar la app.</p>
+            </div>
+          </div>
+
+          <div class="priv-pillar">
+            <div class="priv-pillar-num">04</div>
+            <div class="priv-pillar-body">
+              <div class="priv-pillar-title">Log de transparencia</div>
+              <p class="priv-pillar-desc">Un registro local en tu computadora de qué se envió, cuándo y a qué proveedor. Sin imágenes — solo metadatos. Bajo tu control.</p>
+            </div>
+          </div>
+
+          <div class="priv-pillar">
+            <div class="priv-pillar-num">05</div>
+            <div class="priv-pillar-body">
+              <div class="priv-pillar-title">Sin negocio de datos</div>
+              <p class="priv-pillar-desc">SAGAN se paga con suscripciones, no con publicidad ni venta de datos. Tu pantalla no es el producto.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="priv-cta-row reveal">
+          <a class="priv-link" href="privacy.html">
+            Leer política completa
+            <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <p class="priv-note">Política honesta. Sin letra chica.<br>Última actualización: Marzo 2026.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section id="cta" class="sec">
+  <div class="sec-inner">
+    <div class="cta-layout">
+      <div>
+        <h2 class="cta-h">Tu asistente con<br><span class="accent-line">visión total.</span></h2>
+        <p class="cta-sub">Empieza gratis con Star o elige un plan premium. Sin configuración compleja. Sin compromiso.</p>
+        <div class="cta-form">
+          <input class="cta-input" type="email" placeholder="correo@ejemplo.com">
+          <a class="cta-submit" href="auth.html" style="text-decoration:none">Crear cuenta gratis</a>
+        </div>
+      </div>
+      <div class="cta-right">
+        <div class="cta-check">Plan Star gratis para empezar</div>
+        <div class="cta-check">Sin tarjeta de crédito</div>
+        <div class="cta-check">Windows 10/11 — macOS y Linux próximamente</div>
+        <div class="cta-check">5 planes: Star → Pulsar → Quásar → Nova → Galaxy</div>
+        <div class="cta-check">14 habilidades integradas</div>
+        <div class="cta-check">"Billions and Billions" — Carl Sagan</div>
+      </div>
+    </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <a class="ft-logo" href="index.html">SAGAN</a>
+  <p class="ft-copy">© 2026 SAGAN AI · "Billions and Billions" · Personal AI Vision Assistant</p>
+  <div class="ft-links">
+    <a href="#">Producto</a><a href="#">Docs</a><a href="#">GitHub</a><a href="privacy.html">Privacidad</a>
+  </div>
+</footer>
+
+<script>
+/* ─── CURSOR ─── */
+const dot = document.getElementById('cur'), ring = document.getElementById('cur-ring');
+let mx=0,my=0,cx=0,cy=0;
+window.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  dot.style.left=mx+'px';dot.style.top=my+'px';
+});
+document.querySelectorAll('a,button,input').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{dot.classList.add('big');ring.classList.add('big');});
+  el.addEventListener('mouseleave',()=>{dot.classList.remove('big');ring.classList.remove('big');});
+});
+(function anim(){cx+=(mx-cx)*.1;cy+=(my-cy)*.1;ring.style.left=cx+'px';ring.style.top=cy+'px';requestAnimationFrame(anim);})();
+
+/* ─── CANVAS PARTICLES ─── */
+const cv=document.getElementById('bg-canvas'), ctx=cv.getContext('2d');
+let W,H,pts=[];
+const mouse={x:-999,y:-999};
+function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+window.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
+
+class Pt {
+  constructor(){this.reset(true);}
+  reset(init){
+    this.x=Math.random()*W;
+    this.y=init?Math.random()*H:(Math.random()>.5?-6:H+6);
+    this.vx=(Math.random()-.5)*.2;this.vy=(Math.random()-.5)*.2;
+    this.r=Math.random()*.9+.2;this.a=Math.random()*.4+.05;
+    const t=Math.random();
+    this.c=t>.6?'#00d4e8':t>.35?'#0066bb':'#aaccdd';
+  }
+  update(){
+    const dx=this.x-mouse.x,dy=this.y-mouse.y,d=Math.hypot(dx,dy);
+    if(d<130){const f=(130-d)/130;this.vx+=(dx/d)*f*.6;this.vy+=(dy/d)*f*.6;}
+    this.vx*=.97;this.vy*=.97;
+    this.x+=this.vx;this.y+=this.vy;
+    if(this.x<-10||this.x>W+10||this.y<-10||this.y>H+10)this.reset(false);
+  }
+  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.c;ctx.globalAlpha=this.a;ctx.fill();}
+}
+for(let i=0;i<180;i++)pts.push(new Pt());
+
+(function loop(){
+  ctx.clearRect(0,0,W,H);
+  for(let i=0;i<pts.length;i++){
+    for(let j=i+1;j<pts.length;j++){
+      const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
+      if(d<90){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle='#00d4e8';ctx.globalAlpha=(1-d/90)*.055;ctx.lineWidth=.4;ctx.stroke();}
+    }
+  }
+  ctx.globalAlpha=1;
+  pts.forEach(p=>{p.update();p.draw();});
+  ctx.globalAlpha=1;
+  requestAnimationFrame(loop);
+})();
+
+/* ─── WAVEFORM ─── */
+const wf=document.getElementById('waveform');
+[4,8,14,22,30,38,46,38,30,22,14,8,4].forEach((h,i)=>{
+  const b=document.createElement('div');b.className='wv-bar';
+  b.style.cssText=`--h:${h}px;--d:${.7+Math.random()*.7}s;--dl:${i*.06}s`;
+  wf.appendChild(b);
+});
+
+/* ─── TYPEWRITER ─── */
+const phrases=[
+  '¿Qué error tiene esta línea de código?',
+  'Resume la documentación que estoy leyendo.',
+  'Compara estos dos gráficos de mi pantalla.',
+  'Traduce el texto que tengo abierto.',
+  '¿Qué puedo mejorar en este diseño?',
+  'Explica este diagrama UML que estoy viendo.'
+];
+let pi=0,ci=0,del=false;
+const pEl=document.getElementById('phrase-text');
+function type(){
+  const p=phrases[pi];
+  pEl.textContent=del?p.slice(0,--ci):p.slice(0,++ci);
+  if(!del&&ci===p.length){del=true;setTimeout(type,2200);return;}
+  if(del&&ci===0){del=false;pi=(pi+1)%phrases.length;}
+  setTimeout(type,del?38:68);
+}
+type();
+
+/* ─── SCROLL OBSERVER ─── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+},{threshold:.12});
+document.querySelectorAll('.cap-card,.skill-card,.proc-step,.price-card,.integ-item,.integ-note,.reveal,.cta-h,.cta-sub,.cta-form,.cta-right').forEach(el=>obs.observe(el));
+
+/* Metric counter */
+const mObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.classList.add('vis');
+    const n=e.target.querySelector('.metric-val');
+    const v=parseFloat(e.target.dataset.val);
+    if(n&&v)countUp(n,v);
+    mObs.unobserve(e.target);
+  });
+},{threshold:.15});
+document.querySelectorAll('.metric').forEach(el=>mObs.observe(el));
+
+/* Terminal reveal */
+const tObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.classList.add('vis');
+    e.target.querySelectorAll('.msg-row').forEach((m,i)=>setTimeout(()=>m.classList.add('show'),i*420));
+    tObs.unobserve(e.target);
+  });
+},{threshold:.2});
+const term=document.getElementById('terminal');
+if(term)tObs.observe(term);
+
+function countUp(el,target){
+  const dec=(String(target).split('.')[1]||'').length;
+  const dur=1500,start=performance.now();
+  (function s(now){
+    const p=Math.min((now-start)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=dec?(target*e).toFixed(dec):Math.floor(target*e);
+    if(p<1)requestAnimationFrame(s);else el.textContent=dec?target.toFixed(dec):target;
+  })(start);
+}
+
+/* NAV */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
+
+/* ─── SKILLS DATA ─── */
+const SKILLS = [
+  { icon:'📸', name:'Visión & Análisis', mvp:true, desc:'Ve y entiende tu pantalla', prompts:['¿Qué estoy viendo?','Explica este código','¿Qué dice este error?'] },
+  { icon:'🎤', name:'Voz & Conversación', mvp:true, desc:'Habla natural con SAGAN', prompts:['Escucha mi pregunta','Lee este documento','Práctica conversación'] },
+  { icon:'💻', name:'Programación', mvp:true, desc:'Tu copiloto de código', prompts:['Encuentra el bug','Optimiza esta función','Genera tests'] },
+  { icon:'📚', name:'Aprendizaje', mvp:true, desc:'Tutor personal adaptativo', prompts:['Explícame esto','Hazme un quiz','Resume este capítulo'] },
+  { icon:'📊', name:'Trading & Finanzas', desc:'Análisis técnico visual', prompts:['Analiza este gráfico','Calcula riesgo/beneficio','Sentiment analysis'] },
+  { icon:'🎨', name:'Creatividad & Diseño', desc:'Feedback visual inteligente', prompts:['Mejora esta composición','Sugiere color palette','Ideas para esto'] },
+  { icon:'💼', name:'Productividad', mvp:true, desc:'Emails, reuniones, research', prompts:['Resume este thread','Escribe follow-up','Action items'] },
+  { icon:'🔧', name:'Automatización', desc:'Shortcuts y workflows', prompts:['Recuérdame en 2 horas','Guarda como PDF','Busca ese archivo'] },
+  { icon:'🧠', name:'Memoria & Contexto', mvp:true, desc:'Recuerda tu sesión', prompts:['Lo que dijiste antes','El código de hace 10 min','Mis preferencias'] },
+  { icon:'🌐', name:'Multi-idioma', mvp:true, desc:'40+ idiomas soportados', prompts:['Traduce al inglés','¿Cómo se dice X?','Corrige mi pronunciación'] },
+  { icon:'🔒', name:'Privacidad', mvp:true, desc:'Control total de datos', prompts:['Modo privado','Excluir esta app','Borrar historial'] },
+  { icon:'⚙️', name:'Personalización', desc:'Configura todo a tu gusto', prompts:['Cambiar hotkey','Ajustar burbuja','Mi estilo de código'] },
+  { icon:'🚀', name:'Integraciones', desc:'Próximamente: extensiones', prompts:['VS Code extension','Chrome extension','Slack bot'] },
+  { icon:'📱', name:'Cross-platform', desc:'Windows y próximamente más', prompts:['Windows 10/11','macOS (próximamente)','Linux (próximamente)'] },
+];
+
+const skillsEl = document.getElementById('skills-grid');
+skillsEl.innerHTML = SKILLS.map(s => `
+  <div class="skill-card">
+    <div class="skill-icon">${s.icon}</div>
+    <div class="skill-name">${s.name}${s.mvp?'<span class="skill-mvp-tag">MVP</span>':''}</div>
+    <div class="skill-desc">${s.desc}</div>
+    <div class="skill-prompts">
+      ${s.prompts.map(p => `<button class="skill-prompt" onclick="this.style.color='var(--green)';this.textContent='✓ Copiado'">${p}</button>`).join('')}
+    </div>
+  </div>
+`).join('');
+
+/* ─── PRICING DATA — BENEFIT-BASED (no models shown) ─── */
+const PLANS = [
+  { tier:'STAR', icon:'☆', cls:'c-star', price:0, priceLabel:'Gratis', featured:false,
+    tagline:'Prueba SAGAN sin pagar nada',
+    benefits:['600 queries por ciclo mensual','IA básica','Voz local','Capturas cada 10 segundos','Reconocimiento de voz básico','Ideal para conocer SAGAN'],
+    limits:['Sin voz natural HD','Capturas más lentas','Sin historial guardado'],
+    cta:'Empezar gratis', ctaCls:'tier-cta-g' },
+  { tier:'PULSAR', icon:'✦', cls:'c-pulsar', price:5, featured:false,
+    tagline:'Voz natural HD para uso diario',
+    benefits:['1,500 queries por ciclo mensual','IA mejorada','Voz natural HD','Capturas cada 10 segundos','Reconocimiento de voz mejorado','9 idiomas soportados'],
+    limits:null,
+    cta:'Comenzar Pulsar', ctaCls:'tier-cta-g' },
+  { tier:'QUÁSAR', icon:'◈', cls:'c-quasar', price:10, featured:true,
+    tagline:'El balance perfecto entre calidad y precio',
+    benefits:['4,500 queries por ciclo mensual','IA avanzada','Voz natural HD','Capturas cada 5 segundos','Reconocimiento de voz preciso','23 idiomas · Historial 30 días','Todas las 14 habilidades'],
+    limits:null,
+    cta:'Comenzar Quásar', ctaCls:'tier-cta-p' },
+  { tier:'NOVA', icon:'★', cls:'c-nova', price:20, featured:false,
+    tagline:'Máximo rendimiento para uso intensivo',
+    benefits:['6,000 queries por ciclo mensual','IA premium','Voz HD multilingual','Capturas cada 3 segundos','Reconocimiento de voz máxima precisión','Voice cloning · 23 idiomas','Soporte prioritario'],
+    limits:null,
+    cta:'Comenzar Nova', ctaCls:'tier-cta-g' },
+  { tier:'GALAXY', icon:'✧', cls:'c-galaxy', price:50, featured:false,
+    tagline:'La experiencia definitiva sin compromiso',
+    benefits:['9,000 queries por ciclo mensual','IA premium','Voz con emociones','Capturas cada 3 segundos','Reconocimiento de voz máxima precisión','Voice cloning avanzado · 23 idiomas','API access futuro'],
+    limits:null,
+    cta:'Comenzar Galaxy', ctaCls:'tier-cta-g' },
+];
+
+const tiersEl = document.getElementById('pricing-tiers');
+
+function renderTiers() {
+  tiersEl.innerHTML = PLANS.map(p => {
+    const priceHtml = p.price === 0
+      ? `<div class="tier-price">Gratis</div>`
+      : `<div class="tier-price">$${p.price}<span class="tier-price-sm"> /mes</span></div>`;
+
+    return `
+    <div class="tier-card${p.featured?' featured':''}">
+      ${p.featured?'<div class="tier-pop-tag">Popular</div>':''}
+      <div class="tier-icon">${p.icon}</div>
+      <div class="tier-name ${p.cls}">${p.tier}</div>
+      ${priceHtml}
+      <div class="tier-stack-info" style="color:rgba(216,234,240,.35);font-size:.6rem;margin-top:4px">${p.tagline}</div>
+      <div class="tier-variants" style="border-top:1px solid rgba(216,234,240,.04);padding-top:12px;margin-top:16px">
+        <div style="font-size:.62rem;color:rgba(216,234,240,.25);line-height:1.8">
+          ${p.benefits.map(b => `✓ ${b}`).join('<br>')}
+        </div>
+        ${p.limits ? `<div style="font-size:.55rem;color:rgba(255,68,102,.35);margin-top:8px;line-height:1.7">${p.limits.map(l => `⚠ ${l}`).join('<br>')}</div>` : ''}
+      </div>
+      <button class="tier-cta ${p.ctaCls}">${p.cta}</button>
+    </div>`;
+  }).join('');
+}
+renderTiers();
+
+/* Observe pricing elements */
+document.querySelectorAll('.tier-card').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
