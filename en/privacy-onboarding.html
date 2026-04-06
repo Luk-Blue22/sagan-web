@@ -179,32 +179,32 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
     <div class="step-dot" id="dot-4">04</div>
   </div>
 
-  <!-- ═══ PASO 1 — Qué hace SAGAN con tu pantalla ═══ -->
+  <!-- Step 1 — What SAGAN does with your screen -->
   <div class="step-page active" id="step-1">
     <div class="eyebrow">Initial setup · 01 of 04</div>
     <h1 class="heading" style="opacity:0;animation:rise .8s .2s forwards">Before we start,<br>let's talk about <span class="accent">privacy.</span></h1>
-    <p class="subtext">SAGAN captura tu pantalla para entender qué estás viendo. Es su superpoder — y también la razón por la que esta conversación importa. Un minuto aquí te da control total sobre qué ve y qué no ve.</p>
+    <p class="subtext">SAGAN captures your screen to understand what you're looking at. It's its superpower — and also the reason this conversation matters. A minute here gives you full control over what it sees and what it doesn't.</p>
 
     <div class="travel-grid">
       <div class="travel-card stays">
-        <div class="travel-card-label">Nunca sale de tu computadora</div>
-        <div class="travel-item"><div class="travel-dot"></div><span>Tu voz (procesada local)</span></div>
-        <div class="travel-item"><div class="travel-dot"></div><span>Texto de respuestas de voz (TTS local)</span></div>
-        <div class="travel-item"><div class="travel-dot"></div><span>Apps en lista negra (bancos, etc.)</span></div>
-        <div class="travel-item"><div class="travel-dot"></div><span>Capturas en modo privado</span></div>
-        <div class="travel-item"><div class="travel-dot"></div><span>Tu historial de chat</span></div>
+        <div class="travel-card-label">Never leaves your computer</div>
+        <div class="travel-item"><div class="travel-dot"></div><span>Your voice (processed locally)</span></div>
+        <div class="travel-item"><div class="travel-dot"></div><span>Voice response text (local TTS)</span></div>
+        <div class="travel-item"><div class="travel-dot"></div><span>Blacklisted apps (banks, etc.)</span></div>
+        <div class="travel-item"><div class="travel-dot"></div><span>Captures in private mode</span></div>
+        <div class="travel-item"><div class="travel-dot"></div><span>Your chat history</span></div>
       </div>
       <div class="travel-card goes">
-        <div class="travel-card-label">Viaja al modelo de IA cuando preguntas</div>
-        <div class="travel-item"><div class="travel-dot"></div><span>Las últimas 3 capturas de pantalla</span></div>
-        <div class="travel-item"><div class="travel-dot"></div><span>Tu pregunta en texto</span></div>
-        <div class="travel-item"><div class="travel-dot"></div><span>Contexto de la conversación</span></div>
-        <div class="travel-item"><div class="travel-dot"></div><span>Name de la app activa</span></div>
+        <div class="travel-card-label">Travels to AI model when you ask</div>
+        <div class="travel-item"><div class="travel-dot"></div><span>The last 3 screen captures</span></div>
+        <div class="travel-item"><div class="travel-dot"></div><span>Your question in text</span></div>
+        <div class="travel-item"><div class="travel-dot"></div><span>Conversation context</span></div>
+        <div class="travel-item"><div class="travel-dot"></div><span>Name of the active app</span></div>
       </div>
     </div>
 
     <div class="info-box info-cyan">
-      <strong>¿Cuándo viajan las capturas?</strong> Solo cuando tú preguntas algo — no en cada captura automática. Si no haces una consulta, ninguna imagen sale de tu computadora.
+      <strong>When do captures travel?</strong> Only when you ask something — not on every automatic capture. If you don't make a query, no image leaves your computer.
     </div>
 
     <div class="btn-row">
@@ -217,7 +217,7 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
   <div class="step-page" id="step-2">
     <div class="eyebrow">Initial setup · 02 of 04</div>
     <h1 class="heading" style="opacity:0;animation:rise .8s .2s forwards">These apps will never<br>be <span class="accent">captured.</span></h1>
-    <p class="subtext">SAGAN detecta automáticamente cuando estás en una aplicación sensible y congela las capturas. La persiana baja sola.</p>
+    <p class="subtext">SAGAN automatically detects when you're in a sensitive app and freezes captures. The shutter closes on its own.</p>
 
     <div class="blocked-grid">
       <div class="app-tag"><div class="app-tag-dot"></div>BBVA / Santander</div>
@@ -228,26 +228,26 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
       <div class="app-tag"><div class="app-tag-dot"></div>NordVPN / ProtonVPN</div>
       <div class="app-tag"><div class="app-tag-dot"></div>Wallets crypto</div>
       <div class="app-tag"><div class="app-tag-dot"></div>Windows Security</div>
-      <div class="app-tag app-tag-more">+32 apps más</div>
+      <div class="app-tag app-tag-more">+32 more apps</div>
     </div>
 
     <div class="info-box info-cyan">
-      <strong>Puedes personalizar esta ready.</strong> En Settings → Privacy puedes agregar cualquier app que quieras proteger. El bloqueo es instantáneo.
+      <strong>You can customize this list.</strong> In Settings → Privacy you can add any app you want to protect. Blocking is instant.
     </div>
 
     <div class="options-list">
       <div class="opt-row selected" id="opt-blacklist" onclick="toggleOpt(this)">
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="opt-body">
-          <div class="opt-name">Activar lista negra automática <span class="opt-badge badge-recommended">Recommended</span></div>
-          <div class="opt-desc">SAGAN detecta apps sensibles y pausa capturas automáticamente. Sin intervención tuya.</div>
+          <div class="opt-name">Enable automatic blacklist <span class="opt-badge badge-recommended">Recommended</span></div>
+          <div class="opt-desc">SAGAN detects sensitive apps and pauses captures automatically. No action needed from you.</div>
         </div>
       </div>
       <div class="opt-row selected" id="opt-hotkey" onclick="toggleOpt(this)">
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="opt-body">
-          <div class="opt-name">Hotkey de modo privado <span class="opt-badge badge-privacy">Win + Shift + P</span></div>
-          <div class="opt-desc">Pausa todas las capturas con un atajo de teclado. Para cuando necesitas privacidad inmediata.</div>
+          <div class="opt-name">Private mode hotkey <span class="opt-badge badge-privacy">Win + Shift + P</span></div>
+          <div class="opt-desc">Pauses all captures with a keyboard shortcut. For when you need immediate privacy.</div>
         </div>
       </div>
     </div>
@@ -258,51 +258,51 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
     </div>
   </div>
 
-  <!-- ═══ PASO 3 — Detección de contenido sensible ═══ -->
+  <!-- Step 3 — Sensitive content detection -->
   <div class="step-page" id="step-3">
     <div class="eyebrow">Initial setup · 03 of 04</div>
     <h1 class="heading" style="opacity:0;animation:rise .8s .2s forwards">Sensitive data<br><span class="accent">filter.</span></h1>
-    <p class="subtext">Antes de enviar cualquier captura al modelo de IA, SAGAN la revisa en tu computadora. Si detecta información delicada, la bloquea — sin enviarte un aviso molesto, solo silenciosamente la omite.</p>
+    <p class="subtext">Before sending any capture to the AI model, SAGAN reviews it on your computer. If it detects sensitive information, it blocks it — without sending you an annoying notice, it just silently skips it.</p>
 
     <div class="flow-diagram">
       <div class="flow-row">
-        <div class="flow-node local">📸 Captura tomada<div class="flow-label">En tu RAM — local</div></div>
+        <div class="flow-node local">📸 Capture taken<div class="flow-label">In your RAM — local</div></div>
         <div class="flow-arrow">→</div>
-        <div class="flow-node local">🔍 Filtro de SAGAN<div class="flow-label">En tu computadora</div></div>
+        <div class="flow-node local">🔍 SAGAN filter<div class="flow-label">On your computer</div></div>
         <div class="flow-arrow">→</div>
-        <div class="flow-node send">☁ Modelo de IA<div class="flow-label">Solo si es segura</div></div>
+        <div class="flow-node send">☁ Modelo de IA<div class="flow-label">Only if safe</div></div>
       </div>
     </div>
 
-    <p style="font-size:.76rem;color:var(--white-xs);margin-bottom:16px;letter-spacing:.05em">El filtro detecta y bloquea:</p>
+    <p style="font-size:.76rem;color:var(--white-xs);margin-bottom:16px;letter-spacing:.05em">The filter detects and blocks:</p>
 
     <div class="options-list">
       <div class="opt-row selected" id="opt-cards" onclick="toggleOpt(this)">
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="opt-body">
-          <div class="opt-name">Números de tarjeta de crédito / débito</div>
-          <div class="opt-desc">Visa, Mastercard, Amex, Discover — con o sin espacios.</div>
+          <div class="opt-name">Credit / debit card numbers</div>
+          <div class="opt-desc">Visa, Mastercard, Amex, Discover — with or without spaces.</div>
         </div>
       </div>
       <div class="opt-row selected" id="opt-tokens" onclick="toggleOpt(this)">
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="opt-body">
-          <div class="opt-name">API keys y tokens de seguridad</div>
-          <div class="opt-desc">Claves de OpenAI, GitHub, Google, Slack y otros servicios visibles en pantalla.</div>
+          <div class="opt-name">API keys and security tokens</div>
+          <div class="opt-desc">Keys from OpenAI, GitHub, Google, Slack and other services visible on screen.</div>
         </div>
       </div>
       <div class="opt-row selected" id="opt-ids" onclick="toggleOpt(this)">
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="opt-body">
-          <div class="opt-name">Identificadores personales (CURP, RFC, NIP)</div>
-          <div class="opt-desc">Documentos fiscales y claves bancarias visibles en pantalla.</div>
+          <div class="opt-name">Personal identifiers (ID numbers, SSN, PIN)</div>
+          <div class="opt-desc">Tax documents and banking keys visible on screen.</div>
         </div>
       </div>
       <div class="opt-row selected" id="opt-log" onclick="toggleOpt(this)">
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="opt-body">
-          <div class="opt-name">Guardar log local de envíos <span class="opt-badge badge-privacy">Transparencia</span></div>
-          <div class="opt-desc">Un registro en tu computadora de cuántas capturas se enviaron y cuándo. Sin contenido — solo contadores.</div>
+          <div class="opt-name">Save local send log <span class="opt-badge badge-privacy">Transparencia</span></div>
+          <div class="opt-desc">A log on your computer of how many captures were sent and when. No content — just counters.</div>
         </div>
       </div>
     </div>
@@ -322,14 +322,14 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
     </div>
 
     <h1 class="heading" style="text-align:center;opacity:0;animation:rise .8s .2s forwards">Your privacy<br>settings are <span class="accent">ready.</span></h1>
-    <p class="subtext" style="text-align:center;margin:0 auto 36px">Esto es lo que configuramos juntos. Puedes cambiar cualquier cosa en Settings → Privacy cuando quieras.</p>
+    <p class="subtext" style="text-align:center;margin:0 auto 36px">This is what we set up together. You can change anything in Settings → Privacy whenever you want.</p>
 
     <div class="summary-list" id="summary-list">
-      <!-- Se llena dinámicamente -->
+      <!-- Dynamically populated -->
     </div>
 
     <div class="info-box info-cyan">
-      <strong>Siempre en control.</strong> En cualquier momento puedes ir a Settings → Privacy para ver el log de envíos, agregar apps a la lista negra, o activar el modo privado completo.
+      <strong>Always in control.</strong> At any time you can go to Settings → Privacy to see the send log, add apps to the blacklist, or activate full private mode.
     </div>
 
     <div class="btn-row" style="justify-content:center">
@@ -431,12 +431,12 @@ function nextStep(n) {
 
 function buildSummary() {
   const items = [
-    {key:'blacklist', icon:'shield', text:'<strong>Lista negra activada</strong> — SAGAN detecta apps sensibles automáticamente'},
-    {key:'hotkey', icon:'key', text:'<strong>Hotkey de privacidad</strong> — Win+Shift+P pausa todas las capturas'},
-    {key:'cards', icon:'credit-card', text:'<strong>Filtro de tarjetas</strong> — Números de crédito/débito bloqueados antes de enviar'},
-    {key:'tokens', icon:'lock', text:'<strong>Filtro de API keys</strong> — Tokens y claves de seguridad protegidos'},
-    {key:'ids', icon:'user', text:'<strong>Filtro de IDs personales</strong> — CURP, RFC y NIP protegidos'},
-    {key:'log', icon:'list', text:'<strong>Log de envíos activado</strong> — Registro local de transparencia habilitado'},
+    {key:'blacklist', icon:'shield', text:'<strong>Blacklist enabled</strong> — SAGAN detects sensitive apps automatically'},
+    {key:'hotkey', icon:'key', text:'<strong>Privacy hotkey</strong> — Win+Shift+P pauses all captures'},
+    {key:'cards', icon:'credit-card', text:'<strong>Card filter</strong> — Credit/debit numbers blocked before sending'},
+    {key:'tokens', icon:'lock', text:'<strong>API key filter</strong> — Security tokens and keys protected'},
+    {key:'ids', icon:'user', text:'<strong>Personal ID filter</strong> — Personal identifiers protected'},
+    {key:'log', icon:'list', text:'<strong>Send log enabled</strong> — Local transparency log enabled'},
   ];
   const icons = {
     'shield':'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
@@ -459,7 +459,7 @@ function buildSummary() {
 
   const disabled = items.filter(i => !selections[i.key]);
   if(disabled.length){
-    list.innerHTML += `<div style="padding:10px 16px;font-size:.68rem;color:var(--white-xs)">${disabled.length} opción(es) desactivada(s) — puedes reactivarlas en Settings.</div>`;
+    list.innerHTML += `<div style="padding:10px 16px;font-size:.68rem;color:var(--white-xs)">${disabled.length} option(s) deactivated — you can reactivate them in Settings.</div>`;
   }
 }
 
