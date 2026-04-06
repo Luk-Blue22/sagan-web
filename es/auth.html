@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAGAN — Crear Cuenta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #04040d;
+  --bg2:       #070713;
+  --cyan:      #00d4e8;
+  --cyan-dim:  rgba(0,212,232,.12);
+  --cyan-glow: 0 0 24px rgba(0,212,232,.35), 0 0 60px rgba(0,212,232,.12);
+  --white:     #d8eaf0;
+  --white-dim: rgba(216,234,240,.45);
+  --white-xs:  rgba(216,234,240,.18);
+  --rule:      rgba(216,234,240,.07);
+  --sans:      'IBM Plex Sans', sans-serif;
+  --display:   'Syne', sans-serif;
+  --danger:    #ff4466;
+  --success:   #00cc88;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--bg); color:var(--white);
+  font-family:var(--sans); font-weight:300;
+  overflow-x:hidden; cursor:none;
+  min-height:100vh;
+}
+body::after {
+  content:''; position:fixed; inset:0; z-index:9997; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.028;
+}
+
+/* Cursor */
+#cur { position:fixed; z-index:9999; pointer-events:none; width:6px; height:6px; background:var(--cyan); border-radius:50%; transform:translate(-50%,-50%); box-shadow:0 0 10px var(--cyan); mix-blend-mode:screen; transition:width .2s,height .2s; }
+#cur-ring { position:fixed; z-index:9998; pointer-events:none; width:30px; height:30px; border:1px solid rgba(0,212,232,.3); border-radius:50%; transform:translate(-50%,-50%); transition:width .3s,height .3s,border-color .3s; }
+#cur.big { width:14px; height:14px; }
+#cur-ring.big { width:48px; height:48px; border-color:rgba(0,212,232,.6); }
+
+#bg-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
+.hud { position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image: linear-gradient(rgba(0,212,232,.018) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,232,.018) 1px, transparent 1px);
+  background-size:80px 80px;
+  mask-image: radial-gradient(ellipse 60% 60% at 50% 40%, black, transparent 75%);
+}
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:500;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:22px 64px;
+  background:rgba(4,4,13,.85);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--rule);
+}
+.nav-logo {
+  font-family:var(--display); font-size:1.1rem; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--white);
+  text-decoration:none; display:flex; align-items:center; gap:10px;
+}
+.nav-logo svg { flex-shrink:0; }
+.nav-back {
+  font-family:var(--sans); font-size:.72rem; font-weight:400;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--white-dim);
+  text-decoration:none; transition:color .3s; display:flex; align-items:center; gap:6px;
+}
+.nav-back:hover { color:var(--white); }
+
+/* ── PAGE CONTAINERS ── */
+.page { display:none; position:relative; z-index:1; min-height:100vh; }
+.page.active { display:flex; }
+
+/* ── AUTH PAGES ── */
+.auth-page {
+  align-items:center; justify-content:center;
+  padding:100px 24px 60px;
+}
+.auth-card {
+  width:100%; max-width:440px;
+  border:1px solid var(--rule);
+  background:rgba(7,7,19,.85);
+  backdrop-filter:blur(20px);
+  padding:48px 40px;
+  position:relative; overflow:hidden;
+}
+.auth-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, var(--cyan), transparent);
+}
+
+.auth-logo {
+  text-align:center; margin-bottom:36px;
+}
+.auth-orb {
+  width:64px; height:64px; margin:0 auto 16px; position:relative;
+}
+.auth-orb-core {
+  width:64px; height:64px; border-radius:50%;
+  background:radial-gradient(circle at 36% 34%, #00d4e8, #0055bb, #000a1c);
+  box-shadow:0 0 30px rgba(0,212,232,.4), 0 0 80px rgba(0,120,220,.15);
+  animation:core-breath 5s ease-in-out infinite;
+}
+.auth-orb-ring {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:80px; height:80px; border-radius:50%;
+  border:1px solid rgba(0,212,232,.15);
+  animation:spin 12s linear infinite;
+}
+@keyframes core-breath {
+  0%,100%{box-shadow:0 0 30px rgba(0,212,232,.4),0 0 80px rgba(0,120,220,.15)}
+  50%{box-shadow:0 0 50px rgba(0,212,232,.65),0 0 100px rgba(0,120,220,.3)}
+}
+@keyframes spin { to{transform:translate(-50%,-50%) rotate(360deg)} }
+@keyframes dot-breath { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.5)} }
+
+.auth-title {
+  font-family:var(--display); font-size:1.4rem; font-weight:700;
+  color:var(--white); text-align:center; margin-bottom:4px; letter-spacing:.02em;
+}
+.auth-sub {
+  font-family:var(--sans); font-size:.8rem; color:var(--white-dim);
+  text-align:center; margin-bottom:0;
+}
+
+/* Form */
+.auth-form { margin-top:32px; display:flex; flex-direction:column; gap:16px; }
+
+.field { position:relative; }
+.field-label {
+  font-family:var(--sans); font-size:.6rem; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--white-xs);
+  margin-bottom:6px; display:block;
+}
+.field-input {
+  width:100%; padding:13px 16px 13px 42px;
+  background:rgba(0,212,232,.03);
+  border:1px solid rgba(0,212,232,.1);
+  color:var(--white); font-family:var(--sans); font-size:.88rem; font-weight:300;
+  outline:none; transition:border-color .3s;
+  cursor:none;
+}
+.field-input::placeholder { color:var(--white-xs); }
+.field-input:focus { border-color:rgba(0,212,232,.35); }
+.field-icon {
+  position:absolute; bottom:13px; left:14px;
+  color:rgba(0,212,232,.35); pointer-events:none;
+}
+
+.field-error {
+  font-family:var(--sans); font-size:.65rem; color:var(--danger);
+  margin-top:4px; display:none;
+}
+.field.error .field-input { border-color:rgba(255,68,102,.4); }
+.field.error .field-error { display:block; }
+
+.btn-primary {
+  font-family:var(--sans); font-size:.72rem; font-weight:500;
+  letter-spacing:.12em; text-transform:uppercase;
+  background:var(--cyan); color:var(--bg);
+  border:none; padding:14px 36px; cursor:none;
+  position:relative; overflow:hidden;
+  transition:box-shadow .3s,transform .2s;
+  width:100%; text-align:center;
+}
+.btn-primary::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  transform:translateX(-100%); transition:transform .55s;
+}
+.btn-primary:hover::before { transform:translateX(100%); }
+.btn-primary:hover { box-shadow:var(--cyan-glow); transform:translateY(-1px); }
+.btn-primary:disabled { opacity:.5; pointer-events:none; }
+
+.btn-primary .spinner {
+  display:inline-block; width:14px; height:14px; border:2px solid rgba(4,4,13,.3);
+  border-top-color:var(--bg); border-radius:50%; animation:spin-fast .7s linear infinite;
+  vertical-align:middle; margin-right:8px;
+}
+@keyframes spin-fast { to{transform:rotate(360deg)} }
+
+/* Divider */
+.auth-divider {
+  display:flex; align-items:center; gap:14px; margin:24px 0;
+}
+.auth-divider::before, .auth-divider::after {
+  content:''; flex:1; height:1px; background:var(--rule);
+}
+.auth-divider span {
+  font-family:var(--sans); font-size:.6rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--white-xs);
+}
+
+/* Social buttons */
+.social-row { display:flex; gap:10px; }
+.social-btn {
+  flex:1; padding:12px 0; text-align:center;
+  background:transparent; border:1px solid var(--rule);
+  color:var(--white-dim); font-family:var(--sans); font-size:.74rem; font-weight:400;
+  cursor:none; transition:all .3s; display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.social-btn:hover { border-color:rgba(216,234,240,.25); color:var(--white); }
+.social-btn svg { width:16px; height:16px; }
+
+/* Switch link */
+.auth-switch {
+  text-align:center; margin-top:28px;
+  font-family:var(--sans); font-size:.78rem; color:var(--white-dim);
+}
+.auth-switch a {
+  color:var(--cyan); text-decoration:none;
+  border-bottom:1px solid rgba(0,212,232,.25); cursor:none;
+  transition:border-color .3s;
+}
+.auth-switch a:hover { border-color:var(--cyan); }
+
+/* Password strength */
+.pw-strength { display:flex; gap:4px; margin-top:6px; }
+.pw-bar { flex:1; height:3px; background:rgba(216,234,240,.08); transition:background .3s; }
+.pw-bar.weak { background:#ff4466; }
+.pw-bar.med { background:#ffaa22; }
+.pw-bar.strong { background:#00cc88; }
+.pw-label {
+  font-family:var(--sans); font-size:.58rem; color:var(--white-xs);
+  margin-top:4px; text-align:right; transition:color .3s;
+}
+
+/* Forgot password */
+.auth-forgot {
+  text-align:right; margin-top:-8px;
+}
+.auth-forgot a {
+  font-family:var(--sans); font-size:.68rem; color:rgba(0,212,232,.5);
+  text-decoration:none; cursor:none; transition:color .3s;
+}
+.auth-forgot a:hover { color:var(--cyan); }
+
+/* ══════════════════════════════
+   DOWNLOAD PAGE
+══════════════════════════════ */
+.download-page {
+  flex-direction:column; align-items:center; justify-content:center;
+  padding:100px 48px 60px; text-align:center;
+}
+
+.dl-success-icon {
+  width:72px; height:72px; border-radius:50%; margin:0 auto 24px;
+  background:rgba(0,204,136,.08);
+  border:1px solid rgba(0,204,136,.25);
+  display:flex; align-items:center; justify-content:center;
+  animation:pop-in .5s cubic-bezier(.17,.67,.35,1.2);
+}
+@keyframes pop-in { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+
+.dl-title {
+  font-family:var(--display); font-size:clamp(1.8rem,4vw,3rem);
+  font-weight:700; color:var(--white); margin-bottom:8px;
+}
+.dl-title .accent {
+  background:linear-gradient(100deg, var(--cyan) 0%, #80eeff 50%, var(--cyan) 100%);
+  background-size:200%;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  animation:shimmer 6s linear infinite;
+}
+@keyframes shimmer { to{background-position:200% 0} }
+
+.dl-sub {
+  font-family:var(--sans); font-size:.95rem; font-weight:300;
+  color:var(--white-dim); max-width:520px; margin:0 auto 48px;
+  line-height:1.8;
+}
+
+/* Download cards */
+.dl-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0; border:1px solid var(--rule);
+  max-width:840px; margin:0 auto 48px;
+}
+.dl-card {
+  padding:40px 32px; border-right:1px solid var(--rule);
+  position:relative; overflow:hidden;
+  transition:background .3s;
+}
+.dl-card:last-child { border-right:none; }
+.dl-card:hover { background:var(--cyan-dim); }
+.dl-card.recommended::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--cyan), transparent);
+}
+
+.dl-os-icon {
+  font-size:2rem; margin-bottom:16px;
+}
+.dl-os-name {
+  font-family:var(--display); font-size:1rem; font-weight:700;
+  color:var(--white); margin-bottom:4px; letter-spacing:.04em;
+}
+.dl-os-version {
+  font-family:var(--sans); font-size:.68rem; color:var(--white-xs);
+  margin-bottom:20px;
+}
+.dl-os-tag {
+  display:inline-block; font-family:var(--sans); font-size:.48rem; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--bg);
+  background:var(--cyan); padding:2px 10px; margin-bottom:16px;
+}
+.dl-os-size {
+  font-family:var(--sans); font-size:.62rem; color:var(--white-xs);
+  margin-bottom:20px; display:flex; align-items:center; justify-content:center; gap:6px;
+}
+.dl-os-size::before { content:''; width:4px; height:4px; border-radius:50%; background:rgba(0,212,232,.4); }
+
+.dl-btn {
+  display:block; width:100%; text-align:center;
+  font-family:var(--sans); font-size:.68rem; font-weight:500;
+  letter-spacing:.12em; text-transform:uppercase;
+  padding:12px 0; cursor:none; transition:all .3s;
+  text-decoration:none;
+}
+.dl-btn-primary {
+  background:var(--cyan); color:var(--bg); border:none;
+}
+.dl-btn-primary:hover { box-shadow:var(--cyan-glow); }
+.dl-btn-ghost {
+  background:transparent; color:var(--white-dim); border:1px solid var(--rule);
+}
+.dl-btn-ghost:hover { border-color:rgba(216,234,240,.25); color:var(--white); }
+
+/* Steps after download */
+.dl-steps {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+  border:1px solid var(--rule); max-width:840px; margin:0 auto 48px;
+}
+.dl-step {
+  padding:28px 20px; border-right:1px solid var(--rule);
+  transition:background .3s;
+}
+.dl-step:last-child { border-right:none; }
+.dl-step:hover { background:rgba(0,212,232,.03); }
+
+.dl-step-n {
+  width:32px; height:32px; border:1px solid rgba(0,212,232,.2);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:16px;
+  font-family:var(--sans); font-size:.58rem; font-weight:500;
+  letter-spacing:.1em; color:rgba(0,212,232,.5);
+  background:var(--bg);
+}
+.dl-step-title {
+  font-family:var(--display); font-size:.85rem; font-weight:600;
+  color:var(--white); margin-bottom:6px;
+}
+.dl-step-desc {
+  font-family:var(--sans); font-size:.72rem; font-weight:300;
+  color:var(--white-dim); line-height:1.7;
+}
+
+/* Requirements */
+.dl-req {
+  max-width:840px; margin:0 auto;
+  border:1px solid var(--rule); padding:28px 32px;
+  display:grid; grid-template-columns:1fr 1fr; gap:40px;
+}
+.dl-req-title {
+  font-family:var(--sans); font-size:.58rem; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--cyan);
+  margin-bottom:14px;
+}
+.dl-req-list {
+  display:flex; flex-direction:column; gap:8px;
+}
+.dl-req-item {
+  font-family:var(--sans); font-size:.74rem; font-weight:300;
+  color:var(--white-dim); display:flex; align-items:center; gap:8px;
+}
+.dl-req-item::before { content:''; width:4px; height:4px; border-radius:50%; background:rgba(0,212,232,.4); flex-shrink:0; }
+
+/* Footer */
+.auth-footer {
+  position:relative; z-index:1;
+  padding:24px 64px; border-top:1px solid var(--rule);
+  display:flex; justify-content:space-between; align-items:center;
+  background:rgba(4,4,13,.9);
+}
+.auth-footer p {
+  font-family:var(--sans); font-size:.6rem; letter-spacing:.08em; color:rgba(216,234,240,.15);
+}
+.auth-footer a {
+  font-family:var(--sans); font-size:.6rem; letter-spacing:.1em;
+  color:rgba(216,234,240,.2); text-decoration:none; transition:color .3s;
+}
+.auth-footer a:hover { color:rgba(216,234,240,.5); }
+
+/* Animations */
+@keyframes rise { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+.rise { opacity:0; animation:rise .7s forwards; }
+.rise-d1 { animation-delay:.15s; }
+.rise-d2 { animation-delay:.3s; }
+.rise-d3 { animation-delay:.45s; }
+
+/* Responsive */
+@media(max-width:700px){
+  nav { padding:18px 24px; }
+  .auth-card { padding:36px 24px; }
+  .dl-grid { grid-template-columns:1fr; }
+  .dl-card { border-right:none; border-bottom:1px solid var(--rule); }
+  .dl-card:last-child { border-bottom:none; }
+  .dl-steps { grid-template-columns:1fr 1fr; }
+  .dl-step:nth-child(2) { border-right:none; }
+  .dl-step:nth-child(-n+2) { border-bottom:1px solid var(--rule); }
+  .dl-req { grid-template-columns:1fr; gap:24px; }
+  .dl-mode-grid { grid-template-columns:1fr; }
+}
+
+/* ── WINDOWS ALERT BANNER ── */
+.dl-win-banner {
+  max-width:840px; margin:0 auto 32px;
+  border:1px solid rgba(255,170,34,.22);
+  background:rgba(255,170,34,.04);
+  padding:20px 28px;
+  position:relative; overflow:hidden;
+}
+.dl-win-banner::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, #ffaa22, transparent);
+}
+.dl-win-banner-head {
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--display); font-size:.82rem; font-weight:700;
+  color:#ffaa22; margin-bottom:8px;
+}
+.dl-win-icon {
+  width:26px; height:26px; border-radius:50%; flex-shrink:0;
+  background:rgba(255,170,34,.12); border:1px solid rgba(255,170,34,.3);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.75rem;
+}
+.dl-win-banner p {
+  font-family:var(--sans); font-size:.75rem; color:var(--white-dim);
+  line-height:1.8; margin-bottom:10px;
+}
+.dl-win-steps {
+  display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-top:10px;
+}
+.dl-win-step {
+  font-family:var(--mono,'IBM Plex Mono',monospace); font-size:.66rem;
+  color:#ffaa22; background:rgba(255,170,34,.08);
+  border:1px solid rgba(255,170,34,.2); padding:5px 12px;
+}
+.dl-win-arr { color:var(--white-xs); font-size:.75rem; }
+.dl-win-link {
+  font-size:.7rem; color:rgba(0,212,232,.5); margin-top:10px;
+  display:block; text-decoration:none; transition:color .2s;
+}
+.dl-win-link:hover { color:var(--cyan); }
+
+/* ── UPDATED REQUIREMENTS — TWO MODES ── */
+.dl-mode-grid {
+  max-width:840px; margin:0 auto 0;
+  display:grid; grid-template-columns:1fr 1fr; gap:0;
+  border:1px solid var(--rule);
+}
+.dl-mode-col {
+  padding:24px 28px; border-right:1px solid var(--rule);
+  position:relative; overflow:hidden;
+}
+.dl-mode-col:last-child { border-right:none; }
+.dl-mode-col.full-mode::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--cyan), transparent);
+}
+.dl-mode-badge {
+  font-family:var(--sans); font-size:.46rem; font-weight:500;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:var(--bg); padding:2px 9px; margin-bottom:12px;
+  display:inline-block;
+}
+.dl-mode-badge.light { background:rgba(216,234,240,.3); color:var(--white-dim); }
+.dl-mode-badge.full  { background:var(--cyan); }
+.dl-mode-title {
+  font-family:var(--display); font-size:.92rem; font-weight:700;
+  color:var(--white); margin-bottom:14px;
+}
+.dl-spec-row {
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-family:var(--sans); font-size:.72rem; padding:7px 0;
+  border-bottom:1px solid rgba(216,234,240,.04);
+}
+.dl-spec-row:last-child { border-bottom:none; }
+.dl-spec-label { color:var(--white-xs); }
+.dl-spec-val { color:var(--white); font-weight:400; text-align:right; }
+.dl-spec-val.good { color:#00cc88; }
+.dl-spec-val.warn { color:#ffaa22; }
+.dl-req-footer {
+  max-width:840px; margin:0 auto;
+  border:1px solid var(--rule); border-top:none;
+  padding:14px 28px;
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:8px;
+}
+.dl-req-footer-note {
+  font-family:var(--sans); font-size:.68rem; color:var(--white-xs);
+  line-height:1.6;
+}
+.dl-req-footer-link {
+  font-family:var(--sans); font-size:.66rem; font-weight:500;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--cyan); text-decoration:none;
+  border-bottom:1px solid rgba(0,212,232,.25); transition:border-color .2s;
+  white-space:nowrap;
+}
+.dl-req-footer-link:hover { border-color:var(--cyan); }
+
+/* ── LANG SELECTOR ── */
+.lang-sel{display:flex;align-items:center;gap:6px;margin-left:8px}
+.lang-btn{font-family:var(--sans);font-size:.62rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--white-xs);text-decoration:none;transition:color .2s;padding:4px 2px}
+.lang-btn:hover{color:var(--white)}
+.lang-btn.active{color:var(--cyan)}
+.lang-div{color:var(--rule);font-size:.6rem}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="hud"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <svg width="28" height="28" viewBox="0 0 28 28">
+      <circle cx="14" cy="14" r="13" fill="none" stroke="rgba(0,212,232,.15)" stroke-width=".5"/>
+      <circle cx="14" cy="14" r="10" fill="none" stroke="rgba(0,212,232,.25)" stroke-width=".5"/>
+      <circle cx="14" cy="14" r="7" fill="rgba(0,212,232,.15)"/>
+      <text x="14" y="18" text-anchor="middle" fill="#00d4e8" font-family="'Syne',sans-serif" font-size="11" font-weight="700">S</text>
+    </svg>
+    SAGAN
+  </a>
+  <a class="nav-back" href="index.html">← Volver al inicio</a>
+  <div class="lang-sel"><a href="../es/" class="lang-btn active">ES</a><span class="lang-div">|</span><a href="../en/" class="lang-btn">EN</a></div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 1: SIGNUP
+═══════════════════════════════════════════ -->
+<div class="page auth-page active" id="page-signup">
+  <div class="auth-card rise">
+    <div class="auth-logo">
+      <div class="auth-orb">
+        <div class="auth-orb-ring"></div>
+        <div class="auth-orb-core"></div>
+      </div>
+      <div class="auth-title">Crear cuenta</div>
+      <div class="auth-sub">Empieza a usar SAGAN en tu escritorio</div>
+    </div>
+
+    <form class="auth-form" id="signup-form" onsubmit="return false">
+      <div class="field" id="f-name">
+        <label class="field-label">Nombre</label>
+        <div style="position:relative">
+          <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+          <input class="field-input" type="text" placeholder="Tu nombre" id="inp-name" autocomplete="name">
+        </div>
+        <div class="field-error">Ingresa tu nombre</div>
+      </div>
+
+      <div class="field" id="f-email-s">
+        <label class="field-label">Email</label>
+        <div style="position:relative">
+          <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <input class="field-input" type="email" placeholder="correo@ejemplo.com" id="inp-email-s" autocomplete="email">
+        </div>
+        <div class="field-error">Ingresa un email válido</div>
+      </div>
+
+      <div class="field" id="f-pw-s">
+        <label class="field-label">Contraseña</label>
+        <div style="position:relative">
+          <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input class="field-input" type="password" placeholder="Mínimo 8 caracteres" id="inp-pw-s" autocomplete="new-password">
+        </div>
+        <div class="pw-strength"><div class="pw-bar" id="pw1"></div><div class="pw-bar" id="pw2"></div><div class="pw-bar" id="pw3"></div><div class="pw-bar" id="pw4"></div></div>
+        <div class="pw-label" id="pw-label"></div>
+        <div class="field-error">Mínimo 8 caracteres</div>
+      </div>
+
+      <button class="btn-primary" type="submit" id="btn-signup">Crear cuenta</button>
+    </form>
+
+    <div class="auth-divider"><span>o regístrate con</span></div>
+
+    <div class="social-row">
+      <button class="social-btn" onclick="socialAuth('Google')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1Z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23Z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84Z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53Z" fill="#EA4335"/></svg>
+        Google
+      </button>
+      <button class="social-btn" onclick="socialAuth('GitHub')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12Z"/></svg>
+        GitHub
+      </button>
+    </div>
+
+    <div class="auth-switch">
+      ¿Ya tienes cuenta? <a href="#" onclick="showPage('page-login');return false">Inicia sesión</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 2: LOGIN
+═══════════════════════════════════════════ -->
+<div class="page auth-page" id="page-login">
+  <div class="auth-card rise">
+    <div class="auth-logo">
+      <div class="auth-orb">
+        <div class="auth-orb-ring"></div>
+        <div class="auth-orb-core"></div>
+      </div>
+      <div class="auth-title">Bienvenido de vuelta</div>
+      <div class="auth-sub">Inicia sesión para acceder a SAGAN</div>
+    </div>
+
+    <form class="auth-form" id="login-form" onsubmit="return false">
+      <div class="field" id="f-email-l">
+        <label class="field-label">Email</label>
+        <div style="position:relative">
+          <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <input class="field-input" type="email" placeholder="correo@ejemplo.com" id="inp-email-l" autocomplete="email">
+        </div>
+        <div class="field-error">Ingresa un email válido</div>
+      </div>
+
+      <div class="field" id="f-pw-l">
+        <label class="field-label">Contraseña</label>
+        <div style="position:relative">
+          <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input class="field-input" type="password" placeholder="Tu contraseña" id="inp-pw-l" autocomplete="current-password">
+        </div>
+        <div class="field-error">Ingresa tu contraseña</div>
+      </div>
+
+      <div class="auth-forgot">
+        <a href="#">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button class="btn-primary" type="submit" id="btn-login">Iniciar sesión</button>
+    </form>
+
+    <div class="auth-divider"><span>o inicia con</span></div>
+
+    <div class="social-row">
+      <button class="social-btn" onclick="socialAuth('Google')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1Z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23Z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84Z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53Z" fill="#EA4335"/></svg>
+        Google
+      </button>
+      <button class="social-btn" onclick="socialAuth('GitHub')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12Z"/></svg>
+        GitHub
+      </button>
+    </div>
+
+    <div class="auth-switch">
+      ¿No tienes cuenta? <a href="#" onclick="showPage('page-signup');return false">Crear cuenta</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 3: DOWNLOAD
+═══════════════════════════════════════════ -->
+<div class="page download-page" id="page-download">
+
+  <div class="dl-success-icon rise">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00cc88" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+  </div>
+
+  <div class="dl-title rise rise-d1">Cuenta creada. <span class="accent">Descarga SAGAN.</span></div>
+  <p class="dl-sub rise rise-d2">SAGAN es una app de escritorio que se instala en tu computadora. Funciona como una burbuja flotante siempre visible — captura tu pantalla, escucha tu voz y responde al instante.</p>
+
+  <!-- Windows alert banner -->
+  <div class="dl-win-banner rise rise-d3">
+    <div class="dl-win-banner-head">
+      <div class="dl-win-icon">⚠</div>
+      Windows mostrará "Editor desconocido" al instalar — es normal
+    </div>
+    <p>
+      SAGAN es una app nueva independiente. Windows Defender muestra esta alerta para cualquier aplicación
+      sin certificado de firma de código. El código es público en GitHub — no es una amenaza.
+    </p>
+    <div class="dl-win-steps">
+      <div class="dl-win-step">Click "Más información"</div>
+      <div class="dl-win-arr">→</div>
+      <div class="dl-win-step">Click "Ejecutar de todos modos"</div>
+      <div class="dl-win-arr">→</div>
+      <div class="dl-win-step">Instalación normal</div>
+    </div>
+    <a class="dl-win-link" href="requirements.html">Ver guía completa paso a paso →</a>
+  </div>
+
+  <!-- Download cards -->
+  <div class="dl-grid rise rise-d3">
+    <div class="dl-card recommended">
+      <div class="dl-os-tag">Disponible ahora</div>
+      <div class="dl-os-icon">⊞</div>
+      <div class="dl-os-name">Windows</div>
+      <div class="dl-os-version">Windows 10/11 (64-bit)</div>
+      <div class="dl-os-size">~150 MB · Instalador .exe</div>
+      <a class="dl-btn dl-btn-primary" href="#" onclick="startDownload('windows')">Descargar para Windows</a>
+    </div>
+    <div class="dl-card" style="opacity:.5;pointer-events:none;">
+      <div class="dl-os-tag" style="background:rgba(216,234,240,.15);color:var(--white-dim);">Próximamente</div>
+      <div class="dl-os-icon">⌘</div>
+      <div class="dl-os-name">macOS</div>
+      <div class="dl-os-version">macOS 12+ (Intel & Apple Silicon)</div>
+      <div class="dl-os-size">Licencia en desarrollo</div>
+      <div class="dl-btn dl-btn-ghost" style="cursor:default;opacity:.5;">En desarrollo</div>
+    </div>
+    <div class="dl-card" style="opacity:.5;pointer-events:none;">
+      <div class="dl-os-tag" style="background:rgba(216,234,240,.15);color:var(--white-dim);">Próximamente</div>
+      <div class="dl-os-icon">◆</div>
+      <div class="dl-os-name">Linux</div>
+      <div class="dl-os-version">Ubuntu 20.04+, Debian, Fedora</div>
+      <div class="dl-os-size">Licencia en desarrollo</div>
+      <div class="dl-btn dl-btn-ghost" style="cursor:default;opacity:.5;">En desarrollo</div>
+    </div>
+  </div>
+
+  <!-- Setup steps -->
+  <div class="dl-steps rise rise-d3">
+    <div class="dl-step">
+      <div class="dl-step-n">01</div>
+      <div class="dl-step-title">Descarga</div>
+      <div class="dl-step-desc">Descarga el instalador para tu sistema operativo.</div>
+    </div>
+    <div class="dl-step">
+      <div class="dl-step-n">02</div>
+      <div class="dl-step-title">Instala</div>
+      <div class="dl-step-desc">Ejecuta el instalador. Windows: doble click en .exe. Mac: arrastra a Aplicaciones.</div>
+    </div>
+    <div class="dl-step">
+      <div class="dl-step-n">03</div>
+      <div class="dl-step-title">Inicia sesión</div>
+      <div class="dl-step-desc">Abre SAGAN y entra con la cuenta que acabas de crear.</div>
+    </div>
+    <div class="dl-step">
+      <div class="dl-step-n">04</div>
+      <div class="dl-step-title">Listo</div>
+      <div class="dl-step-desc">La burbuja flotante aparecerá en tu escritorio. Haz click para comenzar a usar SAGAN.</div>
+    </div>
+  </div>
+
+  <!-- Requirements — Light Mode vs Full Mode -->
+  <div class="dl-mode-grid rise rise-d3">
+
+    <!-- Light Mode -->
+    <div class="dl-mode-col">
+      <div class="dl-mode-badge light">Light Mode</div>
+      <div class="dl-mode-title">Sin GPU dedicada</div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">GPU</span>
+        <span class="dl-spec-val warn">No requerida</span>
+      </div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">RAM mínima</span>
+        <span class="dl-spec-val">8 GB</span>
+      </div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">Disco</span>
+        <span class="dl-spec-val">~3 GB</span>
+      </div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">Latencia voz</span>
+        <span class="dl-spec-val warn">3 – 8 segundos</span>
+      </div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">TTS / STT</span>
+        <span class="dl-spec-val">Local · offline</span>
+      </div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">Ideal para</span>
+        <span class="dl-spec-val">Uso ocasional</span>
+      </div>
+    </div>
+
+    <!-- Full Mode -->
+    <div class="dl-mode-col full-mode">
+      <div class="dl-mode-badge full">Full Mode — Recomendado</div>
+      <div class="dl-mode-title">Con GPU dedicada</div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">GPU mínima</span>
+        <span class="dl-spec-val good">NVIDIA 4 GB VRAM+</span>
+      </div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">RAM mínima</span>
+        <span class="dl-spec-val">8 GB (16 GB ideal)</span>
+      </div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">Disco</span>
+        <span class="dl-spec-val">~4 GB</span>
+      </div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">Latencia voz</span>
+        <span class="dl-spec-val good">&lt; 1 segundo</span>
+      </div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">TTS / STT</span>
+        <span class="dl-spec-val good">Local · offline · HD</span>
+      </div>
+      <div class="dl-spec-row">
+        <span class="dl-spec-label">Ideal para</span>
+        <span class="dl-spec-val good">Uso diario intensivo</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Requirements footer note -->
+  <div class="dl-req-footer rise rise-d3">
+    <span class="dl-req-footer-note">
+      SO: Windows 10/11 (64-bit) — macOS y Linux próximamente &nbsp;·&nbsp;
+      Internet solo para LLM — TTS y STT son 100% offline &nbsp;·&nbsp;
+      SAGAN detecta el modo automáticamente al iniciar
+    </span>
+    <a class="dl-req-footer-link" href="requirements.html">Tabla completa de hardware →</a>
+  </div>
+
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="auth-footer">
+  <p>© 2026 SAGAN AI · "Billions and Billions"</p>
+  <div style="display:flex;gap:24px">
+    <a href="privacy.html">Privacidad</a>
+    <a href="privacy.html">Términos</a>
+    <a href="#">Soporte</a>
+  </div>
+</footer>
+
+<script>
+/* ─── CURSOR ─── */
+const dot=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,cx=0,cy=0;
+window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+document.querySelectorAll('a,button,input').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{dot.classList.add('big');ring.classList.add('big');});
+  el.addEventListener('mouseleave',()=>{dot.classList.remove('big');ring.classList.remove('big');});
+});
+(function anim(){cx+=(mx-cx)*.1;cy+=(my-cy)*.1;ring.style.left=cx+'px';ring.style.top=cy+'px';requestAnimationFrame(anim);})();
+
+/* ─── PARTICLES ─── */
+const cv=document.getElementById('bg-canvas'),ctx=cv.getContext('2d');
+let W,H,pts=[];
+const mouse={x:-999,y:-999};
+function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+resize();addEventListener('resize',resize);
+addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
+class Pt{
+  constructor(){this.reset(true);}
+  reset(i){this.x=Math.random()*W;this.y=i?Math.random()*H:(Math.random()>.5?-6:H+6);this.vx=(Math.random()-.5)*.15;this.vy=(Math.random()-.5)*.15;this.r=Math.random()*.7+.2;this.a=Math.random()*.3+.05;const t=Math.random();this.c=t>.6?'#00d4e8':t>.35?'#0066bb':'#aaccdd';}
+  update(){const dx=this.x-mouse.x,dy=this.y-mouse.y,d=Math.hypot(dx,dy);if(d<120){const f=(120-d)/120;this.vx+=(dx/d)*f*.4;this.vy+=(dy/d)*f*.4;}this.vx*=.97;this.vy*=.97;this.x+=this.vx;this.y+=this.vy;if(this.x<-10||this.x>W+10||this.y<-10||this.y>H+10)this.reset(false);}
+  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.c;ctx.globalAlpha=this.a;ctx.fill();}
+}
+for(let i=0;i<120;i++)pts.push(new Pt());
+(function loop(){ctx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);if(d<80){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle='#00d4e8';ctx.globalAlpha=(1-d/80)*.04;ctx.lineWidth=.4;ctx.stroke();}}ctx.globalAlpha=1;pts.forEach(p=>{p.update();p.draw();});ctx.globalAlpha=1;requestAnimationFrame(loop);})();
+
+/* ─── PAGE NAVIGATION ─── */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  // Re-trigger animations
+  const card = document.querySelector('#'+id+' .auth-card, #'+id+' .dl-success-icon');
+  if(card) { card.style.animation='none'; card.offsetHeight; card.style.animation=''; }
+}
+
+/* ─── SIGNUP ─── */
+document.getElementById('signup-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  let valid = true;
+  const name = document.getElementById('inp-name').value.trim();
+  const email = document.getElementById('inp-email-s').value.trim();
+  const pw = document.getElementById('inp-pw-s').value;
+
+  // Reset
+  ['f-name','f-email-s','f-pw-s'].forEach(id => document.getElementById(id).classList.remove('error'));
+
+  if(!name) { document.getElementById('f-name').classList.add('error'); valid=false; }
+  if(!email || !email.includes('@')) { document.getElementById('f-email-s').classList.add('error'); valid=false; }
+  if(pw.length < 8) { document.getElementById('f-pw-s').classList.add('error'); valid=false; }
+
+  if(!valid) return;
+
+  const btn = document.getElementById('btn-signup');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Creando cuenta...';
+
+  // Simulate API call
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.textContent = 'Crear cuenta';
+    showPage('page-download');
+  }, 1800);
+});
+
+/* ─── LOGIN ─── */
+document.getElementById('login-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  let valid = true;
+  const email = document.getElementById('inp-email-l').value.trim();
+  const pw = document.getElementById('inp-pw-l').value;
+
+  ['f-email-l','f-pw-l'].forEach(id => document.getElementById(id).classList.remove('error'));
+
+  if(!email || !email.includes('@')) { document.getElementById('f-email-l').classList.add('error'); valid=false; }
+  if(!pw) { document.getElementById('f-pw-l').classList.add('error'); valid=false; }
+
+  if(!valid) return;
+
+  const btn = document.getElementById('btn-login');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Iniciando...';
+
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.textContent = 'Iniciar sesión';
+    showPage('page-download');
+  }, 1500);
+});
+
+/* ─── PASSWORD STRENGTH ─── */
+document.getElementById('inp-pw-s').addEventListener('input', function() {
+  const pw = this.value;
+  const bars = [document.getElementById('pw1'),document.getElementById('pw2'),document.getElementById('pw3'),document.getElementById('pw4')];
+  const label = document.getElementById('pw-label');
+  let score = 0;
+
+  if(pw.length >= 8) score++;
+  if(/[A-Z]/.test(pw)) score++;
+  if(/[0-9]/.test(pw)) score++;
+  if(/[^a-zA-Z0-9]/.test(pw)) score++;
+
+  bars.forEach((b,i) => { b.className = 'pw-bar'; });
+
+  if(score === 0 && pw.length > 0) { bars[0].classList.add('weak'); label.textContent='Muy débil'; label.style.color='#ff4466'; }
+  else if(score === 1) { bars[0].classList.add('weak'); label.textContent='Débil'; label.style.color='#ff4466'; }
+  else if(score === 2) { bars[0].classList.add('med'); bars[1].classList.add('med'); label.textContent='Regular'; label.style.color='#ffaa22'; }
+  else if(score === 3) { bars[0].classList.add('strong'); bars[1].classList.add('strong'); bars[2].classList.add('strong'); label.textContent='Fuerte'; label.style.color='#00cc88'; }
+  else if(score === 4) { bars.forEach(b=>b.classList.add('strong')); label.textContent='Muy fuerte'; label.style.color='#00cc88'; }
+  else { label.textContent=''; }
+});
+
+/* ─── SOCIAL AUTH ─── */
+function socialAuth(provider) {
+  // Simulate redirect
+  const btns = document.querySelectorAll('.social-btn');
+  btns.forEach(b => { b.style.opacity='.5'; b.style.pointerEvents='none'; });
+  setTimeout(() => {
+    btns.forEach(b => { b.style.opacity='1'; b.style.pointerEvents=''; });
+    showPage('page-download');
+  }, 1200);
+}
+
+/* ─── DOWNLOAD ─── */
+function startDownload(os) {
+  // ─── PRODUCCIÓN: reemplaza TU_USUARIO con tu usuario de GitHub ──────────
+  const releases = {
+    windows: 'https://github.com/TU_USUARIO/sagan/releases/latest/download/SAGAN-Setup-0.1.0.exe',
+    mac:     'https://github.com/TU_USUARIO/sagan/releases/latest/download/SAGAN-0.1.0.dmg',
+    linux:   'https://github.com/TU_USUARIO/sagan/releases/latest/download/SAGAN-0.1.0.AppImage'
+  };
+  // ────────────────────────────────────────────────────────────────────────
+
+  const btn = event.target;
+  const orig = btn.textContent;
+  btn.textContent = 'Descargando...';
+  btn.style.opacity = '.7';
+
+  window.location.href = releases[os];
+
+  setTimeout(() => {
+    btn.textContent = '✓ Descarga iniciada';
+    btn.style.background = 'rgba(0,204,136,.15)';
+    btn.style.color = '#00cc88';
+    btn.style.borderColor = 'rgba(0,204,136,.3)';
+    setTimeout(() => { btn.textContent = orig; btn.style = ''; }, 3000);
+  }, 1500);
+}
+
+/* ─── CHECK URL HASH ─── */
+if(location.hash === '#login') showPage('page-login');
+else if(location.hash === '#download') showPage('page-download');
+</script>
+</body>
+</html>
