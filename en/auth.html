@@ -879,20 +879,41 @@ function showPage(id) {
   if(card) { card.style.animation='none'; card.offsetHeight; card.style.animation=''; }
 }
 
-/* ─── SIGNUP ─── */
-document.getElementById('signup-form').addEventListener('submit', function(e) {
-  e.preventDefault();
-  let valid = true;
-  const name = document.getElementById('inp-name').value.trim();
-  const email = document.getElementById('inp-email-s').value.trim();
-  const pw = document.getElementById('inp-pw-s').value;
+/* ─── CONFIG ─── */
+const API = 'https://sagan-backend-production.up.railway.app';
 
-  // Reset
+function showAuthError(msg) {
+  let box = document.getElementById('auth-error-box');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'auth-error-box';
+    box.style.cssText = 'margin-top:12px;padding:10px 14px;background:rgba(255,68,102,.08);border:1px solid rgba(255,68,102,.3);color:#ff4466;font-size:.8rem;line-height:1.5;border-radius:2px;';
+    const activeCard = document.querySelector('.page.active .auth-card');
+    if (activeCard) activeCard.appendChild(box);
+  }
+  box.textContent = msg;
+  box.style.display = 'block';
+}
+
+function clearAuthError() {
+  const box = document.getElementById('auth-error-box');
+  if (box) box.style.display = 'none';
+}
+
+/* ─── SIGNUP ─── */
+document.getElementById('signup-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  clearAuthError();
+  let valid = true;
+  const name  = document.getElementById('inp-name').value.trim();
+  const email = document.getElementById('inp-email-s').value.trim();
+  const pw    = document.getElementById('inp-pw-s').value;
+
   ['f-name','f-email-s','f-pw-s'].forEach(id => document.getElementById(id).classList.remove('error'));
 
-  if(!name) { document.getElementById('f-name').classList.add('error'); valid=false; }
+  if(!name)                          { document.getElementById('f-name').classList.add('error');    valid=false; }
   if(!email || !email.includes('@')) { document.getElementById('f-email-s').classList.add('error'); valid=false; }
-  if(pw.length < 8) { document.getElementById('f-pw-s').classList.add('error'); valid=false; }
+  if(pw.length < 8)                  { document.getElementById('f-pw-s').classList.add('error');    valid=false; }
 
   if(!valid) return;
 
@@ -900,37 +921,75 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>Creating account...';
 
-  // Simulate API call
-  setTimeout(() => {
+  try {
+    const res  = await fetch(`${API}/api/auth/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password: pw })
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || data.error || 'Error creating account');
+    }
+
+    if (data.token)        localStorage.setItem('sagan_token', data.token);
+    if (data.refreshToken) localStorage.setItem('sagan_refresh', data.refreshToken);
+    if (data.user)         localStorage.setItem('sagan_user', JSON.stringify(data.user));
+
+    showPage('page-download');
+
+  } catch(err) {
+    showAuthError(err.message || 'Could not connect to server. Please try again.');
+  } finally {
     btn.disabled = false;
     btn.textContent = 'Create account';
-    showPage('page-download');
-  }, 1800);
+  }
 });
 
 /* ─── LOGIN ─── */
-document.getElementById('login-form').addEventListener('submit', function(e) {
+document.getElementById('login-form').addEventListener('submit', async function(e) {
   e.preventDefault();
+  clearAuthError();
   let valid = true;
   const email = document.getElementById('inp-email-l').value.trim();
-  const pw = document.getElementById('inp-pw-l').value;
+  const pw    = document.getElementById('inp-pw-l').value;
 
   ['f-email-l','f-pw-l'].forEach(id => document.getElementById(id).classList.remove('error'));
 
   if(!email || !email.includes('@')) { document.getElementById('f-email-l').classList.add('error'); valid=false; }
-  if(!pw) { document.getElementById('f-pw-l').classList.add('error'); valid=false; }
+  if(!pw)                            { document.getElementById('f-pw-l').classList.add('error');   valid=false; }
 
   if(!valid) return;
 
   const btn = document.getElementById('btn-login');
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Iniciando...';
+  btn.innerHTML = '<span class="spinner"></span>Signing in...';
 
-  setTimeout(() => {
+  try {
+    const res  = await fetch(`${API}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pw })
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || data.error || 'Incorrect email or password');
+    }
+
+    if (data.token)        localStorage.setItem('sagan_token', data.token);
+    if (data.refreshToken) localStorage.setItem('sagan_refresh', data.refreshToken);
+    if (data.user)         localStorage.setItem('sagan_user', JSON.stringify(data.user));
+
+    showPage('page-download');
+
+  } catch(err) {
+    showAuthError(err.message || 'Could not connect to server. Please try again.');
+  } finally {
     btn.disabled = false;
     btn.textContent = 'Sign in';
-    showPage('page-download');
-  }, 1500);
+  }
 });
 
 /* ─── PASSWORD STRENGTH ─── */
