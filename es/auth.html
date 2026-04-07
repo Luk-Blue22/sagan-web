@@ -981,11 +981,15 @@ document.getElementById('login-form').addEventListener('submit', async function(
     }
 
     // Guardar token y datos del usuario
-    if (data.token)        localStorage.setItem('sagan_token', data.token);
-    if (data.refreshToken) localStorage.setItem('sagan_refresh', data.refreshToken);
-    // Guardar datos del usuario (puede venir en data.user o data.profile)
-    const userObj = data.user || data.profile;
-    if (userObj) localStorage.setItem('sagan_user', JSON.stringify(userObj));
+    // El backend responde con { user, session, profile }
+    // El token está en session.access_token
+    const token = data.token || (data.session && data.session.access_token);
+    const refreshToken = data.refreshToken || (data.session && data.session.refresh_token);
+    const userObj = data.profile || data.user;
+
+    if (token)        localStorage.setItem('sagan_token', token);
+    if (refreshToken) localStorage.setItem('sagan_refresh', refreshToken);
+    if (userObj)      localStorage.setItem('sagan_user', JSON.stringify(userObj));
 
     // Éxito → ir al dashboard web
     window.location.href = '/es/dashboard.html';
