@@ -983,10 +983,12 @@ document.getElementById('login-form').addEventListener('submit', async function(
     // Guardar token y datos del usuario
     if (data.token)        localStorage.setItem('sagan_token', data.token);
     if (data.refreshToken) localStorage.setItem('sagan_refresh', data.refreshToken);
-    if (data.user)         localStorage.setItem('sagan_user', JSON.stringify(data.user));
+    // Guardar datos del usuario (puede venir en data.user o data.profile)
+    const userObj = data.user || data.profile;
+    if (userObj) localStorage.setItem('sagan_user', JSON.stringify(userObj));
 
-    // Éxito → ir a descarga
-    showPage('page-download');
+    // Éxito → ir al dashboard web
+    window.location.href = '/es/dashboard.html';
 
   } catch(err) {
     showAuthError(err.message || 'No se pudo conectar al servidor. Intenta de nuevo.');
