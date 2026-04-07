@@ -1371,10 +1371,88 @@ function toggleActivate(){
 }
 
 function handleLogout(){
-  if(confirm('¿Cerrar sesión en SAGAN?')){
-    if(window.sagan && window.sagan.authLogout) window.sagan.authLogout();
+  if(window.sagan && window.sagan.authLogout){
+    if(confirm('¿Cerrar sesión en SAGAN?')) window.sagan.authLogout();
+  } else {
+    if(confirm('¿Cerrar sesión en SAGAN?')){
+      localStorage.removeItem('sagan_token');
+      localStorage.removeItem('sagan_refresh');
+      localStorage.removeItem('sagan_user');
+      window.location.href = '/es/auth.html';
+    }
   }
 }
+
+/* ─── STRIPE CHECKOUT ─── */
+const API = 'https://sagan-backend-production.up.railway.app';
+
+async function upgradePlan(plan) {
+  const token = localStorage.getItem('sagan_token') ||
+                (window.sagan && await window.sagan.getSession && (await window.sagan.getSession())?.token);
+
+  if (!token) {
+    alert('Debes iniciar sesión para cambiar de plan.');
+    window.location.href = '/es/auth.html';
+    return;
+  }
+
+  // Mostrar estado de carga en el botón
+  const btns = document.querySelectorAll('.plan-btn.upgrade');
+  btns.forEach(b => { b.disabled = true; b.textContent = 'Cargando...'; });
+
+  try {
+    const res = await fetch(`${API}/api/subscriptions/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ plan_id: plan })
+    });
+    const data = await res.json();
+
+    if (data.url) {
+      window.location.href = data.url; // Redirige a Stripe Checkout
+    } else {
+      alert(data.error || 'Error al iniciar el pago. Intenta de nuevo.');
+      btns.forEach(b => { b.disabled = false; b.textContent = 'Upgrade ↑'; });
+    }
+  } catch(err) {
+    alert('No se pudo conectar al servidor. Intenta de nuevo.');
+    btns.forEach(b => { b.disabled = false; b.textContent = 'Upgrade ↑'; });
+  }
+}
+
+// Conectar botones de upgrade con sus planes
+document.addEventListener('DOMContentLoaded', function() {
+  // Cargar datos del usuario desde localStorage (modo web)
+  const userData = localStorage.getItem('sagan_user');
+  if (userData) {
+    try {
+      const user = JSON.parse(userData);
+      const plans = {star:'☆ Star',pulsar:'✦ Pulsar',quasar:'◈ Quásar',nova:'★ Nova',galaxy:'✧ Galaxy'};
+      const pill = document.getElementById('topPlan');
+      const nameEl = document.getElementById('dynName');
+      const avatarEl = document.getElementById('dynAvatar');
+      const emailEl = document.getElementById('dynEmail');
+      const emailEl2 = document.getElementById('dynEmail2');
+      if(pill && user.plan_type) pill.textContent = plans[user.plan_type] || user.plan_type;
+      if(nameEl && user.name) nameEl.textContent = user.name;
+      if(avatarEl && user.name) avatarEl.textContent = user.name[0].toUpperCase();
+      if(emailEl && user.email) emailEl.textContent = user.email;
+      if(emailEl2 && user.email) emailEl2.textContent = user.email;
+    } catch(e) {}
+  }
+
+  // Conectar botones de upgrade
+  const planMap = ['star', 'pulsar', 'quasar', 'nova', 'galaxy'];
+  document.querySelectorAll('.plan-card').forEach((card, i) => {
+    const btn = card.querySelector('.plan-btn.upgrade');
+    if (btn) {
+      btn.addEventListener('click', () => upgradePlan(planMap[i]));
+    }
+  });
+});
 
 if(window.sagan && window.sagan.onBubbleStatus){
   window.sagan.onBubbleStatus(function(active){
