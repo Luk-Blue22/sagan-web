@@ -1411,8 +1411,8 @@ async function upgradePlan(plan) {
     });
     const data = await res.json();
 
-    if (data.url) {
-      window.location.href = data.url; // Redirige a Stripe Checkout
+    if (data.checkout_url || data.url) {
+      window.location.href = data.checkout_url || data.url; // Redirige a Stripe Checkout
     } else {
       alert(data.error || 'Error al iniciar el pago. Intenta de nuevo.');
       btns.forEach(b => { b.disabled = false; b.textContent = 'Upgrade ↑'; });
